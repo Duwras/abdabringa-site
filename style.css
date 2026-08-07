@@ -840,6 +840,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: opacity .3s, color .3s;
 }
 .foot-admin:hover { opacity: 1; color: var(--accent); }
+/* Készítő hivatkozás — aláhúzva, hogy linknek látszódjon a lábléc
+   többi, aláhúzás nélküli hivatkozása mellett is. */
+.foot-credit { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Kötelező jelölőnégyzet a kapcsolati űrlapon */
 .form-consent {
