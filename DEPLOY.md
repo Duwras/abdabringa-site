@@ -3,7 +3,7 @@
 Az oldal **GitHub Pages**-en fut, a repó:
 <https://github.com/Duwras/abdabringa-site>
 
-**Bringa fel- és levétele: [KESZLET.md](KESZLET.md)**
+**Bringa fel- és levétele + az admin belépés beállítása: [KESZLET.md](KESZLET.md)**
 **SEO — teendők élesítés után: [SEO.md](SEO.md)**
 **Jogi dokumentumok — ITT VAN KITÖLTENDŐ ADAT: [JOGI.md](JOGI.md)**
 
@@ -71,9 +71,13 @@ elég ott átírni (plusz a `SEO.md` szerinti helyeken).
 A GitHub Pages **csak statikus fájlokat** szolgál ki, szerveroldali kód
 nincs. Ebből következik:
 
-- **Nincs admin felület.** A készletet fájlszerkesztéssel kezeled,
-  lásd [KESZLET.md](KESZLET.md). Telefonról is megy, a GitHub
-  webes felületén.
+- **Nincs szerveroldali jelszóellenőrzés.** A készletkezelő
+  (`admin.html`) ezért közvetlenül a GitHub API-val dolgozik: a
+  böngésző készít egy commitot, ami elindítja a közzétételt. A
+  belépés egy GitHub hozzáférési kulccsal megy, amit a GitHub
+  ellenőriz — kulcs nélkül a felület megnyitása semmit nem enged.
+  A kulcs a tulajdonos böngészőjében él, a repóba soha nem kerül be.
+  Beállítás: [KESZLET.md](KESZLET.md).
 - **Nem állíthatók HTTP-fejlécek.** A gyorsítótárazást a GitHub
   szabja meg. Ez nem okoz gondot: a build a CSS/JS hivatkozások mögé
   a fájl tartalmából számolt `?v=` bélyeget tesz, tehát ha a fájl

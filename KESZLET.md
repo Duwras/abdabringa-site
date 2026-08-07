@@ -1,37 +1,89 @@
 # Bringa fel- és levétele a készletből
 
-A raktáron lévő bringák listája a [keszlet-seed.json](keszlet-seed.json)
-fájlban van, a képek az `img/keszlet/` mappában. Nincs admin felület —
-ez a két hely a készlet.
+Két út van. A **készletkezelő felület** a kényelmes; a **kézi
+szerkesztés** akkor jó, ha valamit ki kell javítani.
 
-Minden mentés után a GitHub magától újraépíti és kiteszi az oldalt,
-**kb. 1–2 perc** múlva látszik élesben.
+Mindkettő ugyanoda ír: a [keszlet-seed.json](keszlet-seed.json)
+fájlba és az `img/keszlet/` mappába. Mentés után a GitHub magától
+újraépíti az oldalt, **kb. 1–2 perc** múlva látszik élesben.
 
 ---
 
-## Új bringa felvétele — telefonról vagy gépről
+# A) Készletkezelő felület
 
-Végig a GitHub webes felületén, telepítés nélkül.
+Cím: **<https://abdabringa.hu/admin.html>** — az oldal láblécében is
+ott a *Admin* link. Telefonról ugyanúgy megy.
 
-### 1. Kép feltöltése
+Feltöltéskor a böngésző 1400 px-re kicsinyíti a képet, a build utána
+készít belőle egy 700 és egy 480 px-es változatot. A telefonod
+4-5 MB-os fotójával nem kell foglalkoznod.
 
-Menj ide: <https://github.com/Duwras/abdabringa-site/tree/main/img/keszlet>
+## Egyszeri beállítás: hozzáférési kulcs
 
-*Add file* → *Upload files* → válaszd ki a fényképet → *Commit changes*.
+Az oldal mögött nincs szerver, tehát nincs mit jelszóval védeni. A
+belépést a GitHub végzi, egy **hozzáférési kulccsal** (personal access
+token). Ezt egyszer kell elkészíteni.
 
-**A fájlnév legyen `k16.jpg`, `k17.jpg`… — a soron következő szám.**
-Csak `.jpg` lehet. A méretével nem kell foglalkozni: a build
-automatikusan 700 px-re kicsinyíti, és készít egy 480 px-es változatot
-is telefonra.
+1. <https://github.com/settings/personal-access-tokens> → **Generate
+   new token**
+2. Töltsd ki:
+
+   | Mező | Mit válassz |
+   |---|---|
+   | Token name | `bringazol-keszlet` |
+   | Expiration | 1 év (a lejárat után újat kell csinálni) |
+   | Repository access | **Only select repositories** → `abdabringa-site` |
+   | Permissions → Repository permissions → **Contents** | **Read and write** |
+
+   Csak a `Contents` kell. Semmi mást ne kapcsolj be.
+
+3. **Generate token** → másold ki. **A GitHub csak egyszer mutatja meg.**
+4. Nyisd meg az admin oldalt, illeszd be a kulcsot, *Belépés*.
+
+A kulcs a te böngésződben marad, a repóba soha nem kerül bele. Alapból
+a lap bezárásáig él; ha bepipálod a *„Jegyezze meg ezen az eszközön"*
+jelölőt, a kilépésig marad — ezt **csak saját telefonon vagy gépen**
+tedd meg.
+
+> Ha a kulcs elveszik vagy illetéktelen kezébe kerül, a fenti oldalon
+> töröld (*Revoke*), és csinálj újat. Mást nem kell tenni — a régi
+> azonnal használhatatlan.
+
+## Napi használat
+
+**Új bringa**: *Válassz képeket* (vagy húzd be őket) → mindegyik kép
+alá írd be a **rövid leírást** → *Feltöltés*.
+
+A leírás nem díszítés: ezt mondja fel a képernyőolvasó, és ezt indexeli
+a Google. Jó: `Zöld Gepida trekking kerékpár`. Rossz: `kép`, `IMG_2841`.
+Ha üresen hagyod, egy általános szöveg kerül oda.
+
+**Levétel**: a kép alatti *Törlés* gomb. A képfájl is törlődik a repóból.
+
+Egyszerre legfeljebb 12 kép. Az egész művelet **egyetlen commit**, tehát
+12 kép feltöltése is egy újraépítést indít, nem tizenkettőt.
+
+---
+
+# B) Kézi szerkesztés
+
+Ha a felület nem elérhető, vagy csak egy leírást akarsz javítani.
+
+### Kép feltöltése
+
+<https://github.com/Duwras/abdabringa-site/tree/main/img/keszlet>
+
+*Add file* → *Upload files* → *Commit changes*. A fájlnév legyen
+`k16.jpg`, `k17.jpg`… — a soron következő szám, csak `.jpg`.
 
 > Ha a telefonod HEIC-et készít, előbb mentsd JPG-ként. A Fotók appban
 > a *Megosztás → Másolás és exportálás → JPEG* elég hozzá.
 
-### 2. Sor hozzáadása a listához
+### Sor hozzáadása
 
-Menj ide: <https://github.com/Duwras/abdabringa-site/edit/main/keszlet-seed.json>
+<https://github.com/Duwras/abdabringa-site/edit/main/keszlet-seed.json>
 
-Illessz be egy új sort a lista végére — **az előző sor végére vessző kell**:
+Az előző sor végére vessző kell:
 
 ```json
   { "id": "seed-k15", "src": "/img/keszlet/k15.jpg", "alt": "Kék Schwinn kerékpár" },
@@ -43,21 +95,12 @@ Illessz be egy új sort a lista végére — **az előző sor végére vessző k
 |---|---|
 | `id` | egyedi azonosító, `seed-` + a fájlnév (`seed-k16`) |
 | `src` | `/img/keszlet/` + a feltöltött fájl neve |
-| `alt` | **rövid leírás: szín + márka + típus** |
+| `alt` | rövid leírás: szín + márka + típus |
 
-Az `alt` nem díszítés: ezt olvassa fel a képernyőolvasó, és ezt látja a
-Google. Jó: `"Zöld Gepida trekking kerékpár"`. Rossz: `"kép"`, `"IMG_2841"`.
+### Levétel
 
-*Commit changes* → kész.
-
-## Bringa levétele
-
-Ugyanott, a [keszlet-seed.json](keszlet-seed.json)-ból **töröld ki a
-sorát**, és ügyelj rá, hogy az utolsó megmaradó sor végén **ne maradjon
-vessző**. A képfájlt nem kötelező törölni, de ha már nem kell, nyugodtan
-mehet.
-
-Ha minden bringa elfogy, üres lista is jó:
+Töröld ki a sorát, és ügyelj rá, hogy az utolsó megmaradó sor végén
+**ne maradjon vessző**. Ha minden bringa elfogy, üres lista is jó:
 
 ```json
 []
@@ -73,13 +116,14 @@ Hívj minket, és szólunk, ha érkezik."*
 Az oldal nem tud „félig" kikerülni — a build inkább megáll:
 
 - **Elgépelt fájlnév** (a JSON olyan képre hivatkozik, ami nincs meg):
-  a build hibával leáll, és kiírja, melyik sor a hibás. Az élő oldal
-  marad a régi, ép változaton.
+  a build hibával leáll, és kiírja, melyik sor a hibás.
 - **Elrontott JSON** (hiányzó vessző, zárójel): ugyanez.
 
-Az állapotot itt látod:
+Mindkét esetben az **élő oldal a régi, ép változaton marad**.
+
+Az állapot itt látszik:
 <https://github.com/Duwras/abdabringa-site/actions> — zöld pipa = kint
 van, piros = megállt, kattints rá a hibaüzenetért.
 
-Ha elakadtál, a legutóbbi működő állapot mindig visszaállítható: a
-fájl *History* nézetében kiválasztod a jó változatot, és visszamented.
+A legutóbbi működő állapot mindig visszaállítható: a fájl *History*
+nézetében kiválasztod a jó változatot, és visszamented.

@@ -25,11 +25,11 @@ const DOMAIN = JSON.parse(readFileSync('ceg-adatok.json', 'utf8')).domain;
    képek: az img/svc/ a kicsinyített változatokat tartalmazza,
    a nagy eredetiket nem kell feltölteni. */
 const ASSETS = [
-  'index.html', '404.html',
+  'index.html', 'admin.html', '404.html',
   // jogi aloldalak
   'impresszum.html', 'adatkezeles.html', 'sutik.html',
-  'style.css', 'jogi.css',
-  'script.js', 'consent.js',
+  'style.css', 'admin.css', 'jogi.css',
+  'script.js', 'admin.js', 'consent.js',
   // saját szerverről kiszolgált betűtípusok (lásd fonts.css)
   'fonts.css', 'fonts',
   'keszlet-seed.json',
@@ -138,8 +138,8 @@ for (const rule of IMG_RULES) {
    tehát a böngésző biztosan újat tölt. Ha nem változik, marad a
    gyorsítótárban. Kézzel semmit nem kell verziózni. */
 const VERSIONED = [
-  'style.css', 'jogi.css', 'fonts.css',
-  'script.js', 'consent.js',
+  'style.css', 'admin.css', 'jogi.css', 'fonts.css',
+  'script.js', 'admin.js', 'consent.js',
   'img/hero3d/bike-body.webp', 'img/hero3d/bike-crank.webp',
   'img/hero3d/bike-wheel-front.webp', 'img/hero3d/bike-wheel-rear.webp'
 ];
@@ -150,7 +150,7 @@ const stamps = VERSIONED.map((rel) => [
 ]);
 
 const PAGES = [
-  'index.html', '404.html',
+  'index.html', 'admin.html', '404.html',
   'impresszum.html', 'adatkezeles.html', 'sutik.html'
 ];
 
