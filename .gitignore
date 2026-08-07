@@ -1,0 +1,10 @@
+node_modules/
+.netlify/
+# generált — az npm run build állítja elő
+netlify/functions/
+deploy/
+deploy.zip
+
+# helyi előnézet (Claude Code)
+.claude/
+.playwright-mcp/

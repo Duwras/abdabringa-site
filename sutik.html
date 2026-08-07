@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sütik és tárolt adatok — Bringázol¿ Kerékpárműhely</title>
+<meta name="description" content="Milyen sütiket és böngészőben tárolt adatokat használ a Bringázol¿ weboldala, és hogyan vonhatod vissza a hozzájárulásodat.">
+<link rel="canonical" href="https://{{domain}}/sutik.html">
+<link rel="icon" href="img/logo.jpg">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="jogi.css">
+</head>
+<body class="doc-body">
+
+<a class="doc-skip" href="#tartalom">Ugrás a tartalomra</a>
+
+<header class="doc-head">
+  <a class="doc-brand" href="/">
+    <img src="img/logo.jpg" alt="" width="34" height="34" decoding="async">
+    <span>Bringázol<i>¿</i></span>
+  </a>
+  <a class="doc-back" href="/">← Vissza a weboldalra</a>
+</header>
+
+<main class="doc" id="tartalom">
+  <p class="doc-kicker">Jogi tájékoztató</p>
+  <h1>Sütik és tárolt adatok</h1>
+  <p class="doc-lead">
+    A süti (cookie) egy kis adatcsomag, amit a weboldal a böngésződben helyez
+    el. Ez az oldal leírja, mit tárolunk, és hogyan szabadulsz meg tőle.
+  </p>
+
+  <div class="doc-tldr">
+    <h2>Röviden</h2>
+    <ul>
+      <li>Ez a weboldal <strong>saját sütit nem használ</strong>.</li>
+      <li>Nincs látogatottságmérő, nincs hirdetési követőkód, nincs profilalkotás.</li>
+      <li>Egyetlen dolgot tárolunk: <strong>a hozzájárulási sávon adott válaszodat</strong>.</li>
+      <li>A Google Térkép sütijei csak akkor kerülnek a gépedre, ha <strong>rákattintasz a térkép megjelenítésére</strong>.</li>
+    </ul>
+  </div>
+
+  <h2>1. Amit mindenképpen tárolunk</h2>
+  <table class="doc-table doc-table-wide">
+    <thead>
+      <tr><th>Név</th><th>Típus</th><th>Mire való</th><th>Meddig</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>bringazol-consent</code></td>
+        <td>localStorage<br>(nem süti)</td>
+        <td>Megjegyzi, hogy elfogadtad vagy elutasítottad a külső tartalmakat, hogy ne kérdezzünk rá minden oldalbetöltéskor</td>
+        <td>12 hónap, utána újra rákérdezünk</td>
+      </tr>
+      <tr>
+        <td><code>bringazolAdminToken</code></td>
+        <td>sessionStorage<br>(nem süti)</td>
+        <td>Csak a műhely tulajdonosánál keletkezik, a készletkezelő felületre való belépéskor. Lejáró munkamenet-azonosító — jelszót nem tartalmaz.</td>
+        <td>8 óra, de legfeljebb a böngészőfül bezárásáig</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Ez a kettő a weboldal működéséhez szükséges, ezért nem kérünk rá külön
+    hozzájárulást — az elektronikus hírközlési törvény és a GDPR is
+    mentesíti a feltétlenül szükséges tárolást. A hozzájárulásod tényét
+    ugyanis <em>tárolnunk kell</em> ahhoz, hogy tiszteletben tarthassuk.
+  </p>
+
+  <h2>2. Amit csak a hozzájárulásoddal töltünk be</h2>
+  <table class="doc-table doc-table-wide">
+    <thead>
+      <tr><th>Szolgáltatás</th><th>Ki üzemelteti</th><th>Mi történik</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Google Térkép</strong><br>(a Kapcsolat szekcióban)</td>
+        <td>Google Ireland Limited<br>Gordon House, Barrow Street, Dublin 4, Írország</td>
+        <td>A Google megkapja az IP-címedet és a böngésződ adatait, valamint saját sütiket helyezhet el. Ezekre a sütikre nekünk nincs ráhatásunk.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Amíg nem fogadod el, a térkép helyén csak egy szürke doboz és egy gomb
+    látszik — <strong>a Google felé egyetlen kérés sem indul</strong>. A műhely
+    címe (<strong>{{telephely}}</strong>) az elfogadástól függetlenül,
+    szövegesen mindig olvasható, és a
+    <a href="https://www.google.com/maps?q=B%C3%A9csi+utca+128%2C+9151+Abda" target="_blank" rel="noopener">térkép külön ablakban ↗</a>
+    is megnyitható, ha nem akarod beágyazva.
+  </p>
+
+  <h2>3. Amit szándékosan NEM használunk</h2>
+  <ul class="doc-list">
+    <li><strong>Google Analytics</strong> vagy bármilyen látogatottságmérő — nincs.</li>
+    <li><strong>Facebook / Meta pixel</strong>, hirdetési követőkód — nincs. A Facebook-oldalunkra csak sima link mutat, ami semmit nem tölt be.</li>
+    <li><strong>Google Fonts a Google szerveréről</strong> — a betűtípusokat a saját szerverünkről szolgáljuk ki, így emiatt sem jut adat a Google-höz.</li>
+    <li><strong>Profilalkotás, automatizált döntéshozatal</strong> — nincs.</li>
+  </ul>
+
+  <h2>4. Hogyan vond vissza a hozzájárulásod</h2>
+  <p>
+    A döntésed bármikor megváltoztathatod. Kattints ide, és újra megjelenik a
+    választósáv:
+  </p>
+  <p>
+    <button type="button" class="btn-solid doc-btn" id="consentReopen">
+      <span>Süti&shy;beállítások módosítása</span>
+    </button>
+  </p>
+  <p>
+    Ezen felül a böngésződ beállításaiban is bármikor törölheted a tárolt
+    adatokat — a legtöbb böngészőben ez az „Előzmények törlése" vagy
+    „Webhelyadatok" menüpont alatt található. A törlés után az oldal
+    újra rákérdez.
+  </p>
+
+  <nav class="doc-nav">
+    <a href="impresszum.html">Impresszum</a>
+    <a href="adatkezeles.html">Adatkezelési tájékoztató</a>
+    <a href="/">Főoldal</a>
+  </nav>
+
+  <p class="doc-updated">Hatályos: {{hatalybaLepes}}</p>
+</main>
+
+<script src="consent.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Készletkezelés — Bringázol¿</title>
+<link rel="icon" href="img/logo.jpg">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ============ BELÉPÉS ============ -->
+<section class="gate" id="gate" hidden>
+  <form class="gate-box" id="gateForm">
+    <a class="gate-mark" href="index.html">Bringázol<i>¿</i></a>
+    <h1>Készletkezelés</h1>
+    <p>Add meg az admin jelszót.</p>
+    <input type="password" id="gatePass" placeholder="Jelszó" autocomplete="current-password" required>
+    <p class="msg" id="gateMsg" role="status" aria-live="polite"></p>
+    <button type="submit" class="btn" id="gateSubmit">Belépés</button>
+    <a class="quiet" href="index.html">← Vissza a weboldalra</a>
+  </form>
+</section>
+
+<!-- ============ ADMIN ============ -->
+<div class="app" id="app" hidden>
+
+  <header class="bar">
+    <a class="bar-mark" href="index.html">Bringázol<i>¿</i></a>
+    <div class="bar-actions">
+      <a class="quiet" href="index.html" target="_blank" rel="noopener">Weboldal ↗</a>
+      <button type="button" class="quiet" id="logout">Kilépés</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Raktáron lévő bringák</h1>
+    <p class="lead">Amit ide feltöltesz, azonnal megjelenik a weboldalon. Ár és leírás nem kell — a látogató csak a képet látja és a hívás gombot.</p>
+
+    <!-- feltöltés -->
+    <section class="panel">
+      <h2>Új képek feltöltése</h2>
+
+      <label class="drop" id="drop">
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+        <span class="drop-title">Válassz képeket</span>
+        <span class="drop-sub">vagy húzd ide őket · JPG, PNG, HEIC · egyszerre max. 12 db</span>
+      </label>
+
+      <div class="queue" id="queue"></div>
+
+      <div class="panel-actions" id="uploadActions" hidden>
+        <button type="button" class="btn ghost" id="clearQueue">Kiválasztás törlése</button>
+        <button type="button" class="btn" id="uploadBtn">Feltöltés</button>
+      </div>
+
+      <p class="msg" id="uploadMsg" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- jelenlegi készlet -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Jelenlegi készlet</h2>
+        <span class="count" id="stockCount"></span>
+      </div>
+      <p class="msg" id="listMsg" role="status" aria-live="polite">Betöltés…</p>
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

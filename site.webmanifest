@@ -1,0 +1,14 @@
+{
+  "name": "Bringázol¿ Kerékpárműhely",
+  "short_name": "Bringázol¿",
+  "description": "Kerékpárszerviz és kerékpárműhely Abdán.",
+  "lang": "hu-HU",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0c",
+  "theme_color": "#0b0b0c",
+  "icons": [
+    { "src": "/img/logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }
+  ]
+}

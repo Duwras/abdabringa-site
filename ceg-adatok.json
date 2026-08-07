@@ -1,0 +1,17 @@
+{
+  "_megjegyzes": "EZT A FÁJLT KELL KITÖLTENI. A [...] jelöléseket cseréld a valós adatokra, majd futtasd az 'npm.cmd run build' parancsot. Az adatok innen kerülnek be az impresszumba, az adatkezelési tájékoztatóba és a sütitájékoztatóba — máshol nem kell átírni semmit.",
+
+  "nev": "[KITÖLTENDŐ: a vállalkozó teljes neve, ahogy a nyilvántartásban szerepel]",
+  "vallalkozasNev": "Bringázol¿ Kerékpárműhely",
+  "szekhely": "[KITÖLTENDŐ: székhely irányítószámmal, pl. 9151 Abda, Példa utca 1.]",
+  "telephely": "9151 Abda, Bécsi utca 128.",
+  "nyilvantartasiSzam": "[KITÖLTENDŐ: egyéni vállalkozói nyilvántartási szám]",
+  "adoszam": "[KITÖLTENDŐ: adószám, pl. 12345678-1-08]",
+
+  "email": "abdabringa@gmail.com",
+  "telefon": "+36 30 364 0141",
+  "telefonKiirt": "(30) 364 0141",
+
+  "domain": "abdabringa.hu",
+  "hatalybaLepes": "2026. augusztus 3."
+}

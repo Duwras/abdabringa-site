@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+
+# Képek indexelése kifejezetten engedélyezett (Google Képek)
+User-agent: Googlebot-Image
+Allow: /img/
+
+Sitemap: https://abdabringa.hu/sitemap.xml

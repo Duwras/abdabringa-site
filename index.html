@@ -1,0 +1,538 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============ ALAP SEO ============ -->
+<title>Kerékpárszerviz Abdán — Bringázol¿ kerékpárműhely</title>
+<meta name="description" content="Kerékpárszerviz Abdán, Győrtől 10 percre. Defekt, fék- és váltóbeállítás, centrírozás, teljes karbantartás fix munkadíjjal. Felújított használt bringák eladók.">
+<link rel="canonical" href="https://abdabringa.hu/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Bringázol¿ Kerékpárműhely">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="format-detection" content="telephone=yes">
+
+<!-- helyi keresés -->
+<meta name="geo.region" content="HU-GS">
+<meta name="geo.placename" content="Abda">
+<meta name="ICBM" content="47.6928, 17.5445">
+
+<!-- ============ OPEN GRAPH ============ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bringázol¿">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:url" content="https://abdabringa.hu/">
+<meta property="og:title" content="Kerékpárszerviz Abdán — Bringázol¿ kerékpárműhely">
+<meta property="og:description" content="Defekt, fék, váltó, centrírozás, teljes karbantartás — fix munkadíjjal. Felújított használt bringák eladók. Abda, Bécsi utca 128.">
+<meta property="og:image" content="https://abdabringa.hu/img/hero-muhely.jpg">
+<meta property="og:image:width" content="849">
+<meta property="og:image:height" content="846">
+<meta property="og:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
+
+<!-- ============ TWITTER / X ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kerékpárszerviz Abdán — Bringázol¿ kerékpárműhely">
+<meta name="twitter:description" content="Defekt, fék, váltó, centrírozás, teljes karbantartás — fix munkadíjjal. Felújított használt bringák eladók.">
+<meta name="twitter:image" content="https://abdabringa.hu/img/hero-muhely.jpg">
+
+<!-- ============ IKONOK ============ -->
+<link rel="icon" href="img/logo.jpg">
+<link rel="apple-touch-icon" href="img/logo.jpg">
+<link rel="manifest" href="site.webmanifest">
+
+<!-- ============ TELJESÍTMÉNY ============ -->
+<link rel="preload" as="image" href="img/hero-muhely.jpg" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/anton-400-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/archivo-400-latin.woff2" crossorigin>
+<!-- A betűtípusok saját szerverről jönnek: így egyetlen látogató
+     IP-címe sem jut el a Google-höz, és nincs külső, megjelenítést
+     blokkoló stíluslap sem. Lásd fonts.css -->
+<link rel="stylesheet" href="fonts.css">
+
+<!-- Kritikus stílus: a hero görgetős bringájának négy rétege akkor se
+     csússzon szét, ha a style.css nem (vagy régi változatban) töltődne be.
+     FIGYELEM: ennek a style.css ELŐTT kell állnia. Ha utána áll, azonos
+     specifikusság mellett ez nyer, és kiüti a style.css méretszabályait
+     (mobilon a szélesség és a margin-top el is csúszott egymástól). -->
+<style>
+.ride{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.ride-bike{position:absolute;left:0;top:50%;width:min(48vw,640px);aspect-ratio:1400/875}
+.ride .rb{position:absolute;inset:0;width:100%;height:100%}
+</style>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- ============ STRUKTURÁLT ADAT (JSON-LD) ============
+     Egy @graph, három csomóponttal: maga a vállalkozás
+     (BikeStore = a schema.org kerékpárbolt/-szerviz típusa,
+     a LocalBusiness altípusa), a weboldal, és a
+     szolgáltatáskatalógus az árlistával. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BikeStore",
+      "@id": "https://abdabringa.hu/#muhely",
+      "name": "Bringázol¿ Kerékpárműhely",
+      "alternateName": "Bringázol Kerékpárszervíz Abda",
+      "description": "Kerékpárszerviz és kerékpárműhely Abdán. Defekt, fék- és váltóbeállítás, centrírozás, kerékfűzés, teljes karbantartás. Felújított használt kerékpárok eladók.",
+      "url": "https://abdabringa.hu/",
+      "telephone": "+36303640141",
+      "email": "abdabringa@gmail.com",
+      "image": "https://abdabringa.hu/img/hero-muhely.jpg",
+      "logo": "https://abdabringa.hu/img/logo.jpg",
+      "priceRange": "$",
+      "currenciesAccepted": "HUF",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bécsi utca 128",
+        "addressLocality": "Abda",
+        "postalCode": "9151",
+        "addressRegion": "Győr-Moson-Sopron",
+        "addressCountry": "HU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.6928,
+        "longitude": 17.5445
+      },
+      "hasMap": "https://maps.google.com/?q=B%C3%A9csi+utca+128,+9151+Abda",
+      "areaServed": [
+        { "@type": "City", "name": "Abda" },
+        { "@type": "City", "name": "Győr" },
+        { "@type": "City", "name": "Öttevény" },
+        { "@type": "City", "name": "Ikrény" },
+        { "@type": "AdministrativeArea", "name": "Győr-Moson-Sopron vármegye" }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61572755200909"
+      ],
+      "knowsLanguage": "hu",
+      "makesOffer": { "@id": "https://abdabringa.hu/#arlista" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://abdabringa.hu/#website",
+      "url": "https://abdabringa.hu/",
+      "name": "Bringázol¿ Kerékpárműhely",
+      "inLanguage": "hu-HU",
+      "publisher": { "@id": "https://abdabringa.hu/#muhely" }
+    },
+    {
+      "@type": "OfferCatalog",
+      "@id": "https://abdabringa.hu/#arlista",
+      "name": "Kerékpárszerviz munkadíj árlista",
+      "itemListElement": [
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "1500", "itemOffered": { "@type": "Service", "name": "Külső, belső gumi csere", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "2000", "itemOffered": { "@type": "Service", "name": "Agy zsírzás, tengelycsere", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "1800", "itemOffered": { "@type": "Service", "name": "Centrírozás", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "7000", "itemOffered": { "@type": "Service", "name": "Kerékfűzés", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "850", "itemOffered": { "@type": "Service", "name": "V-fék beállítás", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "1500", "itemOffered": { "@type": "Service", "name": "Fékbetét, bowden csere", "description": "Kerekenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "2500", "itemOffered": { "@type": "Service", "name": "Olajos fék légtelenítés, olajcsere", "description": "Fékenként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "900", "itemOffered": { "@type": "Service", "name": "Kosár, pálcás sárvédő felszerelés", "description": "Darabonként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "500", "itemOffered": { "@type": "Service", "name": "Váltó beállítás", "description": "Darabonként" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "2200", "itemOffered": { "@type": "Service", "name": "Hajtómű javítás, csapágy- vagy monoblokk csere" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "900", "itemOffered": { "@type": "Service", "name": "Lánccsere" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "8000", "itemOffered": { "@type": "Service", "name": "Általános karbantartás", "description": "Kerékcsapágyak zsírzása, fék- és váltóbeállítás, lánckenés" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "15000", "itemOffered": { "@type": "Service", "name": "Teljes karbantartás", "description": "Kerék- és kormánycsapágyak, hajtótengely zsírzása, fék- és váltóbeállítás, lánc olajozás, gumivizsgálat, légnyomás-ellenőrzés" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "1500", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1500", "priceCurrency": "HUF" }, "itemOffered": { "@type": "Service", "name": "Elektromos roller defektjavítás", "description": "Első kerék 2 500 Ft, hátsó kerék 1 500 Ft" } },
+        { "@type": "Offer", "priceCurrency": "HUF", "price": "1000", "itemOffered": { "@type": "Service", "name": "Koszos kerékpár takarítás" } }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <div class="pre-inner">
+    <div class="pre-mark">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <circle class="pre-wheel" cx="16" cy="46" r="10"/>
+        <circle class="pre-wheel" cx="48" cy="46" r="10"/>
+        <path class="pre-frame" d="M16 46L28 20H38M48 46L38 20M28 20L38 30L22 30L16 46L38 30L48 46"/>
+      </svg>
+    </div>
+    <div class="pre-count"><span id="preCount">0</span><i>%</i></div>
+  </div>
+  <div class="pre-curtain"></div>
+</div>
+
+<!-- ============ CURSOR ============ -->
+<div class="cursor" id="cursor"><span class="cursor-label"></span></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-mark" data-cursor="Fel">
+    <img src="img/logo.jpg" alt="Bringázol¿ kerékpárműhely logó" width="34" height="34" decoding="async">
+    <span>Bringázol<i>¿</i></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#szerviz"><em>01</em> Szerviz</a>
+    <a href="#muhely"><em>02</em> Műhely</a>
+    <a href="#bringak"><em>03</em> Bringák</a>
+    <a href="#kapcsolat"><em>04</em> Kapcsolat</a>
+  </nav>
+  <a href="tel:+36303640141" class="nav-cta" data-cursor="Hívás">
+    <span>(30) 364 0141</span>
+  </a>
+  <button class="nav-burger" id="burger" aria-label="Menü" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <a href="#szerviz"><em>01</em> Szerviz</a>
+  <a href="#muhely"><em>02</em> Műhely</a>
+  <a href="#bringak"><em>03</em> Bringák</a>
+  <a href="#kapcsolat"><em>04</em> Kapcsolat</a>
+  <div class="menu-foot">
+    <a href="tel:+36303640141">(30) 364 0141</a>
+    <a href="mailto:abdabringa@gmail.com">abdabringa@gmail.com</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+   <div class="hero-stage" id="heroStage">
+    <div class="hero-media" data-parallax="0.25">
+      <img src="img/hero-muhely.jpg" alt="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán, a Bécsi utca 128. alatt" width="849" height="846" fetchpriority="high" decoding="async">
+      <div class="hero-veil"></div>
+    </div>
+
+    <!-- görgetésre guruló 3D bringa (Blenderben modellezve, rétegelt render) -->
+    <div class="ride" id="ride" aria-hidden="true">
+      <div class="ride-road"><i class="road-ink" id="roadInk"></i></div>
+      <div class="ride-bike" id="rideBike">
+        <img class="rb rb-wr" id="rbWr" src="img/hero3d/bike-wheel-rear.webp" width="1400" height="875" alt="" decoding="async" fetchpriority="low">
+        <img class="rb rb-wf" id="rbWf" src="img/hero3d/bike-wheel-front.webp" width="1400" height="875" alt="" decoding="async" fetchpriority="low">
+        <img class="rb rb-body" src="img/hero3d/bike-body.webp" width="1400" height="875" alt="" decoding="async" fetchpriority="low">
+        <img class="rb rb-cr" id="rbCr" src="img/hero3d/bike-crank.webp" width="1400" height="875" alt="" decoding="async" fetchpriority="low">
+      </div>
+    </div>
+
+    <div class="hero-type">
+      <h1 class="giant">
+        <span class="line"><span class="line-in">BRINGÁ</span></span>
+        <span class="line"><span class="line-in">ZOL<i class="q">¿</i></span></span>
+        <span class="sr-only"> — kerékpárszerviz és kerékpárműhely Abdán, Győr mellett</span>
+      </h1>
+      <div class="hero-meta">
+        <p class="hero-sub"><span class="line-in">Kerékpárműhely — Abda, Bécsi utca 128</span></p>
+        <p class="hero-desc"><span class="line-in">Defektet foltozunk, fékeket állítunk, roncsokat támasztunk fel. Ha gurul, megcsináljuk. Ha nem gurul, még inkább.</span></p>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <a href="#szerviz" class="scroll-hint" data-cursor="Görgess">
+        <span class="hint-line"></span>
+        <span class="hint-txt">Görgess</span>
+      </a>
+      <div class="hero-stats">
+        <div><b data-count="265">0</b><em>követő</em></div>
+        <div><b data-count="30">0</b><em>ezer megtekintés</em></div>
+        <div><b data-count="15">0</b><em>szolgáltatás</em></div>
+      </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Defekt</span><i>◆</i><span>Fékbeállítás</span><i>◆</i><span>Váltóhangolás</span><i>◆</i><span>Centrírozás</span><i>◆</i><span>Teljes szerviz</span><i>◆</i><span>Alkatrészcsere</span><i>◆</i><span>Használt bringák</span><i>◆</i>
+      <span>Defekt</span><i>◆</i><span>Fékbeállítás</span><i>◆</i><span>Váltóhangolás</span><i>◆</i><span>Centrírozás</span><i>◆</i><span>Teljes szerviz</span><i>◆</i><span>Alkatrészcsere</span><i>◆</i><span>Használt bringák</span><i>◆</i>
+    </div>
+  </div>
+
+  <!-- ============ SZERVIZ ============ -->
+  <section id="szerviz" class="services" aria-labelledby="szerviz-cim">
+    <div class="sec-head reveal">
+      <span class="sec-num">01 / Munkadíj árlista</span>
+      <h2 class="sec-title" id="szerviz-cim">Amit<br>megcsinálunk<span class="sr-only"> — kerékpárszerviz szolgáltatások és árak</span></h2>
+      <p class="sec-lead">Munkadíj árak, alkatrész nélkül. A pontos összeg a bringa állapotán múlik — hívj, és megmondjuk előre, mibe fáj.</p>
+    </div>
+
+    <ul class="svc-list" id="svcList">
+      <li class="svc" data-img="img/svc-web/01-kulso-belso.jpg">
+        <em>01</em>
+        <h3>Külső, belső csere</h3>
+        <p>Kerekenként</p>
+        <b>1 500 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/02-agy-tengely.jpg">
+        <em>02</em>
+        <h3>Agy zsírzás, tengelycsere</h3>
+        <p>Kerekenként</p>
+        <b>2 000 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/03-centrirozas.jpg">
+        <em>03</em>
+        <h3>Centrírozás</h3>
+        <p>Kerekenként</p>
+        <b>1 800 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/04-kerekfuzes.jpg">
+        <em>04</em>
+        <h3>Kerékfűzés</h3>
+        <p>Kerekenként</p>
+        <b>7 000 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/05-v-fek.jpg">
+        <em>05</em>
+        <h3>V-fék beállítás</h3>
+        <p>Kerekenként</p>
+        <b>850 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/06-fekbetet-bowden.jpg">
+        <em>06</em>
+        <h3>Fékbetét, bowden csere</h3>
+        <p>Kerekenként</p>
+        <b>1 500 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/07-olajos-fek.jpg">
+        <em>07</em>
+        <h3>Olajos fék légtelenítés, olajcsere</h3>
+        <p>Fékenként</p>
+        <b>2 500 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/08-kosar-sarvedo.jpg">
+        <em>08</em>
+        <h3>Kosár, pálcás sárvédő felszerelés</h3>
+        <p>Darabonként</p>
+        <b>900 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/09-valto.jpg">
+        <em>09</em>
+        <h3>Váltó beállítás</h3>
+        <p>Darabonként</p>
+        <b>500 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/10-hajtomu.jpg">
+        <em>10</em>
+        <h3>Hajtómű javítás, csapágy- vagy monoblokk csere</h3>
+        <p>&nbsp;</p>
+        <b>2 200 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/11-lanccsere.jpg">
+        <em>11</em>
+        <h3>Lánccsere</h3>
+        <p>&nbsp;</p>
+        <b>900 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/12-altalanos.jpg">
+        <em>12</em>
+        <h3>Általános karbantartás</h3>
+        <p>Kerékcsapágyak zsírzása, fék- és váltóbeállítás, lánckenés</p>
+        <b>8 000 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/13-teljes.jpg">
+        <em>13</em>
+        <h3>Teljes karbantartás</h3>
+        <p>Kerék- és kormánycsapágyak, hajtótengely zsírzása, fék- és váltóbeállítás, lánc olajozás, gumivizsgálat, légnyomás-ellenőrzés</p>
+        <b>15 000 Ft</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/14-roller.jpg">
+        <em>14</em>
+        <h3>Elektromos roller defektjavítás</h3>
+        <p>Első kerék 2 500 Ft · hátsó kerék 1 500 Ft</p>
+        <b>1 500 Ft-tól</b>
+      </li>
+      <li class="svc" data-img="img/svc-web/15-takaritas.jpg">
+        <em>15</em>
+        <h3>Koszos kerékpár takarítás</h3>
+        <p>&nbsp;</p>
+        <b>1 000 Ft</b>
+      </li>
+    </ul>
+    <div class="svc-hover" id="svcHover"><img src="" alt=""></div>
+  </section>
+
+  <!-- ============ MŰHELY / ABOUT ============ -->
+  <section id="muhely" class="about" aria-labelledby="muhely-cim">
+    <div class="about-grid">
+      <div class="about-media reveal">
+        <img src="img/svc/muhely-belso.jpg" alt="Kerékpárszerelés közben a Bringázol¿ műhely belsejében" width="1100" height="1100" loading="lazy" decoding="async" data-parallax="0.12">
+        <span class="media-tag">Bécsi utca 128 — Abda</span>
+      </div>
+      <div class="about-text">
+        <span class="sec-num reveal">02 / Műhely</span>
+        <h2 class="sec-title reveal" id="muhely-cim">Nem gyár.<br>Műhely.<span class="sr-only"> — a Bringázol¿ kerékpárműhely Abdán</span></h2>
+        <p class="reveal">Egy festett ajtó, egy fal tele szerszámmal, és valaki, aki tényleg felveszi a telefont. Nálunk nem sorszámot húzol — elmondod, mi a baja, és megnézzük együtt.</p>
+        <p class="reveal">A Facebookon videózunk is, mert a bringaszerelés jobban megy, ha közben nevetsz egyet. De ami a satuba kerül, azt komolyan vesszük.</p>
+        <ul class="about-points">
+          <li class="reveal"><span>→</span> Előre megmondjuk az árat</li>
+          <li class="reveal"><span>→</span> Nem cserélünk feleslegesen alkatrészt</li>
+          <li class="reveal"><span>→</span> Ha nem bírod behozni, szólj — megoldjuk</li>
+        </ul>
+        <a href="#kapcsolat" class="btn-line reveal" data-cursor="Írj">
+          <span>Írj nekünk</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BRINGÁK / GALÉRIA ============ -->
+  <section id="bringak" class="gallery" aria-labelledby="bringak-cim">
+    <div class="sec-head reveal">
+      <span class="sec-num">03 / Raktáron</span>
+      <h2 class="sec-title" id="bringak-cim">Ami épp<br>a kertben áll<span class="sr-only"> — eladó felújított használt kerékpárok</span></h2>
+      <p class="sec-lead">Ezek a bringák most nálunk vannak. Ha megtetszik valamelyik, hívj — elmondjuk az árát és megbeszéljük, mikor tudod megnézni.</p>
+      <a href="tel:+36303640141" class="btn-solid stock-call" data-cursor="Hívás">
+        <span>Hívás: (30) 364 0141</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+      </a>
+    </div>
+
+    <div class="stock" id="stockGrid" aria-live="polite">
+      <p class="stock-state" id="stockState">Készlet betöltése…</p>
+    </div>
+
+    <div class="stock-cta reveal">
+      <p>Nem találod, amit keresel?</p>
+      <a href="tel:+36303640141" class="btn-solid" data-cursor="Hívás">
+        <span>Hívj minket</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ KÉPNAGYÍTÓ ============ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Kép nagyban" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Bezárás">&times;</button>
+    <img id="lightboxImg" src="" alt="">
+    <a href="tel:+36303640141" class="btn-solid lightbox-call">
+      <span>Érdekel — hívom</span>
+    </a>
+  </div>
+
+  <!-- ============ VÉLEMÉNY ============ -->
+  <section class="quote" aria-label="Vásárlói vélemény">
+    <blockquote class="reveal">
+      <p>„Rövid idő alatt, kedvező áron, három kerékpárt újított fel nekünk Zoli. Mindegyikkel nagyon elégedettek vagyunk, csak ajánlani tudom!”</p>
+      <cite>Hettinger Ákos — Google-értékelés ★★★★★</cite>
+    </blockquote>
+    <p class="quote-note reveal">
+      <a href="https://www.google.com/maps/search/BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+Abda+B%C3%A9csi+utca+128" target="_blank" rel="noopener">5,0 csillag 34 értékelésből a Google Térképen ↗</a>
+    </p>
+  </section>
+
+  <!-- ============ KAPCSOLAT ============ -->
+  <section id="kapcsolat" class="contact" aria-labelledby="kapcsolat-cim">
+    <div class="contact-head reveal">
+      <span class="sec-num">04 / Kapcsolat</span>
+      <h2 class="giant giant-sm" id="kapcsolat-cim">HOZD<br>BE<span class="sr-only"> — kapcsolat: Abda, Bécsi utca 128, telefon (30) 364 0141</span></h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <a class="big-link reveal" href="tel:+36303640141" data-cursor="Hívás">
+          <em>Telefon</em><span>(30) 364 0141</span>
+        </a>
+        <a class="big-link reveal" href="mailto:abdabringa@gmail.com" data-cursor="Email">
+          <em>Email</em><span>abdabringa@gmail.com</span>
+        </a>
+        <a class="big-link reveal" href="https://maps.google.com/?q=B%C3%A9csi+utca+128,+9151+Abda" target="_blank" rel="noopener" data-cursor="Térkép">
+          <em>Cím</em><span>Bécsi utca 128, 9151 Abda</span>
+        </a>
+        <a class="big-link reveal" href="https://www.facebook.com/profile.php?id=61572755200909" target="_blank" rel="noopener" data-cursor="Megnyit">
+          <em>Facebook</em><span>Bringázol¿</span>
+        </a>
+      </div>
+
+      <form class="form reveal" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="4793f3fa-02df-49fd-b3b0-718ab7cf4230">
+        <input type="hidden" name="subject" value="Új üzenet a Bringázol¿ weboldalról">
+        <input type="hidden" name="from_name" value="Bringázol¿ weboldal">
+        <label class="hp"><input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">Hagyd üresen</label>
+        <div class="field">
+          <input type="text" name="nev" id="f-nev" required placeholder=" ">
+          <label for="f-nev">Neved</label>
+        </div>
+        <div class="field">
+          <input type="email" name="email" id="f-email" required placeholder=" ">
+          <label for="f-email">Email</label>
+        </div>
+        <div class="field">
+          <input type="tel" name="telefon" id="f-tel" placeholder=" ">
+          <label for="f-tel">Telefon <i>(nem kötelező)</i></label>
+        </div>
+        <div class="field">
+          <textarea name="uzenet" id="f-msg" rows="4" required placeholder=" "></textarea>
+          <label for="f-msg">Mi a baja a bringának?</label>
+        </div>
+        <!-- Az űrlap adatai a Web3Forms-on (USA/India) keresztül
+             jutnak el hozzánk. Ez EGT-n kívüli adattovábbítás, amihez
+             a GDPR 49. cikk (1) a) pontja szerint kifejezett
+             hozzájárulás kell — ezért kötelező ez a jelölőnégyzet. -->
+        <label class="form-consent">
+          <input type="checkbox" name="hozzajarulas" id="f-gdpr" required>
+          <span>
+            Elolvastam és elfogadom az
+            <a href="adatkezeles.html" target="_blank" rel="noopener">adatkezelési tájékoztatót</a>,
+            és hozzájárulok, hogy a megadott adataimat a megkeresésem
+            megválaszolása céljából kezeljétek.
+          </span>
+        </label>
+        <button type="submit" class="btn-solid" data-cursor="Küldés">
+          <span>Üzenet küldése</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <!-- A térkép csak hozzájárulás után töltődik be: a beágyazás
+         címe a data-consent-src-ben áll, iframe-et a consent.js
+         csak elfogadás esetén hoz létre. Addig egyetlen kérés sem
+         indul a Google felé. -->
+    <div class="map reveal" data-consent-src="https://www.google.com/maps?q=B%C3%A9csi+utca+128%2C+9151+Abda&output=embed"
+         data-consent-title="Térkép — Bécsi utca 128, Abda"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-top">
+    <span class="foot-mark">Bringázol<i>¿</i></span>
+    <p>Kerékpárszerviz és kerékpárműhely — 9151 Abda, Bécsi utca 128</p>
+  </div>
+  <div class="foot-bot">
+    <span>© <span id="year"></span> Bringázol¿</span>
+    <div class="foot-links">
+      <a href="impresszum.html">Impresszum</a>
+      <a href="adatkezeles.html">Adatkezelés</a>
+      <a href="sutik.html">Sütik</a>
+      <button type="button" class="foot-consent" data-consent-reopen>Sütibeállítások</button>
+      <a href="https://www.facebook.com/profile.php?id=61572755200909" target="_blank" rel="noopener">Facebook ↗</a>
+      <button type="button" class="foot-admin" id="adminOpen">Admin</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ ADMIN BELÉPÉS ============ -->
+<div class="admin-modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle" hidden>
+  <form class="admin-box" id="adminForm">
+    <h2 id="adminModalTitle">Admin belépés</h2>
+    <p>Add meg a jelszót a készlet szerkesztéséhez.</p>
+    <input type="password" id="adminPass" name="password" placeholder="Jelszó" autocomplete="current-password" required>
+    <p class="admin-msg" id="adminMsg" role="status" aria-live="polite"></p>
+    <div class="admin-actions">
+      <button type="button" class="btn-line" id="adminCancel"><span>Mégse</span></button>
+      <button type="submit" class="btn-solid" id="adminSubmit"><span>Belépés</span></button>
+    </div>
+  </form>
+</div>
+
+<script src="script.js"></script>
+<script src="consent.js"></script>
+</body>
+</html>
