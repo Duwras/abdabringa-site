@@ -1,9 +1,8 @@
 node_modules/
-.netlify/
-# generált — az npm run build állítja elő
-netlify/functions/
+
+# generált — az npm run build állítja elő, a közzétételkor a
+# GitHub Actions készíti újra a forrásból
 deploy/
-deploy.zip
 
 # helyi előnézet (Claude Code)
 .claude/

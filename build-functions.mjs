@@ -1,36 +1,35 @@
-/* Előállítja a feltölthető csomagot.
+/* Előállítja a közzétehető weboldalt a deploy/ mappába.
 
-   deploy/             — a nyilvános weboldal (publish mappa)
-   netlify/functions/  — a becsomagolt Netlify függvények
+   Az oldal GitHub Pages-en fut — nincs szerveroldali kód, minden
+   fájl statikus. A közzétételt a .github/workflows/deploy.yml
+   végzi: minden main-re küldött push után lefuttatja ezt a scriptet,
+   és a deploy/ tartalmát teszi ki élesbe.
 
-   A kettő szándékosan külön van: ami a publish mappában van, azt
-   a Netlify statikus fájlként is kiszolgálja. A függvény forrása
-   ott nem lehet, mert benne van az alapértelmezett admin jelszó.
-
-   A függvények egyetlen, függőség nélküli fájlba vannak csomagolva,
-   hogy a Netlify-nak ne kelljen npm install-t futtatnia.
-
-   Futtatás:  npm run build   majd   npm run deploy
+   Helyi ellenőrzésre:  npm run build   majd   npm run elonezet
 */
-import { build } from 'esbuild';
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 
-const SRC = 'src/functions';
 const OUT = 'deploy';
-const FN_OUT = 'netlify/functions';
+
+/* A Pages ezekre a fájlokra figyel a publish mappa gyökerében:
+   CNAME     — a saját domain; enélkül minden közzététel után
+               visszaesne a *.github.io címre
+   .nojekyll — kikapcsolja a Jekyll feldolgozást, ami különben
+               eldobná az aláhúzással kezdődő fájlokat és mappákat */
+const DOMAIN = JSON.parse(readFileSync('ceg-adatok.json', 'utf8')).domain;
 
 /* A weboldal fájljai — csak ezek kerülnek fel.
    Az img/ mappából szándékosan csak a ténylegesen használt
    képek: az img/svc/ a kicsinyített változatokat tartalmazza,
    a nagy eredetiket nem kell feltölteni. */
 const ASSETS = [
-  'index.html', 'admin.html', '404.html',
+  'index.html', '404.html',
   // jogi aloldalak
   'impresszum.html', 'adatkezeles.html', 'sutik.html',
-  'style.css', 'admin.css', 'jogi.css',
-  'script.js', 'admin.js', 'consent.js',
+  'style.css', 'jogi.css',
+  'script.js', 'consent.js',
   // saját szerverről kiszolgált betűtípusok (lásd fonts.css)
   'fonts.css', 'fonts',
   'keszlet-seed.json',
@@ -44,26 +43,31 @@ const ASSETS = [
 ];
 
 rmSync(OUT, { recursive: true, force: true });
-rmSync(FN_OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
-mkdirSync(FN_OUT, { recursive: true });
-
-const entries = readdirSync(SRC).filter((f) => f.endsWith('.mjs'));
-
-await build({
-  entryPoints: entries.map((f) => `${SRC}/${f}`),
-  outdir: FN_OUT,
-  outExtension: { '.js': '.mjs' },
-  bundle: true,
-  platform: 'node',
-  format: 'esm',
-  target: 'node20',
-  legalComments: 'none'
-});
 
 for (const asset of ASSETS) {
   cpSync(asset, `${OUT}/${asset}`, { recursive: true });
 }
+
+writeFileSync(`${OUT}/CNAME`, `${DOMAIN}\n`);
+writeFileSync(`${OUT}/.nojekyll`, '');
+
+/* A készletet mostantól kézzel szerkeszted (KESZLET.md). Egy elgépelt
+   fájlnév némán törött képet adna az éles oldalon, ezért itt ellenőrizzük
+   — a build inkább álljon meg, mint hogy hibás oldal menjen ki. */
+const bikes = JSON.parse(readFileSync('keszlet-seed.json', 'utf8'));
+const brokenBikes = bikes.filter((b) => !existsSync(`${OUT}${b.src}`));
+
+if (brokenBikes.length) {
+  console.error(
+    `\n!! HIBA — a keszlet-seed.json olyan képre hivatkozik, ami nincs meg:\n` +
+    brokenBikes.map((b) => `   - ${b.src}  (id: ${b.id})`).join('\n') +
+    `\n   Tedd be a képet az img/keszlet/ mappába, vagy vedd ki a sort\n` +
+    `   a keszlet-seed.json-ból. Lásd KESZLET.md.\n`
+  );
+  process.exit(1);
+}
+
 
 /* Képtömörítés.
 
@@ -123,18 +127,19 @@ for (const rule of IMG_RULES) {
 
 /* Gyorsítótár-törés.
 
-   A netlify.toml a CSS/JS fájlokat egy hétre, a képeket egy évre
-   gyorsítótárazza, a HTML viszont mindig frissül. Enélkül a
-   visszatérő látogató az ÚJ HTML-t kapná a RÉGI CSS-sel — és a
-   friss elemek (pl. a hero bringa rétegei) stílus nélkül szétesnek.
+   A GitHub Pages saját fejléceket ad, amiket nem tudunk átírni —
+   a CSS/JS akár a régi változatban is a böngészőben maradhat, míg a
+   HTML már frissült. Enélkül a visszatérő látogató az ÚJ HTML-t
+   kapná a RÉGI CSS-sel — és a friss elemek (pl. a hero bringa
+   rétegei) stílus nélkül szétesnek.
 
    Megoldás: minden ilyen hivatkozás mögé a fájl tartalmából
    számolt rövid hash kerül. Ha a fájl változik, változik az URL is,
    tehát a böngésző biztosan újat tölt. Ha nem változik, marad a
    gyorsítótárban. Kézzel semmit nem kell verziózni. */
 const VERSIONED = [
-  'style.css', 'admin.css', 'jogi.css', 'fonts.css',
-  'script.js', 'admin.js', 'consent.js',
+  'style.css', 'jogi.css', 'fonts.css',
+  'script.js', 'consent.js',
   'img/hero3d/bike-body.webp', 'img/hero3d/bike-crank.webp',
   'img/hero3d/bike-wheel-front.webp', 'img/hero3d/bike-wheel-rear.webp'
 ];
@@ -145,7 +150,7 @@ const stamps = VERSIONED.map((rel) => [
 ]);
 
 const PAGES = [
-  'index.html', 'admin.html', '404.html',
+  'index.html', '404.html',
   'impresszum.html', 'adatkezeles.html', 'sutik.html'
 ];
 
@@ -188,8 +193,8 @@ writeFileSync(
 );
 
 console.log(
-  `Kész: ${ASSETS.length} elem a ${OUT}/ mappában, ${entries.length} függvény a ` +
-  `${FN_OUT}/ mappában. Képtömörítés: -${Math.round(saved / 1024)} KB.`
+  `Kész: ${ASSETS.length} elem a ${OUT}/ mappában, domain ${DOMAIN}, ` +
+  `${bikes.length} bringa a készletben. Képtömörítés: -${Math.round(saved / 1024)} KB.`
 );
 
 if (missing.length) {

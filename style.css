@@ -833,13 +833,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: color .3s;
 }
 .foot-links > a:hover, .foot-consent:hover { color: var(--accent); }
-.foot-admin {
-  font-family: var(--mono); font-size: .68rem;
-  color: var(--ink-dim); opacity: .5;
-  letter-spacing: .06em;
-  transition: opacity .3s, color .3s;
-}
-.foot-admin:hover { opacity: 1; color: var(--accent); }
 /* Készítő hivatkozás — aláhúzva, hogy linknek látszódjon a lábléc
    többi, aláhúzás nélküli hivatkozása mellett is. */
 .foot-credit { text-decoration: underline; text-underline-offset: 3px; }
@@ -863,44 +856,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .form-consent a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .form-consent input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-/* ============ ADMIN BELÉPÉS ============ */
-.admin-modal {
-  position: fixed; inset: 0; z-index: 950;
-  background: rgba(11, 11, 12, .9);
-  display: grid; place-items: center;
-  padding: var(--pad);
-  opacity: 0; transition: opacity .26s var(--ease);
-}
-.admin-modal[hidden] { display: none; }
-.admin-modal.on { opacity: 1; }
-.admin-box {
-  width: min(100%, 380px);
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  padding: clamp(24px, 4vw, 34px);
-  display: flex; flex-direction: column; gap: 14px;
-}
-.admin-box h2 {
-  font-family: var(--display); font-weight: 400;
-  font-size: 1.6rem; text-transform: uppercase; letter-spacing: .01em;
-}
-.admin-box > p { font-size: .86rem; color: var(--ink-dim); }
-.admin-box input {
-  width: 100%; padding: 13px 14px;
-  background: var(--bg); color: var(--ink);
-  border: 1px solid var(--line); font: inherit; font-size: .95rem;
-}
-.admin-box input:focus { outline: none; border-color: var(--accent); }
-.admin-msg {
-  font-family: var(--mono); font-size: .7rem; min-height: 1em;
-  color: var(--ink-dim);
-}
-.admin-msg.err { color: #ff7a5c; }
-.admin-msg.ok  { color: #6fd08c; }
-.admin-actions { display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
-.admin-actions .btn-line  { padding-bottom: 4px; }
-.admin-actions .btn-solid { margin-top: 0; }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1000px) {

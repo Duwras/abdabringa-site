@@ -385,9 +385,10 @@
   })();
 
   /* ---------- raktáron lévő bringák ----------
-     A lista a /api/bikes függvénytől jön. Ha az nem elérhető
-     (pl. lokális előnézet), a statikus keszlet-seed.json ugrik be,
-     hogy a látogató sose lásson üres szekciót. */
+     A lista a keszlet-seed.json statikus fájlból jön. Az oldal
+     GitHub Pages-en fut, ahol nincs szerveroldali kód: új bringa
+     úgy kerül fel, hogy a kép bemegy az img/keszlet/ mappába és
+     egy sor a keszlet-seed.json-ba. Lásd KESZLET.md. */
   (function stock() {
     var grid  = $('#stockGrid');
     var state = $('#stockState');
@@ -413,9 +414,9 @@
            A 700 px-es változat telefonra pazarlás, ezért a buildben
            készül egy 480 px-es is. A képnagyítóhoz viszont mindig a
            nagy kell — azt tesszük el a data-full attribútumba.
-           Csak a beépített készletképeknek van keskeny változatuk;
-           az adminban feltöltött képek az API-n át jönnek. */
-        var seed = /^\/img\/keszlet\/([^/]+)\.jpg$/.exec(b.src);
+           A keskeny változat csak az img/keszlet/ mappa képeihez
+           készül; máshonnan hivatkozott kép srcset nélkül marad. */
+        var seed = /^\/img\/keszlet\/([^/]+)\.jpg$/i.exec(b.src);
         if (seed) {
           img.srcset = '/img/keszlet/' + seed[1] + '-480.jpg 480w, ' + b.src + ' 700w';
           img.sizes = '(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 25vw';
@@ -433,14 +434,8 @@
       });
     }
 
-    function fallback() {
-      return fetch('keszlet-seed.json').then(function (r) { return r.json(); });
-    }
-
-    fetch('/api/bikes', { headers: { 'Accept': 'application/json' } })
-      .then(function (r) { if (!r.ok) throw new Error('api'); return r.json(); })
-      .then(function (d) { return d.bikes || []; })
-      .catch(fallback)
+    fetch('keszlet-seed.json', { headers: { 'Accept': 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error('keszlet'); return r.json(); })
       .then(render)
       .catch(function () {
         if (state) state.textContent = 'A készlet most nem tölthető be. Hívj minket: (30) 364 0141';
@@ -482,116 +477,5 @@
     });
   })();
 
-  /* ---------- admin belépés ---------- */
-  (function adminLogin() {
-    var openBtn = $('#adminOpen');
-    var modal   = $('#adminModal');
-    if (!openBtn || !modal) return;
-
-    var form   = $('#adminForm');
-    var pass   = $('#adminPass');
-    var msg    = $('#adminMsg');
-    var cancel = $('#adminCancel');
-    var submit = $('#adminSubmit');
-
-    function open() {
-      modal.hidden = false;
-      document.body.classList.add('locked');
-      requestAnimationFrame(function () {
-        modal.classList.add('on');
-        pass.focus();
-      });
-    }
-
-    function shut() {
-      modal.classList.remove('on');
-      document.body.classList.remove('locked');
-      msg.textContent = '';
-      msg.className = 'admin-msg';
-      form.reset();
-      setTimeout(function () { modal.hidden = true; }, 260);
-    }
-
-    openBtn.addEventListener('click', open);
-    cancel.addEventListener('click', shut);
-    modal.addEventListener('click', function (e) { if (e.target === modal) shut(); });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !modal.hidden) shut();
-    });
-
-    /* A /api/login egy netlify.toml rewrite. Ha az valamiért nem él
-       (régi deploy, hiányzó netlify.toml), a válasz nem JSON, hanem a
-       404-es HTML — ilyenkor a függvényt a saját címén is megpróbáljuk. */
-    var LOGIN_URLS = ['/api/login', '/.netlify/functions/bikes?action=login'];
-
-    function post(url, value) {
-      return fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: value })
-      }).then(function (r) {
-        return r.text().then(function (t) {
-          var data = null;
-          try { data = JSON.parse(t); } catch (_) { /* nem JSON: rossz útvonal */ }
-          return { status: r.status, ok: r.ok, data: data };
-        });
-      });
-    }
-
-    function attempt(value, i) {
-      return post(LOGIN_URLS[i], value).then(function (res) {
-        var routed = res.data !== null;              // a függvény válaszolt
-        if (!routed && i + 1 < LOGIN_URLS.length) return attempt(value, i + 1);
-        return res;
-      }, function (err) {
-        if (i + 1 < LOGIN_URLS.length) return attempt(value, i + 1);
-        throw err;
-      });
-    }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      // a beillesztett jelszó végén könnyen marad szóköz
-      var value = pass.value.trim();
-      if (!value) return;
-
-      submit.disabled = true;
-      msg.className = 'admin-msg';
-      msg.textContent = 'Ellenőrzés…';
-
-      attempt(value, 0)
-        .then(function (res) {
-          if (res.data === null) {
-            msg.className = 'admin-msg err';
-            msg.textContent = 'Az admin funkció nincs telepítve (' + res.status + '). A drag & drop feltöltés nem viszi fel a függvényeket — lásd FELTOLTES.md.';
-            submit.disabled = false;
-            return;
-          }
-          if (!res.ok || !res.data.ok) {
-            msg.className = 'admin-msg err';
-            msg.textContent = res.data.error || 'Hibás jelszó.';
-            submit.disabled = false;
-            return;
-          }
-          if (!res.data.token) {
-            msg.className = 'admin-msg err';
-            msg.textContent = 'A szerver nem adott munkamenetet. Telepítsd újra a függvényeket (lásd DEPLOY.md).';
-            submit.disabled = false;
-            return;
-          }
-          /* A jelszót nem tesszük el sehova — a szervertől kapott,
-             8 óra múlva lejáró tokent tároljuk, az is csak a lap
-             bezárásáig. */
-          sessionStorage.setItem('bringazolAdminToken', res.data.token);
-          form.reset();
-          window.location.href = 'admin.html';
-        })
-        .catch(function () {
-          msg.className = 'admin-msg err';
-          msg.textContent = 'Nem sikerült a kapcsolat. Próbáld újra.';
-          submit.disabled = false;
-        });
-    });
-  })();
 
 })();

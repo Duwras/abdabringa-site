@@ -1,0 +1,53 @@
+# Minden main-re küldött push után újraépíti és közzéteszi az oldalt.
+# A deploy/ mappa nincs verziókövetve — itt készül el, minden futáskor
+# a forrásból, hogy sose csússzon szét a repó és az éles oldal.
+name: Közzététel
+
+on:
+  push:
+    branches: [main]
+  # kézi indítás az Actions fülről, ha újra kell rakni közzététel nélkül
+  workflow_dispatch:
+
+# A Pages közzétételéhez ennyi jog kell, többhöz nincs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Egyszerre egy közzététel fusson. Ha gyors egymásutánban két push
+# érkezik, a régebbi várakozó futás elmarad — de a már futó befejeződik,
+# hogy ne maradjon félkész oldal kint.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # a sharp képtömörítéshez kell; a build enélkül nem fut le
+      - run: npm ci
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

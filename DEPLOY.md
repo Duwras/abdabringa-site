@@ -1,67 +1,87 @@
-﻿# Üzemeltetés
+# Üzemeltetés
 
-**A feltöltés lépésről lépésre: [FELTOLTES.md](FELTOLTES.md)**
-**SEO — mi van kész és mi a teendő domainvásárlás után: [SEO.md](SEO.md)**
+Az oldal **GitHub Pages**-en fut, a repó:
+<https://github.com/Duwras/abdabringa-site>
+
+**Bringa fel- és levétele: [KESZLET.md](KESZLET.md)**
+**SEO — teendők élesítés után: [SEO.md](SEO.md)**
 **Jogi dokumentumok — ITT VAN KITÖLTENDŐ ADAT: [JOGI.md](JOGI.md)**
 
-Röviden: a drag & drop feltöltés **nem viszi fel a függvényeket**, ezért
-azzal nem működik az admin belépés. Helyette:
+## Hogyan kerül ki a változás
+
+Nincs kézi feltöltés. Minden `main` ágra küldött push után a GitHub
+lefuttatja a [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+munkafolyamatot, ami:
+
+1. `npm ci` — telepíti a `sharp` képtömörítőt
+2. `npm run build` — a forrásból elkészíti a `deploy/` mappát
+3. kiteszi élesbe a `deploy/` tartalmát
+
+Kb. **1–2 perc**. Az állapot az Actions fülön látszik; ha piros, ott a
+hibaüzenet is. A `deploy/` mappa **nincs verziókövetve** — mindig a
+forrásból készül, így nem tud szétcsúszni a repó és az éles oldal.
+
+Helyi ellenőrzésre:
 
 ```bash
 npm.cmd run build
 ```
 
 ```bash
-npm.cmd run deploy
+npm.cmd run elonezet
 ```
 
-## Napi használat
+## Egyszeri beállítás
 
-1. Az oldal láblécében: **Admin** gomb → jelszó → átdob a kezelőfelületre.
-2. **Új képek**: válaszd ki vagy húzd be őket (telefonról HEIC is jó),
-   majd *Feltöltés*. A böngésző feltöltés előtt 1400 px-re kicsinyíti.
-3. **Törlés**: a kép alatti *Törlés* gomb.
+Ezt egyszer kell megcsinálni, utána soha többé.
 
-A változás azonnal látszik a weboldalon. Feltölteni csak akkor kell
-újra, ha maga az oldal kódja változik — a bringák kezeléséhez soha.
+### 1. GitHub Pages bekapcsolása
 
-## Hogyan tárolódnak a képek
+Repó → *Settings* → *Pages* → **Source: GitHub Actions**.
 
-A készlet listája a Netlify Blobs tárolóban él. Ha még sosem
-szerkesztetted, automatikusan a `keszlet-seed.json`-ból töltődik fel.
-Ha az API bármiért nem érhető el, az oldal ugyanerre a fájlra esik
-vissza — üres szekciót a látogató sosem lát.
+> A repónak **publikusnak** kell maradnia. Ingyenes GitHub-fiókon a
+> Pages csak publikus repóból szolgál ki — privátra állítva az oldal
+> leáll. (Fizetős GitHub Pro/Team esetén a privát is működik.)
 
-## Az admin felület védelme
+### 2. Domain rákötése — rackhost
 
-Az `admin.html` egy statikus fájl — aki kitalálja a címét, meg tudja
-nyitni. **Ettől még nem tud semmit csinálni**, mert a védelem nem ott
-van, hanem a szerveren (`src/lib/auth.mjs`):
+A rackhost DNS-kezelőjében a `abdabringa.hu` zónába:
 
-1. **A jelszó nincs a kódban.** Csak az `ADMIN_PASSWORD` környezeti
-   változóból jön. Ha nincs beállítva, az admin API mindenre 503-mal
-   válaszol — nincs beépített tartalék jelszó, amit ki lehetne
-   olvasni a fájlokból.
-   ```bash
-   npm.cmd run jelszo -- "a-jelszavad"
-   ```
-2. **Munkamenet-token.** A sikeres belépés egy HMAC-SHA256 aláírású,
-   8 óra után lejáró tokent ad. A jelszó ezután nem megy vissza többé
-   a hálózaton, és a tokent nem lehet hamisítani vagy meghosszabbítani
-   (az aláírás a lejárati időt is fedi). A token a lap bezárásakor
-   eltűnik, jelszócserekor pedig az összes kiadott token érvénytelen lesz.
-3. **Kizárás.** 5 hibás próbálkozás után az adott IP-cím 15 percre,
-   10 után 1 órára ki van tiltva a belépésből. Ugyanez vonatkozik a
-   találgatott tokenekkel érkező kérésekre is. Az IP nyersen nem
-   tárolódik, csak egy visszafejthetetlen lenyomata.
+| Típus | Név | Érték |
+|---|---|---|
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `duwras.github.io.` |
 
-Minden feltöltés és törlés érvényes tokent kér. Token nélkül a válasz
-`401` — a felület látszik, de üres és használhatatlan marad.
+Mind a négy `A` rekord kell — ezek a GitHub Pages kiszolgálói.
 
-## Korlátok
+Utána: repó → *Settings* → *Pages* → *Custom domain* → `abdabringa.hu`
+→ *Save*. A GitHub ellenőrzi a DNS-t (pár perc – pár óra), majd
+pipáld be az **Enforce HTTPS**-t. A tanúsítvány ingyenes, magától
+újul meg.
 
-- Egyszerre max. 12 kép, képenként max. 8 MB.
-- A belépés 8 óráig, de legfeljebb a lap bezárásáig él (`sessionStorage`).
-- A `seed-` előtagú képek statikus fájlok az `img/keszlet/` mappában.
-  Törlés után eltűnnek a listából, de a fájl megmarad; ha végleg
-  nem kell, kézzel törölhető a következő feltöltés előtt.
+A `CNAME` fájlt nem kell kézzel létrehozni — a build minden alkalommal
+megírja a `ceg-adatok.json` `domain` mezőjéből. Ha domaint váltasz,
+elég ott átírni (plusz a `SEO.md` szerinti helyeken).
+
+## Amit ez a felállás nem tud
+
+A GitHub Pages **csak statikus fájlokat** szolgál ki, szerveroldali kód
+nincs. Ebből következik:
+
+- **Nincs admin felület.** A készletet fájlszerkesztéssel kezeled,
+  lásd [KESZLET.md](KESZLET.md). Telefonról is megy, a GitHub
+  webes felületén.
+- **Nem állíthatók HTTP-fejlécek.** A gyorsítótárazást a GitHub
+  szabja meg. Ez nem okoz gondot: a build a CSS/JS hivatkozások mögé
+  a fájl tartalmából számolt `?v=` bélyeget tesz, tehát ha a fájl
+  változik, a böngésző biztosan újat tölt.
+- **A korábbi `Permissions-Policy` fejléc elveszett.** Ez egy védelmi
+  többlet volt (kamera/mikrofon/geolokáció letiltása), nem
+  működésbeli elem — az oldal egyiket sem használja.
+
+Ami **változatlanul működik**: a kapcsolati űrlap (Web3Forms, külső
+szolgáltatás), a sütibanner, a Google Térkép beágyazás, a képnagyító,
+és a teljes SEO-beállítás.

@@ -40,12 +40,12 @@ Semmi más fájlban nincs domain.
 **Technikai**
 - `sitemap.xml` képekkel; a `<lastmod>` minden `npm run build`-nál
   magától a mai dátumra frissül
-- `robots.txt` sitemap-hivatkozással, admin és API kizárva
+- `robots.txt` sitemap-hivatkozással
 - `404.html` — a Google ne „soft 404”-ként lássa a hibás címeket
 - `site.webmanifest` + apple-touch-icon
-- Gyorsítótár fejlécek (`netlify.toml`): képek 1 év, CSS/JS 1 hét,
-  HTML mindig friss → jobb Core Web Vitals
-- `Permissions-Policy` fejléc
+- Gyorsítótár-törés: a CSS/JS hivatkozások mögé a build a fájl
+  tartalmából számolt `?v=` bélyeget teszi — a böngésző csak akkor
+  tölt újat, ha a fájl tényleg változott
 
 **Tartalom / akadálymentesség**
 - Egyetlen `<h1>`, benne rejtett kulcsszavas kiegészítés
@@ -60,10 +60,10 @@ Semmi más fájlban nincs domain.
 
 ## Élesítés utáni teendők (ezeket nem lehet kódból megcsinálni)
 
-1. **Netlify → Domain settings**: add hozzá a `abdabringa.hu`-t, és
-   állítsd be **elsődleges domainnek**. A Netlify ezután 301-gyel
-   átirányítja a `www.` és a `*.netlify.app` címet is. HTTPS-t
-   (Let's Encrypt) is itt kapcsold be — a Google rangsorol rá.
+1. **Domain rákötése és HTTPS** — a lépések a [DEPLOY.md](DEPLOY.md)
+   „Egyszeri beállítás" részében. A GitHub a `www.` címet magától
+   átirányítja az `abdabringa.hu`-ra, a HTTPS-t az *Enforce HTTPS*
+   kapcsolja be — a Google rangsorol rá.
 2. **Google Search Console** (search.google.com/search-console):
    domain tulajdonlás igazolása → *Sitemaps* → küldd be:
    `https://abdabringa.hu/sitemap.xml` → *URL Inspection* → *Request indexing*.
