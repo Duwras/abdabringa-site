@@ -3,7 +3,7 @@
 ## 1. AMIT KI KELL TÖLTENED (enélkül nem hiteles)
 
 Nyisd meg a **`ceg-adatok.json`** fájlt, és írd át a `[KITÖLTENDŐ: ...]`
-részeket. Négy adat hiányzik:
+részeket.
 
 | Mező | Mit írj bele | Honnan nézd meg |
 |---|---|---|
@@ -11,9 +11,30 @@ részeket. Négy adat hiányzik:
 | `szekhely` | A székhely címe irányítószámmal | Vállalkozói igazolvány |
 | `nyilvantartasiSzam` | Egyéni vállalkozói nyilvántartási szám | [nyilvantarto.hu](https://www.nyilvantarto.hu/evny-lekerdezo/) — név alapján kereshető |
 | `adoszam` | Adószám, `12345678-1-08` formában | NAV, vagy a vállalkozói igazolvány |
+| `gaId` | Google Analytics 4 mérőazonosító, `G-…` alakban | Google Analytics → Adminisztrálás → Adatfolyamok → a webes adatfolyam adatai |
 
 Ha a **székhely megegyezik** a műhellyel (Bécsi utca 128), akkor is írd be
 külön — a törvény a székhelyet kéri, nem a telephelyet.
+
+### A `gaId` mezőről
+
+Ez az egyetlen **nem kötelező** mező. Ha üresen hagyod, a látogatottság-
+mérés egyszerűen nem indul el, és a süti sávon meg sem jelenik a
+kapcsolója — tehát nem kérünk engedélyt olyasmire, ami nem is fut.
+
+Amint beírod, a mérés élesedik: a látogató a süti sávon külön ki- és
+bekapcsolhatja, alapból kikapcsolva. A jogi szövegek (Adatkezelési
+tájékoztató 2.4, Sütitájékoztató 2.2) **már most leírják** a mérést,
+tehát az azonosító beírásán kívül nincs más teendőd.
+
+A Google Analytics felületén két dolgot állíts be, hogy a valóság
+megegyezzen a tájékoztatóval:
+
+1. **Adatmegőrzés 14 hónapra** (Adminisztrálás → Adatbeállítások →
+   Adatmegőrzés). Ha ettől eltérsz, az `adatkezeles.html` 2.4 pontját
+   és a `sutik.html` 2.2 pontját is javítsd.
+2. **Google-jelzések (Google Signals) kikapcsolva.** A mérőkód oldalról
+   is letiltja, de a fiók szintjén is legyen kikapcsolva.
 
 Mentés után futtasd:
 

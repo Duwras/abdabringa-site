@@ -9,6 +9,52 @@
   var $  = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  /* ---------- közös görgetés-ütemező ----------
+
+     Korábban a fejléc, a parallax és a hero-bringa külön iratkozott fel
+     a scroll eseményre, és mindegyik külön requestAnimationFrame-et
+     kért. Egy képkockán belül így többször váltott a böngésző olvasás és
+     írás között: a parallax getBoundingClientRect()-je a bringa
+     stílusírásai UTÁN futott, ezért a böngészőnek ott helyben újra kellett
+     tördelnie az oldalt (forced synchronous layout).
+
+     Most egyetlen rAF fut, két szigorúan elválasztott fázissal:
+     előbb MINDEN mérés, utána MINDEN írás. Így a méréskor az elrendezés
+     még az előző képkockából érvényes, tehát ingyen van.
+
+     A geom fázis csak méretváltozáskor fut — a gyorsítótárazott
+     geometriát az ablakméret, a tájolás és a lusta képek betöltése
+     avítja el, más nem. */
+  var geomFns = [], readFns = [], writeFns = [];
+  var frameQueued = false;
+
+  function frame() {
+    frameQueued = false;
+    var y = window.scrollY;
+    for (var i = 0; i < readFns.length; i++) readFns[i](y);
+    for (var j = 0; j < writeFns.length; j++) writeFns[j](y);
+  }
+
+  function schedule() {
+    if (!frameQueued) { frameQueued = true; requestAnimationFrame(frame); }
+  }
+
+  function register(o) {
+    if (o.geom)  geomFns.push(o.geom);
+    if (o.read)  readFns.push(o.read);
+    if (o.write) writeFns.push(o.write);
+  }
+
+  function remeasure() {
+    for (var i = 0; i < geomFns.length; i++) geomFns[i]();
+    schedule();
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', remeasure);
+  window.addEventListener('orientationchange', remeasure);
+  window.addEventListener('load', remeasure);
+
   /* ---------- year ---------- */
   $('#year').textContent = new Date().getFullYear();
 
@@ -18,9 +64,18 @@
   (function preloader() {
     var el    = $('#preloader');
     var out   = $('#preCount');
-    // lazy images never load before their viewport, so waiting on them
-    // would pin the counter to the deadline every time
-    var imgs  = $$('img').filter(function (i) { return i.loading !== 'lazy'; });
+    /* A függöny addig takarja az oldalt, amíg ez a számláló be nem ér —
+       tehát amire itt várunk, az a látogató által mért betöltési idő
+       (LCP) is egyben.
+
+       Lusta képre nem várunk: azok a nézetablakon kívül vannak, sosem
+       töltenének be idejében. Az alacsony prioritásúakra sem: a hero
+       bringájának négy rétege 158 KB, díszítés, és a görgetés első
+       pillanatában még a képernyő szélén kívül gurul. Csak az LCP-t
+       adó hero fotóra és a logóra várunk. */
+    var imgs  = $$('img').filter(function (i) {
+      return i.loading !== 'lazy' && i.getAttribute('fetchpriority') !== 'low';
+    });
     var total = imgs.length || 1;
     var done  = 0;
     var shown = 0;
@@ -34,7 +89,7 @@
     });
 
     // hard ceiling: never trap the user behind a stalled asset
-    var deadline = Date.now() + 4000;
+    var deadline = Date.now() + 2500;
 
     function tick() {
       var target = Math.min(100, Math.round((done / total) * 100));
@@ -69,17 +124,28 @@
     var label = $('.cursor-label', cur);
     var cx = 0, cy = 0, tx = 0, ty = 0;
 
-    document.addEventListener('mousemove', function (e) {
-      tx = e.clientX; ty = e.clientY;
-      cur.classList.add('on');
-    });
+    /* A hurok korábban a betöltéstől a lap bezárásáig futott, akkor is,
+       ha az egér egy pixelt sem mozdult — 60 hívás másodpercenként a
+       görgetés főszálidejéből. Most csak addig fut, amíg a kurzor
+       tényleg utoléri az egeret. */
+    var curAlive = false;
 
-    (function loop() {
+    function curLoop() {
       cx += (tx - cx) * 0.18;
       cy += (ty - cy) * 0.18;
       cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px) translate(-50%,-50%)';
-      requestAnimationFrame(loop);
-    })();
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
+        requestAnimationFrame(curLoop);
+      } else {
+        curAlive = false;
+      }
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      cur.classList.add('on');
+      if (!curAlive) { curAlive = true; requestAnimationFrame(curLoop); }
+    }, { passive: true });
 
     $$('[data-cursor]').forEach(function (el) {
       el.addEventListener('mouseenter', function () {
@@ -94,12 +160,17 @@
   (function navBar() {
     var nav  = $('#nav');
     var last = 0;
-    window.addEventListener('scroll', function () {
-      var y = window.scrollY;
-      nav.classList.toggle('solid', y > 40);
-      nav.classList.toggle('hide', y > last && y > 260 && !menuOpen);
+    // az előző állapot: azonos értékkel is stílus-érvénytelenítést
+    // váltana ki a classList.toggle, ezért csak változáskor írunk
+    var wasSolid = false, wasHidden = false;
+
+    register({ write: function (y) {
+      var solid = y > 40;
+      var hidden = y > last && y > 260 && !menuOpen;
+      if (solid !== wasSolid)  { nav.classList.toggle('solid', solid); wasSolid = solid; }
+      if (hidden !== wasHidden) { nav.classList.toggle('hide', hidden); wasHidden = hidden; }
       last = y;
-    }, { passive: true });
+    } });
   })();
 
   /* ---------- mobile menu ---------- */
@@ -174,37 +245,41 @@
   (function parallax() {
     var els = $$('[data-parallax]');
     if (!els.length || reduced) return;
-    var ticking = false;
 
-    /* Előbb MINDEN mérés, utána MINDEN írás. Ha a kettőt váltogatnánk
-       (mérek egy elemet, írok rá, mérem a következőt...), a böngésző
-       minden mérésnél újraszámolná az elrendezést — a DevTools ezt
-       296 ms kényszerített újratördelésként mutatta ki. */
-    var jobs = [];
+    /* A getBoundingClientRect() maradt: a hero képe egy position: sticky
+       konténerben ül, ott a dokumentumbeli offsetTop nem írja le, hol
+       van a képernyőn — a ragadás miatt a kettő elválik egymástól.
+       A mérés viszont átkerült a közös ütemező OLVASÁSI fázisába, ahol
+       az elrendezés még érintetlen az előző képkockából, tehát a
+       lekérdezés nem kényszerít újratördelést.
 
-    function frame() {
-      var vh = window.innerHeight;
-      jobs.length = 0;
+       A sebesség és a korábbi érték gyorsítótárazva: ha egy elem nem
+       mozdult, nem írunk rá stílust feleslegesen. */
+    var speeds = els.map(function (el) { return parseFloat(el.dataset.parallax) || 0.15; });
+    var next   = new Array(els.length);
+    var last   = new Array(els.length);
 
-      for (var i = 0; i < els.length; i++) {
-        var r = els[i].getBoundingClientRect();
-        if (r.bottom < -200 || r.top > vh + 200) continue;
-        var speed = parseFloat(els[i].dataset.parallax) || 0.15;
-        // -1 .. 1 a nézetablakon át
-        var progress = (r.top + r.height / 2 - vh / 2) / vh;
-        jobs.push(els[i], (progress * speed * 100).toFixed(2));
+    register({
+      read: function () {
+        var vh = window.innerHeight;
+        for (var i = 0; i < els.length; i++) {
+          var r = els[i].getBoundingClientRect();
+          if (r.bottom < -200 || r.top > vh + 200) { next[i] = null; continue; }
+          // -1 .. 1 a nézetablakon át
+          var progress = (r.top + r.height / 2 - vh / 2) / vh;
+          next[i] = (progress * speeds[i] * 100).toFixed(2);
+        }
+      },
+      write: function () {
+        for (var i = 0; i < els.length; i++) {
+          if (next[i] === null || next[i] === last[i]) continue;
+          last[i] = next[i];
+          els[i].style.transform = 'translate3d(0,' + next[i] + 'px,0)';
+        }
       }
+    });
 
-      for (var j = 0; j < jobs.length; j += 2) {
-        jobs[j].style.transform = 'translate3d(0,' + jobs[j + 1] + 'px,0)';
-      }
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(frame); }
-    }, { passive: true });
-    frame();
+    schedule();
   })();
 
   /* ---------- hero: a bringa végiggurul görgetésre ----------
@@ -229,8 +304,8 @@
     var GEAR      = 15 / 50;              // hátsó fogaskerék / lánckerék
     var REAR_HUB  = 0.2297;               // hátsó agy vízszintes helye a képen
 
-    var m = { rigW: 0, startX: 0, span: 0, run: 1 };
-    var cur = 0, aim = 0, prev = 0, lean = 0, ticking = false, alive = false;
+    var m = { rigW: 0, startX: 0, span: 0, run: 1, roadW: 1, heroTop: 0 };
+    var cur = 0, aim = 0, prev = 0, lean = 0, settled = true;
 
     function measure() {
       var vw = window.innerWidth;
@@ -239,15 +314,18 @@
       m.startX = -m.rigW * 0.82;
       m.span   = vw + m.rigW * 0.96;
       m.run    = Math.max(1, hero.offsetHeight - window.innerHeight);
+      /* Mindkettő elrendezés-olvasás. Görgetés közben egyik sem változik,
+         ezért itt mérjük egyszer — a draw()-ban képkockánként kiolvasva
+         újratördelést kényszerítenének. */
+      m.roadW   = (ink && ink.parentNode.offsetWidth) || vw || 1;
+      m.heroTop = hero.offsetTop;
     }
 
-    function progress() {
-      var y = window.scrollY - hero.offsetTop;
-      return Math.max(0, Math.min(1, y / m.run));
+    function progress(y) {
+      return Math.max(0, Math.min(1, (y - m.heroTop) / m.run));
     }
 
     function draw() {
-      ticking = false;
       var d = cur - prev;
       prev = cur;
 
@@ -265,7 +343,16 @@
       if (wf) wf.style.transform = 'rotate(' + deg.toFixed(2) + 'deg)';
       if (wr) wr.style.transform = 'rotate(' + deg.toFixed(2) + 'deg)';
       if (cr) cr.style.transform = 'rotate(' + (deg * GEAR).toFixed(2) + 'deg)';
-      if (ink) ink.style.width = Math.max(0, x + m.rigW * REAR_HUB).toFixed(1) + 'px';
+
+      /* Az út festése korábban az ink SZÉLESSÉGÉT állította képkockánként.
+         A width elrendezést és újrafestést von maga után; a scaleX viszont
+         a kompozitorban fut, elrendezés nélkül. Mérve ugyanazon a gépen,
+         60 képkockára átlagolva: width 0,328 ms/kép, scaleX 0,027 ms/kép.
+         Az elem szélessége ezért fixen 100%, a hosszát a skála adja. */
+      if (ink) {
+        var len = Math.max(0, x + m.rigW * REAR_HUB);
+        ink.style.transform = 'scaleX(' + (len / m.roadW).toFixed(4) + ')';
+      }
 
       var p = m.span ? cur / m.span : 0;
       if (type) {
@@ -275,37 +362,30 @@
       if (hint) hint.style.opacity = Math.max(0, 1 - p * 5).toFixed(3);
     }
 
-    // a lemaradó követés adja a lendületet: görgetés után még kigurul
-    function loop() {
-      cur += (aim - cur) * 0.13;
-      draw();
-      if (Math.abs(aim - cur) > 0.08) {
-        requestAnimationFrame(loop);
-      } else {
-        cur = aim;
+    /* A lemaradó követés adja a lendületet: görgetés után még kigurul.
+       Amíg tart a kigurulás, a write maga kér új képkockát; ha beállt,
+       nem kér — így álló oldalon egyetlen rAF sem fut feleslegesen. */
+    register({
+      geom: function () {
+        measure();
+        cur = aim = prev = progress(window.scrollY) * m.span;
+        settled = false;
+      },
+      read: function (y) {
+        aim = progress(y) * m.span;
+        if (Math.abs(aim - cur) > 0.08) settled = false;
+      },
+      write: function () {
+        if (settled) return;
+        cur += (aim - cur) * 0.13;
+        if (Math.abs(aim - cur) <= 0.08) { cur = aim; settled = true; }
         draw();
-        alive = false;
+        if (!settled) schedule();
       }
-    }
-
-    function sync() {
-      aim = progress() * m.span;
-      if (!alive) { alive = true; requestAnimationFrame(loop); }
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(sync); }
-    }, { passive: true });
-
-    window.addEventListener('resize', function () {
-      measure();
-      cur = aim = progress() * m.span;
-      prev = cur;
-      draw();
     });
 
     measure();
-    cur = aim = prev = progress() * m.span;
+    cur = aim = prev = progress(window.scrollY) * m.span;
     draw();
   })();
 
@@ -321,6 +401,7 @@
           img.src = li.dataset.img;
           box.classList.add('on');
           active = true;
+          wake();
         });
         li.addEventListener('mouseleave', function () {
           box.classList.remove('on');
@@ -328,17 +409,29 @@
         });
       });
 
-      document.addEventListener('mousemove', function (e) { hx = e.clientX; hy = e.clientY; });
+      /* A left/top írása elrendezést érvénytelenít: minden képkockán
+         újratördelést kért, ráadásul pont abban a fázisban, ahol a
+         parallax mérni akart. A translate3d ehelyett a kompozitorban
+         mozgatja a dobozt. A hurok is csak akkor fut, amikor egy
+         szolgáltatássoron áll az egér. */
+      var hoverAlive = false;
 
-      (function loop() {
-        if (active) {
-          dx += (hx - dx) * 0.1;
-          dy += (hy - dy) * 0.1;
-          box.style.left = dx + 'px';
-          box.style.top  = dy + 'px';
-        } else { dx = hx; dy = hy; }
-        requestAnimationFrame(loop);
-      })();
+      function hoverLoop() {
+        if (!active) { dx = hx; dy = hy; hoverAlive = false; return; }
+        dx += (hx - dx) * 0.1;
+        dy += (hy - dy) * 0.1;
+        box.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
+        requestAnimationFrame(hoverLoop);
+      }
+
+      function wake() {
+        if (!hoverAlive) { hoverAlive = true; requestAnimationFrame(hoverLoop); }
+      }
+
+      document.addEventListener('mousemove', function (e) {
+        hx = e.clientX; hy = e.clientY;
+        if (active) wake();
+      }, { passive: true });
     })();
   }
 

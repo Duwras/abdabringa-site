@@ -378,8 +378,14 @@
     <!-- Az egérrel együtt mozgó előnézet: a képet a script.js tölti be.
          Az src szándékosan hiányzik — üres src= esetén a böngésző a
          dokumentum saját URL-jét kérné le még egyszer. -->
+    <!-- Két réteg: a külsőt a JS mozgatja képkockánként (transform,
+         átmenet nélkül), a belső viszi a megjelenő/eltűnő animációt.
+         Egy elemen a kettő ütközne: a mozgatás minden képkockán
+         újraindítaná a transform-átmenetet. -->
     <div class="svc-hover" id="svcHover" aria-hidden="true">
-      <img alt="" width="300" height="380" loading="lazy" decoding="async">
+      <div class="svc-hover-in">
+        <img alt="" width="300" height="380" loading="lazy" decoding="async">
+      </div>
     </div>
   </section>
 

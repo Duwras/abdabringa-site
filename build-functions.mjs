@@ -137,6 +137,27 @@ for (const rule of IMG_RULES) {
    számolt rövid hash kerül. Ha a fájl változik, változik az URL is,
    tehát a böngésző biztosan újat tölt. Ha nem változik, marad a
    gyorsítótárban. Kézzel semmit nem kell verziózni. */
+/* A cégadatok EGY helyen élnek: ceg-adatok.json. Innen kerülnek a
+   {{kulcs}} helyekre az impresszumban és a tájékoztatókban, hogy ne
+   kelljen három fájlban külön karbantartani őket. */
+const CEG = JSON.parse(readFileSync('ceg-adatok.json', 'utf8'));
+CEG.telefonHivas = CEG.telefon.replace(/\s+/g, '');
+
+/* A GA4 mérőazonosító a consent.js-be kerül, nem a HTML-be — a mérést
+   ugyanis a hozzájárulás-kezelő indítja, más nem nyúl hozzá.
+
+   A behelyettesítésnek a hash-számítás ELŐTT kell megtörténnie: a
+   gyorsítótár-törő bélyeg a kiszolgált fájl tartalmából számol. Ha
+   utólag írnánk bele az azonosítót, a bélyeg változatlan maradna, és
+   a visszatérő látogató a régi, mérő nélküli consent.js-t kapná. */
+{
+  const path = `${OUT}/consent.js`;
+  writeFileSync(
+    path,
+    readFileSync(path, 'utf8').split('{{gaId}}').join(CEG.gaId || '')
+  );
+}
+
 const VERSIONED = [
   'style.css', 'admin.css', 'jogi.css', 'fonts.css',
   'script.js', 'admin.js', 'consent.js',
@@ -153,12 +174,6 @@ const PAGES = [
   'index.html', 'admin.html', '404.html',
   'impresszum.html', 'adatkezeles.html', 'sutik.html'
 ];
-
-/* A cégadatok EGY helyen élnek: ceg-adatok.json. Innen kerülnek a
-   {{kulcs}} helyekre az impresszumban és a tájékoztatókban, hogy ne
-   kelljen három fájlban külön karbantartani őket. */
-const CEG = JSON.parse(readFileSync('ceg-adatok.json', 'utf8'));
-CEG.telefonHivas = CEG.telefon.replace(/\s+/g, '');
 
 const missing = Object.entries(CEG)
   .filter(([, v]) => typeof v === 'string' && v.startsWith('[KITÖLTENDŐ'))

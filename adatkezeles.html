@@ -74,9 +74,10 @@
     <h2>Röviden</h2>
     <ul>
       <li>A weboldal böngészéséhez <strong>nem kell semmilyen adatot megadnod</strong>.</li>
-      <li>Nem használunk látogatottságmérőt, hirdetési követőkódot vagy profilalkotást.</li>
-      <li>Adatot csak akkor kapunk, ha <strong>te írsz nekünk</strong> a kapcsolati űrlapon.</li>
-      <li>A térkép és minden más külső tartalom csak a <strong>hozzájárulásod után</strong> töltődik be.</li>
+      <li>Hirdetési követőkódot és profilalkotást nem használunk, adatot nem adunk el.</li>
+      <li>Adatot csak akkor kapunk közvetlenül tőled, ha <strong>te írsz nekünk</strong> a kapcsolati űrlapon.</li>
+      <li>A térkép és a látogatottságmérés <strong>alapból ki van kapcsolva</strong>, és csak a hozzájárulásod után, külön-külön indul el.</li>
+      <li>A hozzájárulásod <strong>bármikor, egy kattintással visszavonható</strong>.</li>
     </ul>
   </div>
 
@@ -132,6 +133,35 @@
     rajtuk, és a képekhez nem tartozik korábbi tulajdonosra utaló információ.
   </p>
 
+  <h3>2.4 Látogatottságmérés (Google Analytics 4)</h3>
+  <table class="doc-table">
+    <tbody>
+      <tr><th>Kezelt adatok</th><td>Csonkolt IP-cím, a megnyitott oldalak címe és megnyitásuk időpontja, a látogatás hossza, a hivatkozó oldal (honnan érkeztél), hozzávetőleges földrajzi hely város szintjén, eszköz-, böngésző- és képernyőtípus, valamint a böngésződben tárolt véletlenszerű azonosító (<code>_ga</code> süti)</td></tr>
+      <tr><th>Az adatkezelés célja</th><td>Annak megismerése, hányan látogatják a weboldalt, mely oldalak és szolgáltatások érdeklik a látogatókat, és honnan érkeznek. Ebből döntjük el, mit érdemes bővíteni vagy egyszerűsíteni az oldalon.</td></tr>
+      <tr><th>Jogalap</th><td><strong>Hozzájárulás</strong> — GDPR 6. cikk (1) a) pont, valamint az Eht. 155. § (4) bekezdése a végberendezésen tárolt adatokhoz való hozzáférésre. A mérés alapértelmezésben <strong>ki van kapcsolva</strong>: a mérőkód addig be sem kerül az oldalba, amíg a hozzájárulási sávon kifejezetten engedélyt nem adsz rá. A hozzájárulás megtagadása semmilyen hátránnyal nem jár — a weboldal minden funkciója ugyanúgy használható.</td></tr>
+      <tr><th>Megőrzési idő</th><td>A Google-nál beállított megőrzési idő <strong>14 hónap</strong>, ezt követően az eseményszintű adatok automatikusan törlődnek. A böngésződben tárolt <code>_ga</code> sütik élettartama 2 év, de a hozzájárulás visszavonásakor ezeket töröljük.</td></tr>
+      <tr><th>Adatszolgáltatás módja</th><td>Teljesen önkéntes. Ha nem járulsz hozzá, a mérés nem indul el.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    A mérőkódot a lehető legszűkebbre állítjuk be: a <strong>hirdetési
+    adatgyűjtés</strong>, a <strong>hirdetésszemélyre-szabás</strong> és a
+    <strong>Google Signals</strong> (a Google-fiókok közötti,
+    eszközökön átívelő összekapcsolás) mind ki van kapcsolva, demográfiai
+    riportokat nem kérünk le. A látogatottsági adatokat semmilyen más
+    adattal — így a kapcsolati űrlapon megadott adataiddal — sem kapcsoljuk
+    össze, és nem készítünk belőlük profilt.
+  </p>
+  <p>
+    A hozzájárulásod bármikor visszavonhatod a
+    <a href="sutik.html">Sütik és tárolt adatok</a> oldal 4. pontjában
+    található gombbal, vagy a weboldal láblécében a
+    <em>„Sütibeállítások"</em> hivatkozásra kattintva. A visszavonás után a
+    mérőkód azonnal leáll, és a <code>_ga</code> kezdetű sütiket töröljük a
+    böngésződből. A visszavonás nem érinti a visszavonás előtti adatkezelés
+    jogszerűségét.
+  </p>
+
   <h2>3. Kinek adjuk tovább az adatokat</h2>
   <p>
     Az adataidat <strong>nem adjuk el, nem adjuk bérbe és nem használjuk
@@ -160,22 +190,37 @@
         <td>Google Térkép beágyazás — <strong>csak akkor, ha ezt külön elfogadod</strong></td>
         <td>IP-cím, böngészőadatok, a Google saját sütijei</td>
       </tr>
+      <tr>
+        <td><strong>Google Ireland Limited</strong><br>Gordon House, Barrow Street,<br>Dublin 4, Írország<br>(adattovábbítás: Google LLC, USA)</td>
+        <td>Google Analytics 4 látogatottságmérés — <strong>csak akkor, ha ezt külön elfogadod</strong></td>
+        <td>Csonkolt IP-cím, megnyitott oldalak, hivatkozó oldal, eszköz- és böngészőadatok, a <code>_ga</code> sütik azonosítója</td>
+      </tr>
     </tbody>
   </table>
+  <p class="doc-note">
+    A Google Térkép és a Google Analytics <strong>két külön cél</strong>:
+    a hozzájárulási sávon egymástól függetlenül engedélyezhetők, és
+    bármelyik önmagában is elutasítható.
+  </p>
 
   <h3>3.2 Adattovábbítás az Európai Unión kívülre</h3>
   <p>
     A tárhelyszolgáltató (GitHub) és az űrlaptovábbító szolgáltatás
     (Web3Forms) szerverei az <strong>Amerikai Egyesült Államokban</strong>
     vannak, a Web3Forms üzemeltetője pedig <strong>indiai</strong> vállalkozás.
-    Ez azt jelenti, hogy az űrlapon megadott adataid elhagyják az Európai
-    Gazdasági Térséget.
+    A <strong>Google Analytics</strong> esetében az adatkezelő az írországi
+    Google Ireland Limited, de az adatot a <strong>Google LLC</strong>
+    amerikai szervereinek is továbbítja. Ez azt jelenti, hogy az űrlapon
+    megadott adataid és — ha hozzájárulsz — a látogatottsági adatok is
+    elhagyják az Európai Gazdasági Térséget.
   </p>
   <p>
     Az Egyesült Államok esetében az Európai Bizottság
     <strong>2023. július 10-i megfelelőségi határozata</strong> (EU–USA
     adatvédelmi keret) ad jogalapot, amennyiben a fogadó fél a keret
-    résztvevője. Az ezen kívüli továbbításokra a
+    résztvevője. A <strong>Google LLC</strong> a keret tanúsított
+    résztvevője, tehát a Google Analytics adattovábbítására ez a
+    megfelelőségi határozat vonatkozik. Az ezen kívüli továbbításokra a
     <strong>GDPR 49. cikk (1) a) pontja</strong> szerinti
     <strong>kifejezett hozzájárulásod</strong> az alapunk — ezért kéri az űrlap
     külön jelölőnégyzettel a beleegyezésedet, és ezért írjuk le itt, hogy az
@@ -198,10 +243,12 @@
 
   <h2>4. Sütik és a böngésződben tárolt adatok</h2>
   <p>
-    A weboldal saját sütit nem használ. Egyetlen adatot tárolunk a
-    böngésződben: a hozzájárulási sávon adott válaszodat, hogy ne kérdezzünk
-    rá újra. Részletek a
-    <a href="sutik.html">Sütik és tárolt adatok</a> oldalon.
+    A weboldal a saját működéséhez sütit nem használ — egyetlen adatot tárol
+    magától: a hozzájárulási sávon adott válaszodat, hogy ne kérdezzünk rá
+    újra. Sütit csak a hozzájárulásoddal betöltött szolgáltatások helyeznek
+    el: a Google Térkép és a Google Analytics. A teljes lista, a sütik neve,
+    célja és élettartama a
+    <a href="sutik.html">Sütik és tárolt adatok</a> oldalon található.
   </p>
 
   <h2>5. Milyen jogaid vannak</h2>

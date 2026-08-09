@@ -246,9 +246,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   position: absolute; left: 0; right: 0; top: 50%;
   height: 2px; background: var(--line-soft);
 }
+/* A hosszát a JS a transform: scaleX()-szel állítja, nem a width-tel:
+   a width minden képkockán újratördelést és újrafestést kért, a
+   skálázás viszont a kompozitorban fut. Ezért a szélesség fix 100%,
+   és a bal élhez van rögzítve az origó. */
 .road-ink {
   position: absolute; left: 0; top: 0; height: 100%;
-  width: 0;
+  width: 100%;
+  transform: scaleX(0); transform-origin: left center;
+  will-change: transform;
   background: linear-gradient(90deg, rgba(255,92,26,0) 0%, rgba(255,92,26,.55) 45%, var(--accent) 100%);
   box-shadow: 0 0 22px rgba(255, 92, 26, .55);
 }
@@ -266,18 +272,32 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   margin-top: calc(var(--rb-w) * -0.5909);
   left: 0;
   will-change: transform;
-  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .55));
 }
 .rb { position: absolute; inset: 0; width: 100%; height: 100%; }
-.rb-wf { transform-origin: 77.027% 65.568%; }
-.rb-wr { transform-origin: 22.973% 65.568%; }
-.rb-cr { transform-origin: 45.135% 71.189%; }
+
+/* A vetett árnyék korábban a .ride-bike-on ült, azaz a KONTÉNEREN.
+   A drop-shadow a teljes részfa együttes körvonalából számol, a
+   részfában viszont három réteg forog képkockánként — a böngészőnek
+   így minden képkockán újra kellett raszterizálnia az egész rigget és
+   újraszámolnia az árnyékot.
+
+   Most a váz rétege viszi az árnyékot. Az soha nem forog, csak a
+   szülővel együtt tolódik, tehát a raszterizált eredménye újra-
+   felhasználható. A kerekek árnyéka elmarad — kör alakú, forgás közben
+   a sziluettje amúgy sem változott, a vázé adja a látható mélységet. */
+.rb-body { filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .55)); }
+
+/* A három forgó réteg saját kompozitor-rétegre kerül, így a forgás nem
+   festi újra a szomszédait. */
+.rb-wf { transform-origin: 77.027% 65.568%; will-change: transform; }
+.rb-wr { transform-origin: 22.973% 65.568%; will-change: transform; }
+.rb-cr { transform-origin: 45.135% 71.189%; will-change: transform; }
 .ride-bike, .rb { backface-visibility: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero { height: 100svh; }
   .ride-bike { transform: translate3d(22vw, 0, 0); }
-  .road-ink { width: 38%; }
+  .road-ink { transform: scaleX(.38); }
 }
 .hero-media {
   position: absolute; inset: -12% 0 -12%; z-index: -2;
@@ -294,7 +314,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     radial-gradient(120% 90% at 80% 10%, rgba(255,92,26,.18), transparent 62%);
 }
 
-.hero-type { margin-bottom: clamp(28px, 6vh, 60px); }
+/* A JS görgetéskor a transformját és az opacityjét írja — mindkettő
+   kompozitor-tulajdonság, de csak akkor, ha az elem saját rétegen van. */
+.hero-type { margin-bottom: clamp(28px, 6vh, 60px); will-change: transform, opacity; }
 
 .giant {
   font-family: var(--display);
@@ -363,9 +385,17 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 .hero-stats { display: flex; gap: clamp(22px, 4vw, 52px); }
 .hero-stats div { display: flex; flex-direction: column; gap: 1px; }
+/* A számláló 0-ról fut fel (pl. 0 -> 265). Ahogy nő a számjegyek száma,
+   az elem szélesedne, és odébb tolná a mellette álló statisztikákat —
+   ez elrendezés-elmozdulás (CLS) a hero alján, pont a betöltés utáni
+   másodpercben. A tabular-nums azonos szélességű számjegyeket ad, a
+   min-width pedig már az induló „0"-nál lefoglalja a három számjegy
+   helyét, így semmi nem mozdul. */
 .hero-stats b {
   font-family: var(--display); font-size: clamp(1.5rem, 3.2vw, 2.4rem);
   line-height: 1; font-weight: 400;
+  display: inline-block; min-width: 3ch;
+  font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
 }
 .hero-stats em {
   font-family: var(--mono); font-size: .6rem; font-style: normal;
@@ -465,15 +495,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 /* hover image reveal (desktop only) */
+/* A külső doboz csak pozicionál — ezt írja a JS képkockánként, ezért
+   nincs rajta transition. A belső viszi a megjelenést. */
 .svc-hover {
   position: fixed; top: 0; left: 0; z-index: 400;
   width: 300px; height: 380px;
-  pointer-events: none; overflow: hidden; border-radius: 4px;
+  pointer-events: none;
+  display: none;
+  will-change: transform;
+}
+.svc-hover-in {
+  width: 100%; height: 100%;
+  overflow: hidden; border-radius: 4px;
   opacity: 0; transform: translate(-50%, -50%) scale(.9);
   transition: opacity .4s var(--ease), transform .55s var(--ease-out);
-  display: none;
 }
-.svc-hover.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.svc-hover.on .svc-hover-in { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .svc-hover img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ============ ABOUT ============ */
@@ -812,6 +849,40 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .consent-text strong { color: var(--ink); font-weight: 600; }
 
+/* ---- kapcsolók a sávon ----
+   Minden cél külön kapcsolható, és mind kikapcsolva indul. Az input
+   nincs elrejtve: a natív jelölőnégyzet billentyűzettel és
+   képernyőolvasóval is működik, a <label> pedig a teljes szöveget
+   kattinthatóvá teszi. */
+.consent-opts {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-soft); border-radius: 4px;
+  background: rgba(11, 11, 12, .45);
+}
+.consent-opt {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 11px; align-items: start;
+  cursor: pointer;
+}
+.consent-opt input {
+  width: 17px; height: 17px; margin: 2px 0 0;
+  accent-color: var(--accent);
+  flex: none; cursor: pointer;
+}
+.consent-opt-txt { display: block; }
+.consent-opt-txt strong {
+  display: block; color: var(--ink);
+  font-size: .84rem; font-weight: 600;
+}
+.consent-opt-txt em {
+  display: block; margin-top: 2px;
+  color: var(--ink-dim); font-style: normal;
+  font-size: .78rem; line-height: 1.5;
+}
+.consent-opt:hover .consent-opt-txt strong { color: var(--accent); }
+
 .consent-links { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
 .consent-links a {
   font-family: var(--mono); font-size: .66rem;
@@ -826,8 +897,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
    ugyanolyan könnyűnek kell lennie, mint az elfogadásnak, különben
    a hozzájárulás nem önkéntes, tehát érvénytelen. */
 .consent-actions {
-  display: flex; gap: 10px; flex-wrap: wrap;
-  flex: 0 1 auto;
+  display: flex; flex-direction: column; gap: 10px;
+  flex: 0 1 auto; min-width: 220px;
 }
 .consent-btn {
   font: inherit; font-size: .84rem; font-weight: 600;
@@ -843,10 +914,19 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .consent-yes:hover { background: #ff7038; border-color: #ff7038; }
 .consent-no { background: transparent; color: var(--ink); }
 .consent-no:hover { border-color: var(--ink); background: rgba(242,239,233,.06); }
+/* A „kiválasztottak mentése" halkabb, mert nem önálló válasz: a fenti
+   kapcsolók állását rögzíti. Az elfogadás és az elutasítás — a két
+   valódi válasz — marad azonos súlyú. */
+.consent-save {
+  background: transparent; color: var(--ink-dim);
+  border-color: var(--line-soft); font-weight: 500;
+}
+.consent-save:hover { color: var(--ink); border-color: var(--line); }
 
 @media (max-width: 640px) {
   .consent-actions { width: 100%; }
-  .consent-btn { flex: 1 1 0; padding: 14px 12px; }
+  .consent-btn { padding: 14px 12px; }
+  .consent-box { max-height: 82svh; overflow-y: auto; }
 }
 
 /* ============ FOOTER ============ */

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sütik és tárolt adatok — Bringázol¿ Kerékpárműhely, Abda</title>
-<meta name="description" content="A Bringázol¿ abdai kerékpárműhely weboldala saját sütit nem használ, látogatottságot nem mér. Mit tárolunk, és hogyan vonhatod vissza a hozzájárulást.">
+<meta name="description" content="Milyen sütiket használ a Bringázol¿ abdai kerékpárműhely weboldala, mit mérünk a látogatottságból, és hogyan kapcsolhatod ki vagy vonhatod vissza bármikor.">
 <link rel="canonical" href="https://{{domain}}/sutik.html">
 <meta name="robots" content="index, follow, max-snippet:-1">
 <meta name="author" content="Bringázol¿ Kerékpárműhely">
@@ -16,7 +16,7 @@
 <meta property="og:locale" content="hu_HU">
 <meta property="og:url" content="https://{{domain}}/sutik.html">
 <meta property="og:title" content="Sütik és tárolt adatok — Bringázol¿ Kerékpárműhely, Abda">
-<meta property="og:description" content="Saját süti nincs, látogatottságmérő nincs. Egyetlen dolgot tárolunk: a hozzájárulási sávon adott válaszodat.">
+<meta property="og:description" content="A térkép és a látogatottságmérés is alapból ki van kapcsolva, és külön-külön engedélyezhető. Amíg nem engeded, egyetlen kérés sem indul a Google felé.">
 <meta property="og:image" content="https://{{domain}}/img/hero-muhely.jpg">
 <meta property="og:image:width" content="849">
 <meta property="og:image:height" content="846">
@@ -26,7 +26,7 @@
 <!-- ============ TWITTER / X ============ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sütik és tárolt adatok — Bringázol¿ Kerékpárműhely, Abda">
-<meta name="twitter:description" content="Saját süti nincs, látogatottságmérő nincs. Csak a hozzájárulási válaszodat tároljuk.">
+<meta name="twitter:description" content="A térkép és a látogatottságmérés is alapból kikapcsolva, külön-külön engedélyezhető. Bármikor visszavonható.">
 <meta name="twitter:image" content="https://{{domain}}/img/hero-muhely.jpg">
 <meta name="twitter:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
 
@@ -71,10 +71,11 @@
   <div class="doc-tldr">
     <h2>Röviden</h2>
     <ul>
-      <li>Ez a weboldal <strong>saját sütit nem használ</strong>.</li>
-      <li>Nincs látogatottságmérő, nincs hirdetési követőkód, nincs profilalkotás.</li>
-      <li>Egyetlen dolgot tárolunk: <strong>a hozzájárulási sávon adott válaszodat</strong>.</li>
-      <li>A Google Térkép sütijei csak akkor kerülnek a gépedre, ha <strong>rákattintasz a térkép megjelenítésére</strong>.</li>
+      <li>Ez a weboldal <strong>a saját működéséhez egyetlen sütit sem használ</strong>.</li>
+      <li>Két dologra kérünk engedélyt, külön-külön: a <strong>Google Térkép</strong> beágyazására és a <strong>látogatottság mérésére</strong>. Mindkettő alapból ki van kapcsolva.</li>
+      <li>Amíg nem engeded, <strong>egyetlen kérés sem indul</strong> a Google felé — se térkép, se mérőkód.</li>
+      <li>A mérésből azt látjuk, <strong>hányan jártak az oldalon és mit néztek</strong>. Téged személy szerint nem azonosítunk, és hirdetést nem futtatunk.</li>
+      <li>A döntésed bármikor megváltoztathatod, lent a 4. pontnál.</li>
     </ul>
   </div>
 
@@ -87,7 +88,7 @@
       <tr>
         <td><code>bringazol-consent</code></td>
         <td>localStorage<br>(nem süti)</td>
-        <td>Megjegyzi, hogy elfogadtad vagy elutasítottad a külső tartalmakat, hogy ne kérdezzünk rá minden oldalbetöltéskor</td>
+        <td>Megjegyzi, mire mondtál igent és mire nemet a hozzájárulási sávon (térkép, mérés), hogy ne kérdezzünk rá minden oldalbetöltéskor</td>
         <td>12 hónap, utána újra rákérdezünk</td>
       </tr>
       <tr>
@@ -106,13 +107,20 @@
   </p>
 
   <h2>2. Amit csak a hozzájárulásoddal töltünk be</h2>
+  <p>
+    A hozzájárulási sávon a két cél <strong>külön-külön kapcsolható</strong>.
+    Igent mondhatsz csak az egyikre, és bármelyiket elutasíthatod anélkül,
+    hogy az oldal bármely része használhatatlan lenne.
+  </p>
+
+  <h3>2.1 Google Térkép a Kapcsolat szekcióban</h3>
   <table class="doc-table doc-table-wide">
     <thead>
       <tr><th>Szolgáltatás</th><th>Ki üzemelteti</th><th>Mi történik</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Google Térkép</strong><br>(a Kapcsolat szekcióban)</td>
+        <td><strong>Google Térkép</strong> beágyazás</td>
         <td>Google Ireland Limited<br>Gordon House, Barrow Street, Dublin 4, Írország</td>
         <td>A Google megkapja az IP-címedet és a böngésződ adatait, valamint saját sütiket helyezhet el. Ezekre a sütikre nekünk nincs ráhatásunk.</td>
       </tr>
@@ -123,22 +131,65 @@
     látszik — <strong>a Google felé egyetlen kérés sem indul</strong>. A műhely
     címe (<strong>{{telephely}}</strong>) az elfogadástól függetlenül,
     szövegesen mindig olvasható, és a
-    <a href="https://www.google.com/maps?q=B%C3%A9csi+utca+128%2C+9151+Abda" target="_blank" rel="noopener">térkép külön ablakban ↗</a>
+    <a href="https://www.google.com/maps/search/BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda" target="_blank" rel="noopener">térkép külön ablakban ↗</a>
     is megnyitható, ha nem akarod beágyazva.
+  </p>
+
+  <h3>2.2 Látogatottságmérés — Google Analytics 4</h3>
+  <p>
+    Azért mérünk, hogy lássuk, hány látogató jár az oldalon, mely oldalak
+    érdeklik őket, és melyik szolgáltatást keresik a legtöbben. Ebből tudjuk
+    eldönteni, mit érdemes bővíteni vagy egyszerűsíteni. A mérés
+    <strong>nem célzott hirdetéshez</strong> kell — hirdetést nem futtatunk.
+  </p>
+  <table class="doc-table doc-table-wide">
+    <thead>
+      <tr><th>Süti neve</th><th>Ki helyezi el</th><th>Mire való</th><th>Meddig él</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>_ga</code></td>
+        <td rowspan="2">Google Ireland Limited<br>Gordon House, Barrow Street, Dublin 4, Írország</td>
+        <td>Megkülönbözteti egymástól a böngészőket, hogy a visszatérő látogatót ne számoljuk újnak</td>
+        <td>2 év</td>
+      </tr>
+      <tr>
+        <td><code>_ga_&lt;azonosító&gt;</code></td>
+        <td>A látogatás (munkamenet) állapotát tartja nyilván</td>
+        <td>2 év</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="doc-table">
+    <tbody>
+      <tr><th>Mit lát a Google</th><td>Csonkolt IP-cím, a megnyitott oldalak címe, hivatkozó oldal, hozzávetőleges földrajzi hely (város szintjén), eszköz- és böngészőtípus, a látogatás időpontja és hossza</td></tr>
+      <tr><th>Mit NEM kapcsolunk be</th><td>Hirdetési adatgyűjtés, hirdetésszemélyre-szabás és a Google Signals — mindhármat kifejezetten kikapcsoljuk a mérőkód indításakor. Demográfiai riportokat nem kérünk le.</td></tr>
+      <tr><th>Hova kerül az adat</th><td>Az Egyesült Államokba is. Részletek az <a href="adatkezeles.html">Adatkezelési tájékoztató</a> 3.2 pontjában.</td></tr>
+      <tr><th>Meddig őrzi a Google</th><td>Az általunk beállított megőrzési idő: <strong>14 hónap</strong>, utána a Google automatikusan törli az eseményszintű adatokat</td></tr>
+    </tbody>
+  </table>
+  <p class="doc-note">
+    Ha visszavonod a hozzájárulásod, kétféle dolog történik: a mérőkód
+    azonnal leáll (a már betöltött könyvtár sem küld több adatot), és a
+    <code>_ga</code> kezdetű sütiket a böngésződből <strong>töröljük</strong>.
+    A Google-höz addig eljutott adatot viszont mi nem tudjuk visszavonni —
+    ahhoz közvetlenül a Google-t kell megkeresned, vagy élned a
+    tájékoztató 5. pontjában felsorolt jogaiddal.
   </p>
 
   <h2>3. Amit szándékosan NEM használunk</h2>
   <ul class="doc-list">
-    <li><strong>Google Analytics</strong> vagy bármilyen látogatottságmérő — nincs.</li>
-    <li><strong>Facebook / Meta pixel</strong>, hirdetési követőkód — nincs. A Facebook-oldalunkra csak sima link mutat, ami semmit nem tölt be.</li>
+    <li><strong>Facebook / Meta pixel</strong>, hirdetési követőkód, remarketing — nincs. A Facebook-oldalunkra csak sima link mutat, ami semmit nem tölt be.</li>
     <li><strong>Google Fonts a Google szerveréről</strong> — a betűtípusokat a saját szerverünkről szolgáljuk ki, így emiatt sem jut adat a Google-höz.</li>
-    <li><strong>Profilalkotás, automatizált döntéshozatal</strong> — nincs.</li>
+    <li><strong>Profilalkotás, automatizált döntéshozatal</strong> — nincs. A látogatottsági adatokból nem hozunk létre rólad profilt, és nem kapcsoljuk össze semmilyen más adattal.</li>
+    <li><strong>Adateladás, adatátadás hirdetőknek</strong> — nincs.</li>
   </ul>
 
   <h2>4. Hogyan vond vissza a hozzájárulásod</h2>
   <p>
-    A döntésed bármikor megváltoztathatod. Kattints ide, és újra megjelenik a
-    választósáv:
+    A döntésed bármikor megváltoztathatod, és a visszavonás ugyanolyan
+    egyszerű, mint a hozzájárulás volt: egy kattintás. Itt újra megjelenik a
+    választósáv, ahol a két célt külön ki- és bekapcsolhatod:
   </p>
   <p>
     <button type="button" class="btn-solid doc-btn" id="consentReopen">
