@@ -10,7 +10,9 @@ fájlokban, és írd át mindenhol:
 | `robots.txt` | `Sitemap:` sor |
 | `sitemap.xml` | `<loc>` és a két `<image:loc>` |
 
-Semmi más fájlban nincs domain.
+Semmi más fájlban nincs domain. A jogi aloldalak (`impresszum.html`,
+`adatkezeles.html`, `sutik.html`) `{{domain}}` helyőrzőt használnak,
+amit a build a `ceg-adatok.json`-ból tölt ki — azokhoz nem kell nyúlni.
 
 ---
 
@@ -26,16 +28,24 @@ Semmi más fájlban nincs domain.
 
 **Megosztás**
 - Teljes Open Graph (Facebook, Messenger) és Twitter/X `summary_large_image`
-- `og:image` abszolút URL-lel + méret + alt — enélkül a Facebook
+  **mind a négy indexelt oldalon** (főoldal + három jogi aloldal)
+- `og:image` abszolút URL-lel + méret + típus + alt — enélkül a Facebook
   gyakran nem húzza be a képet
 
 **Strukturált adat (JSON-LD)** — ez a legfontosabb helyi SEO elem
 - `BikeStore`: név, cím, irányítószám, telefon, e-mail, logó, kép,
-  térkép, Facebook, kiszolgált települések (Abda, Győr, Öttevény, Ikrény)
-- `WebSite`
+  térkép, Facebook, kiszolgált települések (Abda, Győr, Öttevény, Ikrény),
+  `contactPoint`, `paymentAccepted`
+- `WebSite` + `WebPage` (a kettő `isPartOf`/`about` kapcsolattal a
+  műhely csomópontjára mutat)
 - `OfferCatalog`: mind a 15 szolgáltatás névvel és forint árral —
   ettől a Google érti, hogy „centrírozás ár”, „defektjavítás Győr”
-  típusú keresésekre releváns vagy
+  típusú keresésekre releváns vagy.
+  A hivatkozás `hasOfferCatalog` (nem `makesOffer`): az utóbbi egyedi
+  `Offer`-t vár, katalógust nem, és emiatt a Google a teljes árlistát
+  eldobhatta volna.
+- `BreadcrumbList` mindhárom jogi aloldalon — a találatban
+  „Főoldal › Impresszum” út jelenik meg a nyers URL helyett
 
 **Technikai**
 - `sitemap.xml` képekkel; a `<lastmod>` minden `npm run build`-nál
@@ -48,13 +58,36 @@ Semmi más fájlban nincs domain.
   tölt újat, ha a fájl tényleg változott
 
 **Tartalom / akadálymentesség**
-- Egyetlen `<h1>`, benne rejtett kulcsszavas kiegészítés
+- Egyetlen `<h1>` oldalanként, benne rejtett kulcsszavas kiegészítés
   („kerékpárszerviz és kerékpárműhely Abdán, Győr mellett”)
 - Minden `h2` kapott rejtett, kereső számára olvasható pontosítást
 - Képek: leíró `alt`, `width`/`height` (nem ugrál a layout = jobb CLS),
-  `loading`/`decoding`/`fetchpriority`
+  `loading`/`decoding`/`fetchpriority`. A JS-ből generált készletképek
+  is kapnak explicit méretet (700×875 = a CSS `aspect-ratio: 4/5`).
 - A készlet képeinek `alt`-ja is kulcsszavas lett
 - Szekciók `aria-labelledby`-vel
+- Szemantikus tartók: a mobilmenü és a láblécmenü `<nav>` lett (nem
+  `<div>`), mindegyik saját `aria-label`-lel; a jogi oldalak
+  záró blokkja `<footer>`
+- A készletképek `role="button"` + `tabindex="0"` — a képnagyító
+  billentyűzetről is nyitható, és bezáráskor a fókusz visszatér
+- A díszelemek (előtöltő, egérkurzor, robotcsapda mező) `aria-hidden`
+
+**Ellenőrzött eredmény** (Lighthouse, mobil emuláció, `deploy/` mappa):
+
+| Oldal | SEO | Akadálymentesség | Best Practices |
+|---|---|---|---|
+| `index.html` | 100 | 100 | 100 |
+| `impresszum.html` | 100 | 100 | 100 |
+| `adatkezeles.html` | 100 | 100 | 100 |
+| `sutik.html` | 100 | 100 | 100 |
+| `404.html` | 63¹ | 100 | 100 |
+
+¹ A 404 SEO-pontja szándékosan alacsony: `noindex` van rajta, és a
+Lighthouse ezt hibaként számolja. Pont ez a helyes viselkedés.
+
+Core Web Vitals (helyi mérés, `deploy/`): **LCP 414 ms, CLS 0.00**,
+render-blokkoló JavaScript nincs (minden `<script>` `defer`).
 
 ---
 
@@ -93,9 +126,21 @@ Semmi más fájlban nincs domain.
   ha később kulcsszavanként külön aloldal kell („defektjavítás Győr”,
   „e-bike szerviz”), az már tartalomírás, nem technikai SEO.
 
-## Egy javasolt kép
+## Ami még hozható, de adat vagy döntés kell hozzá
 
-A megosztási kép (`img/hero-muhely.jpg`) négyzetes, 849×846.
+**1. Megosztási kép.** A `img/hero-muhely.jpg` négyzetes, 849×846.
 A Facebook és az X 1200×630-at szeret — négyzetesből levágja a
 tetejét-alját. Ha csinálsz egy 1200×630-as változatot
-(`img/og-kep.jpg`), szólj, és átírom rá a meta tageket.
+(`img/og-kep.jpg`), szólj, és átírom rá a meta tageket. Felskálázni
+a mostaniból nem érdemes, romlana a minőség.
+
+**2. Nyitvatartás.** Lásd a fenti teendőlistát — ha megadod, megy a
+JSON-LD-be `openingHoursSpecification`-ként.
+
+**3. WebP/AVIF a fotókhoz.** A build most mozjpeg-gel tömörít. A
+Lighthouse szerint modernebb formátummal még ~229 kB spórolható —
+viszont a becsült LCP- és FCP-nyereség egyaránt **0 ms**, mert az
+érintett képek mind a hajtás alatt vannak és lustán töltődnek.
+Ezért nem csináltam meg: munkával jár (a `build-functions.mjs`
+képfolyamata és a `<picture>` fallback), a mérhető haszna viszont
+nulla. Ha a mobilnetes adatforgalom számít, szólj.

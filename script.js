@@ -113,6 +113,7 @@
       burger.classList.toggle('open', open);
       overlay.classList.toggle('open', open);
       burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Menü bezárása' : 'Menü megnyitása');
       document.body.classList.toggle('locked', open);
     }
 
@@ -406,9 +407,17 @@
       bikes.forEach(function (b, i) {
         var fig = document.createElement('figure');
         fig.className = 'stock-item';
+        fig.setAttribute('role', 'listitem');
         var img = document.createElement('img');
         img.src = b.src;
         img.alt = (b.alt ? b.alt + ' — ' : '') + 'eladó felújított kerékpár a Bringázol¿ műhelyben, Abdán';
+
+        /* A CSS aspect-ratio: 4/5 tartja a helyet, de a stíluslap
+           betöltése előtt (és képhiba esetén) az explicit méret az,
+           ami megakadályozza a layout ugrálást — ez a CLS mutató.
+           A 700x875 pontosan a 4/5, hogy a kettő ne feszüljön egymásnak. */
+        img.width = 700;
+        img.height = 875;
 
         /* A rácsban a kép telefonon ~213 px széles, asztalon ~295.
            A 700 px-es változat telefonra pazarlás, ezért a buildben
@@ -428,6 +437,13 @@
            (a mérés szerint 669 ms LCP-késés). Mind lusta. */
         img.loading = 'lazy';
         img.decoding = 'async';
+
+        /* A kép kattintásra nagyít, tehát viselkedésében gomb — enélkül
+           billentyűzettel nem lehetne megnyitni a képnagyítót. */
+        img.tabIndex = 0;
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', (b.alt || 'Kerékpár') + ' — kép megnyitása nagyban');
+
         fig.appendChild(img);
         grid.appendChild(fig);
         requestAnimationFrame(function () { fig.classList.add('in'); });
@@ -450,25 +466,44 @@
     var grid  = $('#stockGrid');
     if (!box || !grid) return;
 
-    function open(src, alt) {
+    // ide tér vissza a fókusz bezáráskor
+    var opener = null;
+
+    function open(src, alt, from) {
+      opener = from || null;
       img.src = src;
       img.alt = alt || '';
       box.hidden = false;
       document.body.classList.add('locked');
-      requestAnimationFrame(function () { box.classList.add('on'); });
+      requestAnimationFrame(function () {
+        box.classList.add('on');
+        close.focus();
+      });
     }
 
     function shut() {
       box.classList.remove('on');
       document.body.classList.remove('locked');
-      setTimeout(function () { box.hidden = true; img.src = ''; }, 260);
+      // removeAttribute, nem img.src = '' — az utóbbi a dokumentum
+      // saját URL-jét kérné le még egyszer, képként
+      setTimeout(function () { box.hidden = true; img.removeAttribute('src'); }, 260);
+      if (opener) { opener.focus(); opener = null; }
     }
 
     grid.addEventListener('click', function (e) {
       var hit = e.target.closest('.stock-item img');
       // data-full = a nagy változat; hit.src a rácsban épp kiválasztott
       // (telefonon a keskeny) verzió lenne, az nagyítva homályos
-      if (hit) open(hit.dataset.full || hit.src, hit.alt);
+      if (hit) open(hit.dataset.full || hit.src, hit.alt, hit);
+    });
+
+    // a rácsképek role="button"-ok: az Enter és a szóköz is nyisson
+    grid.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var hit = e.target.closest('.stock-item img');
+      if (!hit) return;
+      e.preventDefault();
+      open(hit.dataset.full || hit.src, hit.alt, hit);
     });
     close.addEventListener('click', shut);
     box.addEventListener('click', function (e) { if (e.target === box) shut(); });

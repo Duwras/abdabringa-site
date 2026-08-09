@@ -182,10 +182,12 @@
 }
 .doc-nav a:hover { color: var(--accent); }
 
+/* Az opacity: .6 kontrasztja 2,7:1 volt — WCAG AA bukó. A --ink-dim
+   önmagában 5,4:1; a halkabb hatást a kisebb, ritkított mono betű adja. */
 .doc-updated {
   margin-top: 20px;
   font-family: var(--mono); font-size: .66rem;
-  letter-spacing: .08em; color: var(--ink-dim); opacity: .6;
+  letter-spacing: .08em; color: var(--ink-dim);
 }
 
 @media (max-width: 640px) {

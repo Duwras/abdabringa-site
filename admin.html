@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Készletkezelés — Bringázol¿</title>
+<meta name="description" content="A Bringázol¿ kerékpárműhely belső készletkezelő felülete. Nem nyilvános oldal.">
+<meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="img/logo.jpg">
+<link rel="apple-touch-icon" href="img/logo.jpg">
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="admin.css">
 </head>
@@ -17,7 +20,7 @@
     <a class="gate-mark" href="index.html">Bringázol<i>¿</i></a>
     <h1>Készletkezelés</h1>
     <p>Add meg a GitHub hozzáférési kulcsot. A kulcs csak ebben a böngészőben marad, sehova nem küldjük tovább.</p>
-    <input type="password" id="gatePass" placeholder="github_pat_…" autocomplete="off" spellcheck="false" required>
+    <input type="password" id="gatePass" placeholder="github_pat_…" aria-label="GitHub hozzáférési kulcs" autocomplete="off" spellcheck="false" required>
     <label class="remember"><input type="checkbox" id="gateRemember"> Jegyezze meg ezen az eszközön</label>
     <p class="msg" id="gateMsg" role="status" aria-live="polite"></p>
     <button type="submit" class="btn" id="gateSubmit">Belépés</button>
@@ -31,10 +34,10 @@
 
   <header class="bar">
     <a class="bar-mark" href="index.html">Bringázol<i>¿</i></a>
-    <div class="bar-actions">
-      <a class="quiet" href="index.html" target="_blank" rel="noopener">Weboldal ↗</a>
-      <button type="button" class="quiet" id="logout">Kilépés</button>
-    </div>
+    <nav class="bar-actions" aria-label="Készletkezelő műveletek">
+      <a class="quiet" href="index.html" target="_blank" rel="noopener">Weboldal megnyitása ↗</a>
+      <button type="button" class="quiet" id="logout" aria-label="Kilépés a készletkezelőből">Kilépés</button>
+    </nav>
   </header>
 
   <main class="wrap">
@@ -73,6 +76,6 @@
   </main>
 </div>
 
-<script src="admin.js"></script>
+<script src="admin.js" defer></script>
 </body>
 </html>

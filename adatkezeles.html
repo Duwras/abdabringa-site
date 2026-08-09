@@ -3,13 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adatkezelési tájékoztató — Bringázol¿ Kerékpárműhely</title>
-<meta name="description" content="Hogyan kezeljük a Bringázol¿ weboldalán megadott személyes adatokat: mit gyűjtünk, miért, meddig, és milyen jogaid vannak.">
+<title>Adatkezelési tájékoztató — Bringázol¿ Kerékpárműhely, Abda</title>
+<meta name="description" content="GDPR tájékoztató a Bringázol¿ abdai kerékpárműhely weboldalához: milyen személyes adatot kezelünk, milyen jogalapon, meddig, és milyen jogaid vannak.">
 <link rel="canonical" href="https://{{domain}}/adatkezeles.html">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<meta name="author" content="Bringázol¿ Kerékpárműhely">
+<meta name="theme-color" content="#0b0b0c">
+
+<!-- ============ OPEN GRAPH ============ -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Bringázol¿">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:url" content="https://{{domain}}/adatkezeles.html">
+<meta property="og:title" content="Adatkezelési tájékoztató — Bringázol¿ Kerékpárműhely, Abda">
+<meta property="og:description" content="Milyen személyes adatot kezelünk a weboldalon, milyen jogalapon, meddig, és milyen jogaid vannak. A GDPR 13. cikke alapján.">
+<meta property="og:image" content="https://{{domain}}/img/hero-muhely.jpg">
+<meta property="og:image:width" content="849">
+<meta property="og:image:height" content="846">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
+
+<!-- ============ TWITTER / X ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Adatkezelési tájékoztató — Bringázol¿ Kerékpárműhely, Abda">
+<meta name="twitter:description" content="Milyen személyes adatot kezelünk, miért, meddig, és milyen jogaid vannak.">
+<meta name="twitter:image" content="https://{{domain}}/img/hero-muhely.jpg">
+<meta name="twitter:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
+
 <link rel="icon" href="img/logo.jpg">
+<link rel="apple-touch-icon" href="img/logo.jpg">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jogi.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://{{domain}}/" },
+    { "@type": "ListItem", "position": 2, "name": "Adatkezelési tájékoztató", "item": "https://{{domain}}/adatkezeles.html" }
+  ]
+}
+</script>
 </head>
 <body class="doc-body">
 
@@ -217,13 +254,15 @@
     alján lévő dátumot átírjuk. Érdemes időnként visszanézni.
   </p>
 
-  <nav class="doc-nav">
-    <a href="impresszum.html">Impresszum</a>
-    <a href="sutik.html">Sütik és tárolt adatok</a>
-    <a href="/">Főoldal</a>
-  </nav>
+  <footer>
+    <nav class="doc-nav" aria-label="További jogi oldalak">
+      <a href="impresszum.html">Impresszum</a>
+      <a href="sutik.html">Sütik és tárolt adatok</a>
+      <a href="/">Vissza a főoldalra</a>
+    </nav>
 
-  <p class="doc-updated">Hatályos: {{hatalybaLepes}}</p>
+    <p class="doc-updated">Hatályos: {{hatalybaLepes}}</p>
+  </footer>
 </main>
 
 <script src="consent.js" defer></script>

@@ -3,13 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Impresszum — Bringázol¿ Kerékpárműhely</title>
-<meta name="description" content="A Bringázol¿ kerékpárműhely szolgáltatói adatai, panaszkezelés és a békéltető testület elérhetősége.">
+<title>Impresszum — Bringázol¿ Kerékpárműhely, Abda</title>
+<meta name="description" content="A Bringázol¿ abdai kerékpárműhely szolgáltatói adatai: név, székhely, adószám, nyilvántartási szám, panaszkezelés és békéltető testület.">
 <link rel="canonical" href="https://{{domain}}/impresszum.html">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<meta name="author" content="Bringázol¿ Kerékpárműhely">
+<meta name="theme-color" content="#0b0b0c">
+
+<!-- ============ OPEN GRAPH ============ -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Bringázol¿">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:url" content="https://{{domain}}/impresszum.html">
+<meta property="og:title" content="Impresszum — Bringázol¿ Kerékpárműhely, Abda">
+<meta property="og:description" content="A Bringázol¿ abdai kerékpárműhely szolgáltatói adatai, panaszkezelés és a békéltető testület elérhetősége.">
+<meta property="og:image" content="https://{{domain}}/img/hero-muhely.jpg">
+<meta property="og:image:width" content="849">
+<meta property="og:image:height" content="846">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
+
+<!-- ============ TWITTER / X ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Impresszum — Bringázol¿ Kerékpárműhely, Abda">
+<meta name="twitter:description" content="A Bringázol¿ abdai kerékpárműhely szolgáltatói adatai és panaszkezelése.">
+<meta name="twitter:image" content="https://{{domain}}/img/hero-muhely.jpg">
+<meta name="twitter:image:alt" content="A Bringázol¿ kerékpárműhely festett bejárati ajtaja Abdán">
+
 <link rel="icon" href="img/logo.jpg">
+<link rel="apple-touch-icon" href="img/logo.jpg">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jogi.css">
+
+<!-- Morzsamenü: a Google így érti, hogy ez a főoldal alárendelt
+     oldala, és a találatban a „Főoldal > Impresszum" utat írja ki
+     a nyers URL helyett. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://{{domain}}/" },
+    { "@type": "ListItem", "position": 2, "name": "Impresszum", "item": "https://{{domain}}/impresszum.html" }
+  ]
+}
+</script>
 </head>
 <body class="doc-body">
 
@@ -127,13 +167,15 @@
     engedéllyel lehetséges.
   </p>
 
-  <nav class="doc-nav">
-    <a href="adatkezeles.html">Adatkezelési tájékoztató</a>
-    <a href="sutik.html">Sütik és tárolt adatok</a>
-    <a href="/">Főoldal</a>
-  </nav>
+  <footer>
+    <nav class="doc-nav" aria-label="További jogi oldalak">
+      <a href="adatkezeles.html">Adatkezelési tájékoztató</a>
+      <a href="sutik.html">Sütik és tárolt adatok</a>
+      <a href="/">Vissza a főoldalra</a>
+    </nav>
 
-  <p class="doc-updated">Hatályos: {{hatalybaLepes}}</p>
+    <p class="doc-updated">Hatályos: {{hatalybaLepes}}</p>
+  </footer>
 </main>
 
 <!-- Csak a hozzájárulási sáv kell ide; a script.js a főoldal

@@ -404,6 +404,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   line-height: .92; letter-spacing: -.01em;
   text-transform: uppercase; font-weight: 400;
 }
+/* Az Anton kettős ékezete (Ű, Ő) 1.18em-re nyúlik az alapvonal fölé,
+   a .92-es sorköz viszont csak .92em-et ad — a "MŰHELY." Ű-je ezért
+   belelógott a fölötte lévő sorba. Csak az ilyen címeknél lazítunk,
+   hogy a többi cím szoros sortávja megmaradjon. */
+.sec-title.has-tall-accent { line-height: 1.26; }
 .sec-lead {
   margin-top: 20px; max-width: 44ch;
   color: var(--ink-dim); font-size: clamp(.94rem, 1.2vw, 1.05rem);
@@ -513,6 +518,34 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .about-points span { color: var(--accent); font-family: var(--mono); font-size: .8rem; }
 
+/* ---- háztól házig ---- */
+.hazhoz {
+  position: relative;
+  margin-top: 34px; padding: clamp(22px, 3vw, 32px);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+}
+.hazhoz-tag {
+  display: inline-block; margin-bottom: 14px;
+  font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.hazhoz h3 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  line-height: 1.04; letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+.hazhoz p {
+  margin-top: 14px; max-width: 44ch;
+  color: var(--ink-dim); font-size: clamp(.92rem, 1.15vw, 1rem);
+}
+.hazhoz .hazhoz-ar { color: var(--ink); }
+.hazhoz .btn-solid { margin-top: 22px; }
+.hazhoz .btn-solid svg { width: 17px; height: 17px; }
+
 .btn-line {
   display: inline-flex; align-items: center; gap: 12px;
   margin-top: 34px; padding-bottom: 7px;
@@ -610,10 +643,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-family: var(--mono); font-size: .7rem; font-style: normal;
   letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
 }
+/* Az opacity itt korábban .55 volt: szép halk volt, de a benne lévő
+   Google-link kontrasztja 2,5:1-re esett — a WCAG AA 4,5:1-et kér
+   ekkora betűnél. A --ink-dim önmagában 5,4:1, tehát opacity nélkül
+   marad halk, de olvasható. */
 .quote-note {
   margin-top: 34px;
   font-family: var(--mono); font-size: .64rem;
-  color: var(--ink-dim); opacity: .55;
+  color: var(--ink-dim);
 }
 .quote-note a {
   color: inherit; text-decoration: none;
@@ -688,7 +725,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-self: flex-start; margin-top: 26px;
   display: inline-flex; align-items: center; gap: 12px;
   padding: 15px 28px; border-radius: 999px;
-  background: var(--accent); color: #fff;
+  /* Sötét szöveg a narancson: fehérrel a kontraszt 3,1:1 (WCAG AA
+     bukó), a --bg-gel 6,4:1. A 404.html tömör gombja eleve így néz
+     ki, tehát ez egyben egységesíti is a kettőt. */
+  background: var(--accent); color: var(--bg);
   font-family: var(--mono); font-size: .78rem;
   letter-spacing: .06em; text-transform: uppercase;
   transition: gap .4s var(--ease), transform .35s var(--ease), background .3s;
@@ -796,7 +836,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   white-space: nowrap;
   transition: background .3s, color .3s, border-color .3s;
 }
-.consent-yes { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* Sötét szöveg a narancson, nem fehér: fehérrel a kontraszt csak
+   3,1:1 (bukó), sötéttel 6,4:1. Ez egyben az oldal többi tömör
+   gombjának (.btn-solid) a mintája is. */
+.consent-yes { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .consent-yes:hover { background: #ff7038; border-color: #ff7038; }
 .consent-no { background: transparent; color: var(--ink); }
 .consent-no:hover { border-color: var(--ink); background: rgba(242,239,233,.06); }
@@ -838,8 +881,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .foot-credit { text-decoration: underline; text-underline-offset: 3px; }
 
 /* A készletkezelő bejárata. Csak a tulajdonosnak szól, ezért halkabb
-   a többi láblécelemnél — de nem rejtett, hogy telefonon is meglegyen. */
-.foot-links > a.foot-admin { opacity: .45; transition: opacity .3s, color .3s; }
+   a többi láblécelemnél — de nem rejtett, hogy telefonon is meglegyen.
+   Lejjebb .9-nél nem mehet: .45-nél a kontraszt 2:1 volt, ami a WCAG
+   AA szerint bukó. Ennyivel 4,8:1, és még mindig tompább a többinél. */
+.foot-links > a.foot-admin { opacity: .9; transition: opacity .3s, color .3s; }
 .foot-links > a.foot-admin:hover { opacity: 1; color: var(--accent); }
 
 /* Kötelező jelölőnégyzet a kapcsolati űrlapon */

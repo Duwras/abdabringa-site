@@ -4,11 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, follow">
-<title>Nincs ilyen oldal — Bringázol¿</title>
-<meta name="description" content="A keresett oldal nem található. Vissza a Bringázol¿ kerékpárműhely főoldalára.">
+<title>Nincs ilyen oldal — Bringázol¿ Kerékpárműhely, Abda</title>
+<meta name="description" content="A keresett oldal nem található. Vissza a Bringázol¿ abdai kerékpárműhely főoldalára.">
+<meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="/img/logo.jpg">
+<link rel="apple-touch-icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/fonts.css">
 <style>
+  /* Csak a keresőnek és a felolvasónak szánt szöveg. A h1 önmagában
+     („404") sem a látogatónak, sem a gépnek nem mond semmit. */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0;
+    margin: -1px; overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
   html, body { height: 100%; }
   body {
     margin: 0; background: #0b0b0c; color: #f2efe9;
@@ -33,12 +42,15 @@
 </head>
 <body>
   <main>
-    <h1>404</h1>
+    <h1>404<span class="sr-only"> — nincs ilyen oldal a Bringázol¿ kerékpárműhely weboldalán</span></h1>
     <p>Ez az oldal nincs meg. A bringád viszont még megjavítható — gyere vissza a főoldalra, vagy hívj minket.</p>
-    <div class="links">
-      <a class="solid" href="/">Vissza a főoldalra</a>
-      <a class="line" href="tel:+36303640141">Hívás: (30) 364 0141</a>
-    </div>
+    <nav class="links" aria-label="Hova tovább">
+      <a class="solid" href="/">Vissza a Bringázol¿ főoldalára</a>
+      <!-- Az aria-label szó szerint tartalmazza a látható szöveget:
+           enélkül a hangvezérlés („kattints a Hívás gombra") nem
+           találná meg az elemet. -->
+      <a class="line" href="tel:+36303640141" aria-label="Hívás: (30) 364 0141 — Bringázol¿ kerékpárműhely">Hívás: (30) 364 0141</a>
+    </nav>
   </main>
 </body>
 </html>
