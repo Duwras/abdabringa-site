@@ -46,7 +46,7 @@
   var gate = $('#gate');
   var app  = $('#app');
 
-  var queued = [];        // { file, url, alt }
+  var queued = [];        // { file, url, alt, leiras }
   var bikes  = [];        // a készlet aktuális állapota
   var headSha = '';       // a legutóbbi commit — a képek ezzel hivatkozódnak
 
@@ -276,6 +276,8 @@
       var img = document.createElement('img');
       img.src = repoImg(b.src);
       img.alt = b.alt || 'Raktáron lévő kerékpár';
+      // a felvitt leírás egérrel ráállva ellenőrizhető
+      if (b.leiras) img.title = b.leiras;
       img.loading = 'lazy';
 
       var del = document.createElement('button');
@@ -363,7 +365,7 @@
     }
 
     files.forEach(function (f) {
-      queued.push({ file: f, url: URL.createObjectURL(f), alt: '' });
+      queued.push({ file: f, url: URL.createObjectURL(f), alt: '', leiras: '' });
     });
     renderQueue();
   }
@@ -400,9 +402,21 @@
       alt.setAttribute('aria-label', 'A kép rövid leírása');
       alt.addEventListener('input', function () { item.alt = alt.value; });
 
+      /* A hosszabb leírás az ügyfélnek szól: ez jelenik meg a
+         weboldalon, amikor rákattint a képre. Nem kötelező —
+         ha üresen marad, a rövid leírás látszik helyette. */
+      var leiras = document.createElement('textarea');
+      leiras.className = 'leiras';
+      leiras.rows = 3;
+      leiras.placeholder = 'Mit kell tudni róla? pl. 28" váz, 3x8 sebesség, új fékbetét, kis karcolás a vázon';
+      leiras.value = item.leiras;
+      leiras.setAttribute('aria-label', 'Részletes leírás az ügyfélnek');
+      leiras.addEventListener('input', function () { item.leiras = leiras.value; });
+
       fig.appendChild(img);
       fig.appendChild(x);
       fig.appendChild(alt);
+      fig.appendChild(leiras);
       box.appendChild(fig);
     });
 
@@ -475,7 +489,7 @@
     Promise.all(queued.map(function (q) {
       return shrink(q.file).then(function (small) {
         return b64Blob(small).then(function (b64) {
-          return { base64: b64, alt: q.alt.trim() };
+          return { base64: b64, alt: q.alt.trim(), leiras: q.leiras.trim() };
         });
       });
     }))
@@ -485,11 +499,15 @@
           var changes = prepared.map(function (p, i) {
             var name = 'k' + pad(start + i) + '.jpg';
             var src  = '/' + DIR + '/' + name;
-            added.push({
+            var bike = {
               id: 'seed-' + name.replace('.jpg', ''),
               src: src,
               alt: p.alt || 'Raktáron lévő felújított kerékpár'
-            });
+            };
+            // üres leírás ne kerüljön be a fájlba: a weboldal
+            // ilyenkor a rövid leírást mutatja
+            if (p.leiras) bike.leiras = p.leiras;
+            added.push(bike);
             return { path: DIR + '/' + name, base64: p.base64 };
           });
 

@@ -647,9 +647,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .lightbox[hidden] { display: none; }
 .lightbox.on { opacity: 1; }
 .lightbox img {
-  max-width: min(100%, 760px); max-height: 74vh;
+  max-width: min(100%, 760px); max-height: 62vh;
   object-fit: contain;
 }
+
+/* A feltöltéskor megadott leírás. A kép fölött nincs értelme, a
+   gomb alatt elveszne — ezért a kettő közé kerül. Hosszú szövegnél
+   inkább a doboz görgessen, mint hogy a hívás gomb kicsússzon. */
+.lightbox-note {
+  max-width: min(100%, 620px);
+  max-height: 22vh; overflow-y: auto;
+  text-align: center;
+  font-size: clamp(.88rem, 1.6vw, 1rem); line-height: 1.6;
+  color: var(--ink-dim);
+  white-space: pre-line;   /* a leírásban ütött sortörések maradjanak meg */
+}
+.lightbox-note[hidden] { display: none; }
 .lightbox-close {
   position: absolute; top: clamp(12px, 3vw, 28px); right: clamp(12px, 3vw, 28px);
   width: 44px; height: 44px; line-height: 1;

@@ -141,7 +141,7 @@ input[type="password"]:focus { outline: none; border-color: var(--accent); }
 .drop-sub { font-size: .8rem; color: var(--ink-dim); }
 
 .queue {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 10px; margin-top: 16px;
 }
 .queue:empty { display: none; }
@@ -163,6 +163,18 @@ input[type="password"]:focus { outline: none; border-color: var(--accent); }
   font: inherit; font-size: .72rem;
 }
 .queue .alt:focus { outline: none; border-color: var(--accent); }
+
+/* A hosszabb leírás — ezt olvassa az ügyfél, amikor a weboldalon
+   rákattint a képre. Nem kötelező kitölteni. */
+.queue .leiras {
+  display: block; width: 100%; padding: 7px 8px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-top: none;
+  font: inherit; font-size: .72rem; line-height: 1.45;
+  resize: vertical;
+}
+.queue .leiras:focus { outline: none; border-color: var(--accent); }
+.queue .leiras::placeholder { color: var(--ink-dim); }
 
 /* Kulcs megjegyzése — kis, halk sor a belépődobozban */
 .remember {
@@ -191,6 +203,6 @@ input[type="password"]:focus { outline: none; border-color: var(--accent); }
 
 @media (max-width: 480px) {
   .grid  { grid-template-columns: repeat(2, 1fr); }
-  .queue { grid-template-columns: repeat(3, 1fr); }
+  .queue { grid-template-columns: repeat(2, 1fr); }
   .panel-actions .btn { flex: 1; }
 }

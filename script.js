@@ -525,6 +525,13 @@
         }
         img.dataset.full = b.src;
 
+        /* A feltöltéskor megadott bővebb leírás — a képnagyítóban
+           jelenik meg. Régebbi bringáknál nincs ilyen mező, ott a
+           rövid megnevezés (alt) kerül a helyére. */
+        if (b.leiras) img.dataset.leiras = b.leiras;
+        // a rövid megnevezés a SEO-toldalék nélkül, ez a tartalék szöveg
+        if (b.alt) img.dataset.nev = b.alt;
+
         /* A készlet mélyen a hajtás alatt van — az első néhány kép
            mohó betöltése csak elvette a sávszélességet a hero elől
            (a mérés szerint 669 ms LCP-késés). Mind lusta. */
@@ -555,6 +562,7 @@
   (function lightbox() {
     var box   = $('#lightbox');
     var img   = $('#lightboxImg');
+    var note  = $('#lightboxNote');
     var close = $('#lightboxClose');
     var grid  = $('#stockGrid');
     if (!box || !grid) return;
@@ -562,10 +570,22 @@
     // ide tér vissza a fókusz bezáráskor
     var opener = null;
 
-    function open(src, alt, from) {
+    function open(hit, from) {
       opener = from || null;
-      img.src = src;
-      img.alt = alt || '';
+      // data-full = a nagy változat; hit.src a rácsban épp kiválasztott
+      // (telefonon a keskeny) verzió lenne, az nagyítva homályos
+      img.src = hit.dataset.full || hit.src;
+      img.alt = hit.alt || '';
+
+      /* A feltöltéskor beírt leírás. Ha nincs, marad a rövid
+         megnevezés — üres doboz helyett legalább az látszik,
+         melyik bringáról van szó. */
+      if (note) {
+        var text = hit.dataset.leiras || hit.dataset.nev || '';
+        note.textContent = text;
+        note.hidden = !text;
+      }
+
       box.hidden = false;
       document.body.classList.add('locked');
       requestAnimationFrame(function () {
@@ -585,9 +605,7 @@
 
     grid.addEventListener('click', function (e) {
       var hit = e.target.closest('.stock-item img');
-      // data-full = a nagy változat; hit.src a rácsban épp kiválasztott
-      // (telefonon a keskeny) verzió lenne, az nagyítva homályos
-      if (hit) open(hit.dataset.full || hit.src, hit.alt, hit);
+      if (hit) open(hit, hit);
     });
 
     // a rácsképek role="button"-ok: az Enter és a szóköz is nyisson
@@ -596,7 +614,7 @@
       var hit = e.target.closest('.stock-item img');
       if (!hit) return;
       e.preventDefault();
-      open(hit.dataset.full || hit.src, hit.alt, hit);
+      open(hit, hit);
     });
     close.addEventListener('click', shut);
     box.addEventListener('click', function (e) { if (e.target === box) shut(); });

@@ -52,11 +52,17 @@ tedd meg.
 ## Napi használat
 
 **Új bringa**: *Válassz képeket* (vagy húzd be őket) → mindegyik kép
-alá írd be a **rövid leírást** → *Feltöltés*.
+alá írd be a **rövid leírást** és — ha van mit — a **részletes
+leírást** → *Feltöltés*.
 
-A leírás nem díszítés: ezt mondja fel a képernyőolvasó, és ezt indexeli
-a Google. Jó: `Zöld Gepida trekking kerékpár`. Rossz: `kép`, `IMG_2841`.
-Ha üresen hagyod, egy általános szöveg kerül oda.
+A **rövid leírás** nem díszítés: ezt mondja fel a képernyőolvasó, és ezt
+indexeli a Google. Jó: `Zöld Gepida trekking kerékpár`. Rossz: `kép`,
+`IMG_2841`. Ha üresen hagyod, egy általános szöveg kerül oda.
+
+A **részletes leírás** az ügyfélnek szól: ez jelenik meg a weboldalon,
+amikor rákattint a képre. Ide való minden, amit tudnia kell — méret,
+sebességek, mit cseréltünk rajta, milyen hibája van. Több sor is lehet,
+a sortörések megmaradnak. Ha üresen hagyod, a rövid leírás látszik.
 
 **Levétel**: a kép alatti *Törlés* gomb. A képfájl is törlődik a repóból.
 
@@ -87,7 +93,7 @@ Az előző sor végére vessző kell:
 
 ```json
   { "id": "seed-k15", "src": "/img/keszlet/k15.jpg", "alt": "Kék Schwinn kerékpár" },
-  { "id": "seed-k16", "src": "/img/keszlet/k16.jpg", "alt": "Zöld Gepida trekking kerékpár" }
+  { "id": "seed-k16", "src": "/img/keszlet/k16.jpg", "alt": "Zöld Gepida trekking kerékpár", "leiras": "28\" váz, 3x8 sebesség. Új fékbetét és lánc, a hátsó sárvédő kicsit karcos." }
 ]
 ```
 
@@ -96,6 +102,10 @@ Az előző sor végére vessző kell:
 | `id` | egyedi azonosító, `seed-` + a fájlnév (`seed-k16`) |
 | `src` | `/img/keszlet/` + a feltöltött fájl neve |
 | `alt` | rövid leírás: szín + márka + típus |
+| `leiras` | *(elhagyható)* részletes leírás az ügyfélnek — ez látszik a képre kattintva |
+
+> A `leiras` mezőben az idézőjelet `\"`-ként, a sortörést `\n`-ként
+> kell írni — a JSON így kéri. A felületen ezzel nem kell bajlódni.
 
 ### Levétel
 
