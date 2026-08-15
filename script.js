@@ -624,4 +624,80 @@
   })();
 
 
+  /* ---------- nyitvatartás ----------
+     A sorok maguk hordozzák az időpontokat (data-open / data-close):
+     itt csak kiolvassuk őket, kiemeljük a mai napot, és kiírjuk, hogy
+     épp nyitva vagyunk-e. Így elég egy helyen, a HTML-ben átírni az
+     időt, ha változik. */
+  (function hours() {
+    var list  = $('#hoursList');
+    var badge = $('#hoursNow');
+    if (!list || !badge) return;
+
+    var rows = $$('li', list);
+
+    /* A műhely magyar idő szerint tart nyitva — egy külföldről néző
+       látogatónak sem a saját órája szerint írjuk ki az állapotot. */
+    function budapestNow() {
+      var got = {};
+      new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Europe/Budapest',
+        weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false
+      }).formatToParts(new Date()).forEach(function (p) { got[p.type] = p.value; });
+
+      var days = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+      // hour12:false éjfélkor néhol 24-et ad 0 helyett
+      var h = parseInt(got.hour, 10) % 24;
+      return { day: days[got.weekday], mins: h * 60 + parseInt(got.minute, 10) };
+    }
+
+    function toMin(t) { var p = t.split(':'); return +p[0] * 60 + +p[1]; }
+
+    var now;
+    try { now = budapestNow(); }
+    catch (e) {
+      var d = new Date();
+      now = { day: d.getDay(), mins: d.getHours() * 60 + d.getMinutes() };
+    }
+
+    var byDay = {};
+    rows.forEach(function (li) { byDay[li.getAttribute('data-day')] = li; });
+
+    var today = byDay[now.day];
+    if (today) today.classList.add('is-today');
+
+    var open = false, closeAt = '';
+    if (today && today.getAttribute('data-open')) {
+      var from = toMin(today.getAttribute('data-open'));
+      var till = toMin(today.getAttribute('data-close'));
+      open = now.mins >= from && now.mins < till;
+      closeAt = today.getAttribute('data-close');
+    }
+
+    var text;
+    if (open) {
+      text = 'Most nyitva — ' + closeAt + '-ig';
+    } else {
+      // a mai naptól indulva megkeressük a következő nyitást
+      var label = '';
+      for (var i = 0; i < 7; i++) {
+        var li = byDay[(now.day + i) % 7];
+        if (!li || !li.getAttribute('data-open')) continue;
+        // ma már elmúlt a nyitás ideje
+        if (i === 0 && now.mins >= toMin(li.getAttribute('data-open'))) continue;
+        var nap = i === 0 ? 'ma'
+                : i === 1 ? 'holnap'
+                : li.querySelector('span').textContent.toLowerCase();
+        label = nap + ' ' + li.getAttribute('data-open');
+        break;
+      }
+      text = 'Most zárva' + (label ? ' — nyitás: ' + label : '');
+    }
+
+    badge.textContent = text;
+    if (open) badge.classList.add('is-open');
+    badge.hidden = false;
+  })();
+
+
 })();

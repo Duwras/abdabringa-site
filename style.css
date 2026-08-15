@@ -451,6 +451,79 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: opacity .8s var(--ease), transform .95s var(--ease-out);
 }
 
+/* ============ NYITVATARTÁS ============ */
+.hours {
+  padding: clamp(64px, 10vh, 130px) var(--pad);
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.hours-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(28px, 6vw, 90px);
+  align-items: start;
+}
+.hours-list { border-top: 1px solid var(--line-soft); }
+.hours-list li {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px;
+  padding: clamp(13px, 1.9vh, 20px) 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.hours-list span {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  line-height: 1; text-transform: uppercase; letter-spacing: .005em;
+}
+.hours-list b {
+  font-family: var(--mono); font-size: .86rem; font-weight: 500;
+  white-space: nowrap;
+}
+.hours-list .is-closed span,
+.hours-list .is-closed b { color: var(--ink-dim); }
+
+/* a mai nap: bal oldalt egy akcentus vonal, hogy görgetés közben is
+   azonnal látszódjon, melyik sor érvényes ma */
+.hours-list .is-today {
+  position: relative;
+  padding-left: clamp(12px, 1.6vw, 20px);
+}
+.hours-list .is-today::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: 3px; height: 62%; transform: translateY(-50%);
+  background: var(--accent);
+}
+.hours-list .is-today b { color: var(--accent); }
+.hours-list .is-today.is-closed b { color: var(--ink-dim); }
+
+.hours-side { display: flex; flex-direction: column; align-items: flex-start; }
+.hours-now {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 9px 14px; border: 1px solid var(--line-soft); border-radius: 999px;
+  color: var(--ink-dim);
+}
+.hours-now::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ink-dim);
+}
+.hours-now.is-open { color: var(--ink); border-color: var(--accent); }
+.hours-now.is-open::before { background: var(--accent); }
+.hours-copy {
+  margin-top: 22px; max-width: 42ch;
+  color: var(--ink-dim); font-size: clamp(.92rem, 1.15vw, 1rem);
+}
+.hours-side .btn-solid { margin-top: 26px; }
+.hours-map {
+  margin-top: 18px;
+  font-family: var(--mono); font-size: .78rem;
+  color: var(--ink-dim); border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 2px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.hours-map:hover { color: var(--ink); border-color: var(--accent); }
+
 /* ============ SERVICES ============ */
 .services {
   position: relative;
@@ -1002,7 +1075,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1000px) {
-  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .about-grid, .contact-grid, .hours-grid { grid-template-columns: 1fr; }
   .about-media { aspect-ratio: 3 / 2; max-height: 460px; }
   .hero-meta { grid-template-columns: 1fr; }
 }

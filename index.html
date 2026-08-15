@@ -101,6 +101,20 @@
         "longitude": 17.5445
       },
       "hasMap": "https://www.google.com/maps/search/BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "17:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Saturday", "Sunday"],
+          "opens": "00:00",
+          "closes": "00:00"
+        }
+      ],
       "areaServed": [
         { "@type": "City", "name": "Abda" },
         { "@type": "City", "name": "Győr" },
@@ -196,10 +210,11 @@
     <span>Bringázol<i>¿</i></span>
   </a>
   <nav class="nav-links" aria-label="Főmenü">
-    <a href="#szerviz"><em>01</em> Szerviz</a>
-    <a href="#muhely"><em>02</em> Műhely</a>
-    <a href="#bringak"><em>03</em> Bringák</a>
-    <a href="#kapcsolat"><em>04</em> Kapcsolat</a>
+    <a href="#nyitvatartas"><em>01</em> Nyitva</a>
+    <a href="#bringak"><em>02</em> Bringák</a>
+    <a href="#szerviz"><em>03</em> Szerviz</a>
+    <a href="#muhely"><em>04</em> Műhely</a>
+    <a href="#kapcsolat"><em>05</em> Kapcsolat</a>
   </nav>
   <a href="tel:+36303640141" class="nav-cta" data-cursor="Hívás" aria-label="(30) 364 0141 — kerékpárműhely hívása">
     <span>(30) 364 0141</span>
@@ -210,10 +225,11 @@
 </header>
 
 <nav class="menu-overlay" id="menuOverlay" aria-label="Mobil menü">
-  <a href="#szerviz"><em>01</em> Szerviz</a>
-  <a href="#muhely"><em>02</em> Műhely</a>
-  <a href="#bringak"><em>03</em> Bringák</a>
-  <a href="#kapcsolat"><em>04</em> Kapcsolat</a>
+  <a href="#nyitvatartas"><em>01</em> Nyitva</a>
+  <a href="#bringak"><em>02</em> Bringák</a>
+  <a href="#szerviz"><em>03</em> Szerviz</a>
+  <a href="#muhely"><em>04</em> Műhely</a>
+  <a href="#kapcsolat"><em>05</em> Kapcsolat</a>
   <div class="menu-foot">
     <a href="tel:+36303640141">Telefon: (30) 364 0141</a>
     <a href="mailto:abdabringa@gmail.com">abdabringa@gmail.com</a>
@@ -254,7 +270,7 @@
     </div>
 
     <div class="hero-bottom">
-      <a href="#szerviz" class="scroll-hint" data-cursor="Görgess">
+      <a href="#nyitvatartas" class="scroll-hint" data-cursor="Görgess">
         <span class="hint-line"></span>
         <span class="hint-txt">Görgess</span>
       </a>
@@ -275,10 +291,83 @@
     </div>
   </div>
 
+  <!-- ============ NYITVATARTÁS ============ -->
+  <section id="nyitvatartas" class="hours" aria-labelledby="nyitva-cim">
+    <div class="sec-head reveal">
+      <span class="sec-num">01 / Nyitvatartás</span>
+      <h2 class="sec-title" id="nyitva-cim">Mikor<br>vagyunk itt<span class="sr-only"> — a kerékpárműhely nyitvatartása: hétfőtől péntekig 17:00–20:00</span></h2>
+      <p class="sec-lead">Hétköznap délutánonként találsz a műhelyben. Ha ez az idősáv nem fér bele, hívj — megbeszéljük, mikor tudod behozni.</p>
+    </div>
+
+    <div class="hours-grid">
+      <!-- A data-day a JS-nek szól: a mai sort kiemeli, és a fenti
+           jelzőbe kiírja, hogy épp nyitva vagyunk-e. Az időpontok itt
+           a mérvadóak — a script csak olvassa őket. -->
+      <ul class="hours-list reveal" id="hoursList">
+        <li data-day="1" data-open="17:00" data-close="20:00"><span>Hétfő</span><b>17:00 — 20:00</b></li>
+        <li data-day="2" data-open="17:00" data-close="20:00"><span>Kedd</span><b>17:00 — 20:00</b></li>
+        <li data-day="3" data-open="17:00" data-close="20:00"><span>Szerda</span><b>17:00 — 20:00</b></li>
+        <li data-day="4" data-open="17:00" data-close="20:00"><span>Csütörtök</span><b>17:00 — 20:00</b></li>
+        <li data-day="5" data-open="17:00" data-close="20:00"><span>Péntek</span><b>17:00 — 20:00</b></li>
+        <li class="is-closed" data-day="6"><span>Szombat</span><b>Zárva</b></li>
+        <li class="is-closed" data-day="0"><span>Vasárnap</span><b>Zárva</b></li>
+      </ul>
+
+      <aside class="hours-side reveal">
+        <!-- a JS tölti ki; script nélkül nem jelenik meg semmi félrevezető -->
+        <p class="hours-now" id="hoursNow" role="status" hidden></p>
+        <p class="hours-copy">Nyitvatartáson kívül is fel szoktuk venni a telefont. Ha sürgős a defekt, próbáld meg — és ha nem tudod behozni a bringát, háztól házig elmegyünk érte.</p>
+        <a href="tel:+36303640141" class="btn-solid" data-cursor="Hívás">
+          <span>Hívás: (30) 364 0141</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+        </a>
+        <a class="hours-map" href="https://www.google.com/maps/search/BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda" target="_blank" rel="noopener" data-cursor="Térkép">Abda, Bécsi utca 128 ↗</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ BRINGÁK / GALÉRIA ============ -->
+  <section id="bringak" class="gallery" aria-labelledby="bringak-cim">
+    <div class="sec-head reveal">
+      <span class="sec-num">02 / Raktáron</span>
+      <h2 class="sec-title" id="bringak-cim">Ami épp<br>a kertben áll<span class="sr-only"> — eladó felújított használt kerékpárok</span></h2>
+      <p class="sec-lead">Ezek a bringák most nálunk vannak. Ha megtetszik valamelyik, hívj — elmondjuk az árát és megbeszéljük, mikor tudod megnézni.</p>
+      <a href="tel:+36303640141" class="btn-solid stock-call" data-cursor="Hívás">
+        <span>Hívás: (30) 364 0141</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+      </a>
+    </div>
+
+    <div class="stock" id="stockGrid" role="list" aria-live="polite" aria-label="Raktáron lévő, eladó felújított kerékpárok">
+      <p class="stock-state" id="stockState">Készlet betöltése…</p>
+    </div>
+
+    <div class="stock-cta reveal">
+      <p>Nem találod, amit keresel?</p>
+      <a href="tel:+36303640141" class="btn-solid" data-cursor="Hívás">
+        <span>Hívj minket</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ KÉPNAGYÍTÓ ============ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Kép nagyban" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Képnagyító bezárása">&times;</button>
+    <!-- src nélkül: üres src= esetén a böngésző a dokumentum saját
+         URL-jét tölti le képként. A forrást a script.js adja meg. -->
+    <img id="lightboxImg" alt="">
+    <!-- a feltöltéskor megadott leírás; ha nincs, a script elrejti -->
+    <p class="lightbox-note" id="lightboxNote" hidden></p>
+    <a href="tel:+36303640141" class="btn-solid lightbox-call">
+      <span>Érdekel — hívom</span>
+    </a>
+  </div>
+
   <!-- ============ SZERVIZ ============ -->
   <section id="szerviz" class="services" aria-labelledby="szerviz-cim">
     <div class="sec-head reveal">
-      <span class="sec-num">01 / Munkadíj árlista</span>
+      <span class="sec-num">03 / Munkadíj árlista</span>
       <h2 class="sec-title" id="szerviz-cim">Amit<br>megcsinálunk<span class="sr-only"> — kerékpárszerviz szolgáltatások és árak</span></h2>
       <p class="sec-lead">Munkadíj árak, alkatrész nélkül. A pontos összeg a bringa állapotán múlik — hívj, és megmondjuk előre, mibe fáj.</p>
     </div>
@@ -397,7 +486,7 @@
         <span class="media-tag">Bécsi utca 128 — Abda</span>
       </div>
       <div class="about-text">
-        <span class="sec-num reveal">02 / Műhely</span>
+        <span class="sec-num reveal">04 / Műhely</span>
         <h2 class="sec-title has-tall-accent reveal" id="muhely-cim">Nem gyár.<br>Műhely.<span class="sr-only"> — a Bringázol¿ kerékpárműhely Abdán</span></h2>
         <p class="reveal">Egy festett ajtó, egy fal tele szerszámmal, és valaki, aki tényleg felveszi a telefont. Nálunk nem sorszámot húzol — elmondod, mi a baja, és megnézzük együtt.</p>
         <p class="reveal">A Facebookon videózunk is, mert a bringaszerelés jobban megy, ha közben nevetsz egyet. De ami a satuba kerül, azt komolyan vesszük.</p>
@@ -428,44 +517,6 @@
     </div>
   </section>
 
-  <!-- ============ BRINGÁK / GALÉRIA ============ -->
-  <section id="bringak" class="gallery" aria-labelledby="bringak-cim">
-    <div class="sec-head reveal">
-      <span class="sec-num">03 / Raktáron</span>
-      <h2 class="sec-title" id="bringak-cim">Ami épp<br>a kertben áll<span class="sr-only"> — eladó felújított használt kerékpárok</span></h2>
-      <p class="sec-lead">Ezek a bringák most nálunk vannak. Ha megtetszik valamelyik, hívj — elmondjuk az árát és megbeszéljük, mikor tudod megnézni.</p>
-      <a href="tel:+36303640141" class="btn-solid stock-call" data-cursor="Hívás">
-        <span>Hívás: (30) 364 0141</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
-      </a>
-    </div>
-
-    <div class="stock" id="stockGrid" role="list" aria-live="polite" aria-label="Raktáron lévő, eladó felújított kerékpárok">
-      <p class="stock-state" id="stockState">Készlet betöltése…</p>
-    </div>
-
-    <div class="stock-cta reveal">
-      <p>Nem találod, amit keresel?</p>
-      <a href="tel:+36303640141" class="btn-solid" data-cursor="Hívás">
-        <span>Hívj minket</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- ============ KÉPNAGYÍTÓ ============ -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Kép nagyban" hidden>
-    <button class="lightbox-close" id="lightboxClose" aria-label="Képnagyító bezárása">&times;</button>
-    <!-- src nélkül: üres src= esetén a böngésző a dokumentum saját
-         URL-jét tölti le képként. A forrást a script.js adja meg. -->
-    <img id="lightboxImg" alt="">
-    <!-- a feltöltéskor megadott leírás; ha nincs, a script elrejti -->
-    <p class="lightbox-note" id="lightboxNote" hidden></p>
-    <a href="tel:+36303640141" class="btn-solid lightbox-call">
-      <span>Érdekel — hívom</span>
-    </a>
-  </div>
-
   <!-- ============ VÉLEMÉNY ============ -->
   <section class="quote" aria-label="Vásárlói vélemény">
     <blockquote class="reveal">
@@ -480,7 +531,7 @@
   <!-- ============ KAPCSOLAT ============ -->
   <section id="kapcsolat" class="contact" aria-labelledby="kapcsolat-cim">
     <div class="contact-head reveal">
-      <span class="sec-num">04 / Kapcsolat</span>
+      <span class="sec-num">05 / Kapcsolat</span>
       <h2 class="giant giant-sm" id="kapcsolat-cim">HOZD<br>BE<span class="sr-only"> — kapcsolat: Abda, Bécsi utca 128, telefon (30) 364 0141</span></h2>
     </div>
 
