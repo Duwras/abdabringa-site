@@ -69,6 +69,20 @@ a sortörések megmaradnak. Ha üresen hagyod, a rövid leírás látszik.
 Egyszerre legfeljebb 12 kép. Az egész művelet **egyetlen commit**, tehát
 12 kép feltöltése is egy újraépítést indít, nem tizenkettőt.
 
+## Aktualitás (a kiemelt üzenet)
+
+A felület legfelső dobozában egy **rövid üzenet** írható, ami az oldalon
+a nyitvatartás mellett, nagy narancs keretben jelenik meg — szabadság,
+rendkívüli zárás, akció. Nagy betűs kijelző, ezért **8 szónál többet ne**;
+a mező alatti előnézet mutatja, hogy fog kinézni.
+
+- **Kiírás**: írd be a szöveget → *Mentés*.
+- **Levétel**: *Üzenet levétele* → a doboz eltűnik az oldalról. Nem üres
+  keret marad a helyén, hanem semmi.
+
+Kézzel az [aktualitas.json](aktualitas.json) `szoveg` mezője ugyanez.
+Üres szöveg = nincs doboz.
+
 ---
 
 # B) Kézi szerkesztés

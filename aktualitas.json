@@ -1,0 +1,4 @@
+{
+  "_megjegyzes": "A weboldalon a nyitvatartás mellett megjelenő kiemelt üzenet. Nagy betűkkel jelenik meg, ezért 8 szónál többet ne írj bele. Ha a 'szoveg' üres, a doboz meg sem jelenik az oldalon. Nem kézzel kell szerkeszteni: a készletkezelőben (admin.html) van rá mező.",
+  "szoveg": ""
+}

@@ -41,8 +41,35 @@
   </header>
 
   <main class="wrap">
-    <h1>Raktáron lévő bringák</h1>
-    <p class="lead">Amit ide feltöltesz, a weboldal <strong>kb. 1–2 perc</strong> múlva mutatja — annyi idő, amíg a GitHub újraépíti az oldalt. Ár nem kell, a látogató a képet látja és a hívás gombot.</p>
+    <h1>A weboldal tartalma</h1>
+    <p class="lead">Amit itt módosítasz, a weboldal <strong>kb. 1–2 perc</strong> múlva mutatja — annyi idő, amíg a GitHub újraépíti az oldalt. A bringákhoz ár nem kell, a látogató a képet látja és a hívás gombot.</p>
+
+    <!-- aktualitás -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Aktualitás a weboldalon</h2>
+        <span class="count" id="flashCount"></span>
+      </div>
+      <p class="lead">Rövid, kiemelt üzenet a nyitvatartás mellett — pl. szabadság, rendkívüli zárás, akció. Nagy betűkkel jelenik meg, ezért <strong>legfeljebb 8 szó</strong> fér ki jól. Ha üresen hagyod és mented, a doboz eltűnik az oldalról.</p>
+
+      <textarea id="flashInput" class="flash-input" rows="2" maxlength="90"
+                placeholder="pl. Augusztus 20-ig szabadságon vagyunk"
+                aria-label="Az aktualitás szövege"></textarea>
+
+      <!-- így fog kinézni az oldalon; a nagy betű itt mutatja meg,
+           ha a szöveg túl hosszú -->
+      <div class="flash-preview" id="flashPreview" hidden>
+        <span class="flash-tag">Aktuális</span>
+        <p class="flash-text" id="flashPreviewText"></p>
+      </div>
+
+      <div class="panel-actions">
+        <button type="button" class="btn ghost" id="flashClear">Üzenet levétele</button>
+        <button type="button" class="btn" id="flashSave">Mentés</button>
+      </div>
+
+      <p class="msg" id="flashMsg" role="status" aria-live="polite">Betöltés…</p>
+    </section>
 
     <!-- feltöltés -->
     <section class="panel">

@@ -314,6 +314,17 @@
       </ul>
 
       <aside class="hours-side reveal">
+        <!-- Aktualitás: rövid, kiemelt üzenet (szabadság, rendkívüli
+             zárás, akció). A szöveg az aktualitas.json-ból jön, a
+             készletkezelőben szerkeszthető. Ha ott üres, a build ezt
+             az egész blokkot kihagyja — lásd build-functions.mjs. -->
+        <!--AKTUALITAS-->
+        <div class="flash">
+          <span class="flash-tag">Aktuális</span>
+          <p class="flash-text">{{aktualitasSzoveg}}</p>
+        </div>
+        <!--/AKTUALITAS-->
+
         <!-- a JS tölti ki; script nélkül nem jelenik meg semmi félrevezető -->
         <p class="hours-now" id="hoursNow" role="status" hidden></p>
         <p class="hours-copy">Nyitvatartáson kívül is fel szoktuk venni a telefont. Ha sürgős a defekt, próbáld meg — és ha nem tudod behozni a bringát, háztól házig elmegyünk érte.</p>

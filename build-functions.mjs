@@ -175,6 +175,22 @@ const PAGES = [
   'impresszum.html', 'adatkezeles.html', 'sutik.html'
 ];
 
+/* Aktualitás — a nyitvatartás mellett megjelenő kiemelt üzenet.
+   A szöveget a készletkezelő írja az aktualitas.json-ba. Ha nincs
+   mit kiírni, az egész dobozt kivágjuk a HTML-ből: üresen tátongó
+   keret rosszabb, mint a semmi. A szöveg a HTML-be kerül, ezért a
+   négy jelentéses karaktert le kell védeni — a mezőt a műhely tölti,
+   nem idegen, de egy véletlen < jel így sem tudja elrontani az oldalt. */
+const AKTUALITAS = String(
+  JSON.parse(readFileSync('aktualitas.json', 'utf8')).szoveg || ''
+).trim();
+
+const escapeHtml = (s) => s
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
+
 const missing = Object.entries(CEG)
   .filter(([, v]) => typeof v === 'string' && v.startsWith('[KITÖLTENDŐ'))
   .map(([k]) => k);
@@ -191,6 +207,10 @@ for (const page of PAGES) {
     if (key.startsWith('_')) continue;
     html = html.split(`{{${key}}}`).join(value);
   }
+
+  html = AKTUALITAS
+    ? html.split('{{aktualitasSzoveg}}').join(escapeHtml(AKTUALITAS))
+    : html.replace(/[ \t]*<!--AKTUALITAS-->[\s\S]*?<!--\/AKTUALITAS-->\r?\n?/g, '');
 
   writeFileSync(file, html);
 }
@@ -209,7 +229,8 @@ writeFileSync(
 
 console.log(
   `Kész: ${ASSETS.length} elem a ${OUT}/ mappában, domain ${DOMAIN}, ` +
-  `${bikes.length} bringa a készletben. Képtömörítés: -${Math.round(saved / 1024)} KB.`
+  `${bikes.length} bringa a készletben. Képtömörítés: -${Math.round(saved / 1024)} KB.\n` +
+  `Aktualitás: ${AKTUALITAS ? `„${AKTUALITAS}”` : 'nincs — a doboz kimarad az oldalról.'}`
 );
 
 if (missing.length) {

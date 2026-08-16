@@ -176,6 +176,45 @@ input[type="password"]:focus { outline: none; border-color: var(--accent); }
 .queue .leiras:focus { outline: none; border-color: var(--accent); }
 .queue .leiras::placeholder { color: var(--ink-dim); }
 
+/* ============ AKTUALITÁS ============
+   Egy mező, alatta ugyanaz a doboz, ami a weboldalon megjelenik —
+   a nagy betűn rögtön látszik, ha túl hosszúra sikerült a szöveg. */
+.flash-input {
+  display: block; width: 100%; margin-top: 18px;
+  padding: 13px 14px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line);
+  font: inherit; font-size: .95rem; line-height: 1.5;
+  resize: vertical;
+}
+.flash-input:focus { outline: none; border-color: var(--accent); }
+.flash-input::placeholder { color: var(--ink-dim); }
+
+.flash-preview {
+  margin-top: 16px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 92, 26, .38);
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(118deg, rgba(255, 92, 26, .16), rgba(255, 92, 26, .04));
+}
+.flash-preview[hidden] { display: none; }
+.flash-tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: .62rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+}
+.flash-tag::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+}
+.flash-text {
+  margin-top: 12px;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  line-height: 1.04; text-transform: uppercase; letter-spacing: .005em;
+  overflow-wrap: break-word;
+}
+
 /* Kulcs megjegyzése — kis, halk sor a belépődobozban */
 .remember {
   display: flex; align-items: center; gap: 8px;

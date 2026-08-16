@@ -33,8 +33,9 @@
 
   var API  = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
   var RAW  = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO;
-  var LIST = 'keszlet-seed.json';
-  var DIR  = 'img/keszlet';
+  var LIST  = 'keszlet-seed.json';
+  var FLASH = 'aktualitas.json';
+  var DIR   = 'img/keszlet';
 
   var KEY = 'abdabringaGithubToken';
   var MAX_FILES = 12;
@@ -49,6 +50,8 @@
   var queued = [];        // { file, url, alt, leiras }
   var bikes  = [];        // a készlet aktuális állapota
   var headSha = '';       // a legutóbbi commit — a képek ezzel hivatkozódnak
+  var flash  = { szoveg: '' };  // az aktualitas.json tartalma
+  var flashSaved = '';    // ami jelenleg ki van téve az oldalra
 
   /* ---------- GitHub API ---------- */
 
@@ -181,6 +184,7 @@
   function showApp() {
     gate.hidden = true;
     app.hidden = false;
+    loadFlash();
     loadStock();
   }
 
@@ -327,6 +331,107 @@
       return '  ' + JSON.stringify(b);
     }).join(',\n') + '\n]\n';
   }
+
+  /* ---------- aktualitás ----------
+     Egy rövid mondat, ami a weboldalon a nyitvatartás mellett, nagy
+     betűkkel jelenik meg. Külön fájlban él (aktualitas.json), és
+     ugyanúgy egyetlen commit írja, mint a készletet. Üres szöveg =
+     a doboz ki sem kerül az oldalra; ezt a build dönti el, lásd
+     build-functions.mjs. */
+
+  var FLASH_MAX  = 90;   // az admin.html maxlength értékével egyezik
+  var flashInput = $('#flashInput');
+
+  // egy soros kijelzőbe megy: a sortörés és a dupla szóköz csak zavarna
+  function flashValue() { return flashInput.value.trim().replace(/\s+/g, ' '); }
+
+  function renderFlash() {
+    var text = flashValue();
+    $('#flashPreviewText').textContent = text;
+    $('#flashPreview').hidden = !text;
+    $('#flashCount').textContent = flashInput.value.length + ' / ' + FLASH_MAX + ' karakter';
+  }
+
+  function loadFlash() {
+    setMsg($('#flashMsg'), 'Betöltés…');
+
+    gh('/contents/' + FLASH + '?ref=' + BRANCH, { raw: true })
+      .then(function (text) {
+        flash = JSON.parse(text);
+        flashSaved = String(flash.szoveg || '').trim();
+        flashInput.value = flashSaved;
+        renderFlash();
+        setMsg($('#flashMsg'), flashSaved ? '' : 'Most nincs kiírva semmi az oldalon.');
+      })
+      .catch(function (err) {
+        if (err.status === 401) return showGate('Lejárt a kulcs, add meg újra.');
+        // ha a fájl még nincs meg, az első mentés létrehozza — ez nem hiba
+        if (err.status === 404) {
+          renderFlash();
+          return setMsg($('#flashMsg'), 'Most nincs kiírva semmi az oldalon.');
+        }
+        setMsg($('#flashMsg'), 'Az aktualitás nem tölthető be: ' + err.message, 'err');
+      });
+  }
+
+  /* A fájl többi mezőjéhez (pl. a benne lévő magyarázat) nem nyúlunk:
+     a betöltött objektumot írjuk vissza, csak a szöveget cserélve. */
+  function saveFlash(text, doneMsg) {
+    var save  = $('#flashSave');
+    var clear = $('#flashClear');
+    save.disabled = clear.disabled = true;
+    setMsg($('#flashMsg'), 'Mentés…');
+
+    flash.szoveg = text;
+
+    commit(
+      text ? 'Aktualitás: ' + text : 'Aktualitás: levéve',
+      [{ path: FLASH, base64: b64Text(JSON.stringify(flash, null, 2) + '\n') }]
+    )
+      .then(function () {
+        flashSaved = text;
+        save.disabled = clear.disabled = false;
+        setMsg($('#flashMsg'), doneMsg, 'ok');
+      })
+      .catch(function (err) {
+        flash.szoveg = flashSaved;   // a repóban a régi szöveg maradt
+        save.disabled = clear.disabled = false;
+        if (err.status === 401) return showGate('Lejárt a kulcs, add meg újra.');
+        setMsg($('#flashMsg'), err.message, 'err');
+      });
+  }
+
+  flashInput.addEventListener('input', function () {
+    renderFlash();
+    setMsg($('#flashMsg'), '');
+  });
+
+  $('#flashSave').addEventListener('click', function () {
+    var text = flashValue();
+    if (text === flashSaved) {
+      return setMsg($('#flashMsg'), flashSaved
+        ? 'Ez a szöveg már kint van az oldalon.'
+        : 'Nincs mit menteni — a mező üres.');
+    }
+    // üresre írt mező mentése = levétel, de azt megkérdezzük
+    if (!text) return $('#flashClear').click();
+
+    flashInput.value = text;
+    saveFlash(text, 'Mentve. Az oldalon 1-2 perc múlva jelenik meg.');
+  });
+
+  $('#flashClear').addEventListener('click', function () {
+    if (!flashSaved) {
+      flashInput.value = '';
+      renderFlash();
+      return setMsg($('#flashMsg'), 'Most sincs kiírva semmi az oldalon.');
+    }
+    if (!window.confirm('Biztosan leveszed az aktualitást a weboldalról?')) return;
+
+    flashInput.value = '';
+    renderFlash();
+    saveFlash('', 'Levéve. Az oldalon 1-2 perc múlva tűnik el.');
+  });
 
   /* ---------- kiválasztás ---------- */
 
