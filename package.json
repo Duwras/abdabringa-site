@@ -6,6 +6,7 @@
   "description": "Bringazol - kerekparmuhely, Abda. Statikus oldal, GitHub Pages.",
   "scripts": {
     "build": "node build-functions.mjs",
+    "ellenorzes": "node seo-check.mjs",
     "elonezet": "npx --yes http-server deploy -p 4180 -c-1"
   },
   "devDependencies": {

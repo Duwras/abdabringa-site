@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerékpárszerviz árak, munkadíjak – Abda | BRINGÁZOLi</title>
+<meta name="description" content="Az abdai kerékpárszerviz munkadíjai: defekt {{ar:kulso-belso}}/kerék, váltó beállítás {{ar:valto}}, általános karbantartás {{ar:altalanos}}, teljes {{ar:teljes}}. Alkatrész külön.">
+<link rel="canonical" href="https://{{domain}}/arak/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#0b0b0c">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{markaRovid}}">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:url" content="https://{{domain}}/arak/">
+<meta property="og:title" content="Kerékpárszerviz árak, munkadíjak – Abda | BRINGÁZOLi">
+<meta property="og:description" content="Nyilvános munkadíj árlista: defekt, fék, váltó, lánc, centrírozás, kerékfűzés, karbantartás. Alkatrész külön, árat előre mondunk.">
+<meta property="og:image" content="https://{{domain}}/img/og-kep.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A Bringázol¿ kerékpárműhely festett ajtaja Abdán, mellette a műhely neve és telefonszáma">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kerékpárszerviz árak, munkadíjak – Abda | BRINGÁZOLi">
+<meta name="twitter:description" content="Nyilvános munkadíj árlista: defekt, fék, váltó, lánc, centrírozás, kerékfűzés, karbantartás.">
+<meta name="twitter:image" content="https://{{domain}}/img/og-kep.jpg">
+
+<link rel="icon" href="/img/logo.jpg">
+<link rel="apple-touch-icon" href="/img/logo.jpg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-400-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/page.css">
+
+<!-- Az árkatalógust a build készíti az arlista.json-ból,
+     ugyanabból, amiből a lenti táblázat — a kettő nem csúszhat szét. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    <!--#include partials/ld-business.json-->,
+    {
+      "@type": "WebPage",
+      "@id": "https://{{domain}}/arak/#webpage",
+      "url": "https://{{domain}}/arak/",
+      "name": "Kerékpárszerviz árak, munkadíjak – Abda | BRINGÁZOLi",
+      "description": "Az abdai kerékpárszerviz munkadíj árlistája kategóriánként, alkatrész nélkül.",
+      "inLanguage": "hu-HU",
+      "isPartOf": { "@id": "https://{{domain}}/#website" },
+      "about": { "@id": "https://{{domain}}/#muhely" },
+      "mainEntity": { "@id": "https://{{domain}}/arak/#arlista" },
+      "breadcrumb": { "@id": "https://{{domain}}/arak/#morzsa" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://{{domain}}/arak/#morzsa",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://{{domain}}/" },
+        { "@type": "ListItem", "position": 2, "name": "Árak", "item": "https://{{domain}}/arak/" }
+      ]
+    },
+    {{ldArlista}}
+  ]
+}
+</script>
+</head>
+<body>
+
+<!--#include partials/header.html-->
+
+<main id="tartalom" class="page-main">
+
+  <nav class="crumbs" aria-label="Morzsamenü">
+    <ol>
+      <li><a href="/">Főoldal</a></li>
+      <li><span aria-current="page">Árak</span></li>
+    </ol>
+  </nav>
+
+  <div class="page-hero solo">
+    <div>
+      <span class="sec-num">Árlista</span>
+      <h1>Kerékpárszerviz árlista</h1>
+      <p class="page-lead">
+        Az abdai műhely munkadíjai, <strong>alkatrész nélkül</strong>. A pontos
+        összeg a bringa állapotán múlik: megnézzük, és <strong>a javítás előtt
+        megmondjuk</strong>, mennyibe kerül — alkatrésszel együtt.
+      </p>
+      <div class="page-cta">
+        <a href="tel:{{telefonHivas}}" class="btn-solid" data-cursor="Hívás">
+          <span>Árat kérek: {{telefonKiirt}}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>
+        </a>
+        <a href="/szolgaltatasok/" class="btn-ghost">Mit tartalmaznak a szolgáltatások?</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-sec">
+    <!-- A táblázatokat a build készíti az arlista.json-ból. -->
+    <!--@ARTABLA--><!--/@ARTABLA-->
+
+    <section class="price-group" id="szallitas" aria-labelledby="ar-szallitas">
+      <h2 id="ar-szallitas">Háztól házig szállítás</h2>
+      <p class="sec-intro">Ha nem tudod behozni a bringát, elhozzuk és visszavisszük. A díj a távolságtól függ — hívj, és a cím alapján előre megmondjuk. <a class="inline-link" href="/szervizterulet/">Szervizterület és szállítás</a></p>
+    </section>
+  </div>
+
+  <section class="page-sec alt" aria-labelledby="tudnivalo-cim">
+    <h2 id="tudnivalo-cim">Jó tudni az árakról</h2>
+    <div class="faq">
+      <details>
+        <summary><h3>Benne van az alkatrész ára?</h3></summary>
+        <div class="faq-a"><p>Nem, a fenti összegek munkadíjak. Ha alkatrész is kell — belső, külső, lánc, fékbetét, bowden —, annak az árát a javítás előtt megmondjuk.</p></div>
+      </details>
+      <details>
+        <summary><h3>Honnan tudom előre, mennyi lesz a végösszeg?</h3></summary>
+        <div class="faq-a"><p>Hívj, vagy hozd be a bringát: megnézzük, és előre megmondjuk az árat. Nem cserélünk feleslegesen alkatrészt — csak azt javítjuk, ami tényleg elromlott.</p></div>
+      </details>
+      <details>
+        <summary><h3>Mi a különbség az általános és a teljes karbantartás között?</h3></summary>
+        <div class="faq-a">
+          <p><strong>Általános karbantartás ({{ar:altalanos}}):</strong> kerékcsapágyak zsírzása, fék- és váltóbeállítás, lánckenés.</p>
+          <p><strong>Teljes karbantartás ({{ar:teljes}}):</strong> kerék- és kormánycsapágyak, hajtótengely zsírzása, fék- és váltóbeállítás, lánc olajozás, gumivizsgálat, légnyomás-ellenőrzés.</p>
+          <p>Részletesen: <a href="/szolgaltatasok/#karbantartas">karbantartás</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary><h3>Mennyibe kerül a háztól házig szállítás?</h3></summary>
+        <div class="faq-a"><p>A távolságtól függ, ezért nincs rá fix ár. Hívj, és a címed alapján előre megmondjuk.</p></div>
+      </details>
+      <details>
+        <summary><h3>Mennyibe kerül egy használt bringa?</h3></summary>
+        <div class="faq-a"><p>A felújított használt kerékpárok ára bringánként más — hívj, és elmondjuk. Az aktuális készletet az <a href="/kerekparbolt-gyor/">eladó bringák</a> oldalon látod.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="cta-cim">
+    <h2 id="cta-cim">Kérdezd meg előre</h2>
+    <p>Mondd el, mi a baja a bringának, és megmondjuk, mire számíts. A műhely Abdán, a Bécsi utcában van, Győr közvetlen szomszédságában.</p>
+    <div class="page-cta">
+      <a href="tel:{{telefonHivas}}" class="btn-solid" data-cursor="Hívás"><span>Hívás: {{telefonKiirt}}</span></a>
+      <a href="/kapcsolat/#urlap" class="btn-ghost" data-track="appointment_click">Időpont egyeztetése üzenetben</a>
+    </div>
+  </section>
+
+</main>
+
+<!--#include partials/footer.html-->
+
+<script src="/script.js" defer></script>
+<script src="/consent.js" defer></script>
+</body>
+</html>

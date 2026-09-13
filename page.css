@@ -1,0 +1,296 @@
+/* Tartalmi aloldalak (szolgáltatások, árak, Győr, szervizterület,
+   kapcsolat, eladó bringák, tudástár).
+
+   A style.css adja a színeket, betűket, a fejlécet és a láblécet;
+   itt csak az olvasható, hosszabb tartalomhoz tartozó rétegek vannak.
+   Szándékosan nincs rajtuk a főoldal görgetéses „reveal" animációja:
+   a szöveg azonnal látszik, semmi nem ugrik a helyére (CLS). */
+
+.page-main { padding-top: 84px; }
+
+/* ---------- morzsamenü ---------- */
+.crumbs {
+  padding: 18px var(--pad) 0;
+  font-family: var(--mono); font-size: .68rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 6px 10px; list-style: none; }
+.crumbs li + li::before { content: '›'; margin-right: 10px; color: var(--accent); }
+.crumbs a { padding: 6px 0; display: inline-block; transition: color .3s; }
+.crumbs a:hover { color: var(--ink); }
+.crumbs [aria-current="page"] { color: var(--ink); }
+
+/* ---------- oldal teteje ---------- */
+.page-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px); align-items: end;
+  padding: clamp(26px, 5vh, 60px) var(--pad) clamp(44px, 8vh, 90px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.page-hero.solo { grid-template-columns: minmax(0, 1fr); }
+.page-hero h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.3rem, 6.2vw, 5.2rem);
+  line-height: 1.02; letter-spacing: -.01em;
+  text-transform: uppercase;
+  /* az Anton kettős ékezete (Ő, Ű) ne lógjon bele a fölötte lévő sorba */
+  padding-top: .08em;
+}
+.page-lead {
+  margin-top: 22px; max-width: 58ch;
+  font-size: clamp(1rem, 1.4vw, 1.14rem); line-height: 1.65;
+  color: var(--ink-dim);
+}
+.page-lead strong { color: var(--ink); font-weight: 600; }
+.page-hero figure { margin: 0; }
+.page-hero figure img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  filter: grayscale(.35) contrast(1.04);
+}
+.page-hero figcaption, .figure figcaption {
+  margin-top: 10px;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .06em;
+  color: var(--ink-dim);
+}
+
+.page-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 30px; }
+.page-cta .btn-solid { margin-top: 0; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 24px; border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: var(--mono); font-size: .78rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  transition: border-color .3s, color .3s;
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-ghost svg { width: 17px; height: 17px; }
+
+/* ---------- szakaszok ---------- */
+.page-sec {
+  padding: clamp(50px, 9vh, 110px) var(--pad);
+  border-bottom: 1px solid var(--line-soft);
+}
+.page-sec.alt { background: var(--bg-2); }
+.page-sec > h2, .svc-block h2, .sec-h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.8rem, 4.2vw, 3.2rem);
+  line-height: 1.04; text-transform: uppercase; letter-spacing: -.005em;
+  max-width: 24ch; padding-top: .06em;
+}
+.sec-intro { margin-top: 16px; max-width: 62ch; color: var(--ink-dim); line-height: 1.65; }
+
+/* ---------- folyószöveg ---------- */
+.prose { max-width: 70ch; }
+.prose > * + * { margin-top: 16px; }
+.prose p { color: var(--ink-dim); line-height: 1.72; font-size: clamp(.97rem, 1.2vw, 1.05rem); }
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+  line-height: 1.05; text-transform: uppercase;
+  margin-top: 48px; padding-top: .06em;
+}
+.prose h3 { font-size: 1.12rem; font-weight: 600; color: var(--ink); margin-top: 30px; }
+.prose ul, .prose ol { display: grid; gap: 10px; }
+.prose ul { list-style: none; }
+.prose ul li { position: relative; padding-left: 24px; color: var(--ink-dim); line-height: 1.65; }
+.prose ul li::before {
+  content: '→'; position: absolute; left: 0; top: .1em;
+  font-family: var(--mono); font-size: .8rem; color: var(--accent);
+}
+.prose ol { padding-left: 22px; }
+.prose ol li { color: var(--ink-dim); line-height: 1.65; padding-left: 4px; }
+.prose ol li::marker { color: var(--accent); font-family: var(--mono); font-size: .85em; }
+.prose a:not(.btn-solid):not(.btn-ghost) {
+  color: var(--ink); border-bottom: 1px solid var(--accent);
+  transition: color .3s;
+}
+.prose a:not(.btn-solid):not(.btn-ghost):hover { color: var(--accent); }
+.prose .note {
+  padding: 16px 18px; background: var(--bg-2);
+  border-left: 2px solid var(--accent);
+  font-size: .94rem;
+}
+.page-sec.alt .prose .note { background: var(--bg); }
+
+/* ---------- kártyák ---------- */
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px; margin-top: 34px;
+  background: var(--line-soft); border: 1px solid var(--line-soft);
+}
+.card {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: clamp(22px, 2.6vw, 32px);
+  background: var(--bg);
+}
+.page-sec.alt .card { background: var(--bg-2); }
+.card h3 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  line-height: 1.08; text-transform: uppercase; padding-top: .06em;
+}
+.card p { color: var(--ink-dim); font-size: .95rem; line-height: 1.6; }
+.card-price { font-family: var(--mono); font-size: .8rem; color: var(--ink); }
+.card-link {
+  margin-top: auto; padding-top: 8px;
+  font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent);
+}
+.card-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- szolgáltatás-blokk (bal: cím, jobb: tételek) ---------- */
+.svc-block {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+  gap: clamp(24px, 5vw, 80px); align-items: start;
+}
+.svc-block .sec-intro { max-width: 40ch; }
+.svc-rows { border-top: 1px solid var(--line-soft); }
+.svc-row { padding: 22px 0; border-bottom: 1px solid var(--line-soft); }
+.svc-row-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 6px 18px; flex-wrap: wrap;
+}
+.svc-row h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.4; }
+.svc-row .price {
+  font-family: var(--mono); font-size: .8rem; font-weight: 500;
+  color: var(--accent); white-space: nowrap;
+}
+.svc-row p { margin-top: 8px; color: var(--ink-dim); line-height: 1.68; }
+
+/* ---------- árlista-táblázat ---------- */
+.price-group { margin-top: clamp(36px, 6vh, 60px); scroll-margin-top: 100px; }
+.price-group h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.05; text-transform: uppercase; padding-top: .06em;
+}
+.table-scroll { overflow-x: auto; margin-top: 14px; }
+.price-table { width: 100%; border-collapse: collapse; }
+.price-table th, .price-table td {
+  text-align: left; vertical-align: top;
+  padding: 14px 12px 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.price-table thead th {
+  font-family: var(--mono); font-size: .66rem; font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); border-bottom-color: var(--line);
+}
+.price-table tbody th { font-weight: 600; font-size: .98rem; color: var(--ink); }
+.price-table tbody th small {
+  display: block; margin-top: 4px;
+  font-weight: 400; font-size: .85rem; line-height: 1.5; color: var(--ink-dim);
+}
+.price-table td { color: var(--ink-dim); font-size: .92rem; }
+.price-table td.price, .price-table thead th:last-child {
+  text-align: right; padding-right: 0; white-space: nowrap;
+}
+.price-table td.price { font-family: var(--mono); color: var(--ink); }
+.price-more { margin-top: 14px; font-size: .9rem; }
+.price-more a { color: var(--ink-dim); border-bottom: 1px solid var(--line); transition: color .3s; }
+.price-more a:hover { color: var(--accent); }
+
+/* ---------- GYIK ---------- */
+.faq { margin-top: 30px; max-width: 82ch; border-top: 1px solid var(--line-soft); }
+.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq summary {
+  position: relative; cursor: pointer; list-style: none;
+  padding: 20px 44px 20px 0;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary h3 { font-size: 1.05rem; font-weight: 600; line-height: 1.45; }
+.faq summary::after {
+  content: '+'; position: absolute; right: 6px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono); font-size: 1.35rem; color: var(--accent);
+  transition: transform .3s var(--ease);
+}
+.faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.faq .faq-a { padding: 0 0 22px; max-width: 70ch; }
+.faq .faq-a p { color: var(--ink-dim); line-height: 1.7; }
+.faq .faq-a p + p { margin-top: 10px; }
+.faq .faq-a a { color: var(--ink); border-bottom: 1px solid var(--accent); }
+
+/* ---------- NAP-kártya ---------- */
+.nap-card {
+  padding: clamp(22px, 3vw, 32px);
+  background: var(--bg); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+}
+.page-sec:not(.alt) .nap-card { background: var(--bg-2); }
+.nap-card h2, .nap-card .nap-name {
+  font-family: var(--body); font-size: 1.1rem; font-weight: 600;
+  text-transform: none; letter-spacing: 0; line-height: 1.4;
+}
+.nap-card dl {
+  display: grid; grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px 18px; margin-top: 18px;
+}
+.nap-card dt {
+  font-family: var(--mono); font-size: .66rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); padding-top: 4px;
+}
+.nap-card dd { color: var(--ink); line-height: 1.6; }
+.nap-card dd a { border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+.nap-card dd a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.nap-card .btn-solid { margin-top: 24px; }
+
+/* ---------- kétoszlopos elrendezés ---------- */
+.split {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px); align-items: start;
+}
+.split.wide-left { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.figure { margin: 0; }
+.figure img { width: 100%; height: auto; }
+
+/* ---------- CTA sáv ---------- */
+.cta-band {
+  padding: clamp(54px, 10vh, 120px) var(--pad);
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.cta-band h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2rem, 5.4vw, 4.2rem);
+  line-height: 1; text-transform: uppercase; max-width: 18ch;
+  padding-top: .06em;
+}
+.cta-band p { margin-top: 18px; max-width: 56ch; color: var(--ink-dim); line-height: 1.65; }
+
+/* ---------- tudástár ---------- */
+.article-meta {
+  margin-top: 18px;
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .06em;
+  color: var(--ink-dim);
+}
+.article-body { max-width: 70ch; }
+
+/* ---------- a kapcsolat oldal nyitvatartás-listája ---------- */
+.page-hours .hours-list { max-width: 560px; }
+.page-hours .hours-now { margin-top: 20px; }
+
+/* ---------- az űrlap a kapcsolat oldalon ---------- */
+.page-form { max-width: 640px; }
+
+@media (max-width: 1000px) {
+  .page-hero, .split, .split.wide-left, .svc-block { grid-template-columns: minmax(0, 1fr); }
+  .page-hero figure { max-width: 560px; }
+}
+
+@media (max-width: 860px) {
+  .page-main { padding-top: 72px; }
+}
+
+@media (max-width: 520px) {
+  .nap-card dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .nap-card dd { margin-bottom: 12px; }
+  .price-table th, .price-table td { padding-right: 8px; }
+  .price-table td:nth-child(2) { font-size: .82rem; }
+}

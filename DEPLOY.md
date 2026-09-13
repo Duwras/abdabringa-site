@@ -4,7 +4,7 @@ Az oldal **GitHub Pages**-en fut, a repó:
 <https://github.com/Duwras/abdabringa-site>
 
 **Bringa fel- és levétele + az admin belépés beállítása: [KESZLET.md](KESZLET.md)**
-**SEO — teendők élesítés után: [SEO.md](SEO.md)**
+**SEO — karbantartás: [SEO.md](SEO.md), teljes riport: [SEO_IMPLEMENTATION_REPORT.md](SEO_IMPLEMENTATION_REPORT.md)**
 **Jogi dokumentumok — ITT VAN KITÖLTENDŐ ADAT: [JOGI.md](JOGI.md)**
 
 ## Hogyan kerül ki a változás
@@ -14,8 +14,10 @@ lefuttatja a [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
 munkafolyamatot, ami:
 
 1. `npm ci` — telepíti a `sharp` képtömörítőt
-2. `npm run build` — a forrásból elkészíti a `deploy/` mappát
-3. kiteszi élesbe a `deploy/` tartalmát
+2. `npm run build` — a forrásból elkészíti a `deploy/` mappát (oldalak,
+   közös fejléc/lábléc, árlista, nyitvatartás, készlet, `sitemap.xml`)
+3. `npm run ellenorzes` — SEO- és linkellenőrzés; hibánál itt megáll
+4. kiteszi élesbe a `deploy/` tartalmát
 
 Kb. **1–2 perc**. Az állapot az Actions fülön látszik; ha piros, ott a
 hibaüzenet is. A `deploy/` mappa **nincs verziókövetve** — mindig a
@@ -64,7 +66,7 @@ pipáld be az **Enforce HTTPS**-t. A tanúsítvány ingyenes, magától
 
 A `CNAME` fájlt nem kell kézzel létrehozni — a build minden alkalommal
 megírja a `ceg-adatok.json` `domain` mezőjéből. Ha domaint váltasz,
-elég ott átírni (plusz a `SEO.md` szerinti helyeken).
+elég ott átírni, plusz a `robots.txt` Sitemap sorában.
 
 ## Amit ez a felállás nem tud
 

@@ -3,21 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- noindex: a nem létező címek ne kerüljenek be a találatok közé.
+     A GitHub Pages valódi 404-es státuszkóddal adja ki (nem soft 404). -->
 <meta name="robots" content="noindex, follow">
-<title>Nincs ilyen oldal — Bringázol¿ Kerékpárműhely, Abda</title>
-<meta name="description" content="A keresett oldal nem található. Vissza a Bringázol¿ abdai kerékpárműhely főoldalára.">
+<title>Nincs ilyen oldal — BRINGÁZOLi kerékpárszerviz, Abda</title>
+<meta name="description" content="A keresett oldal nem található. Vissza az abdai kerékpárszerviz főoldalára.">
 <meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="/img/logo.jpg">
 <link rel="apple-touch-icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-  /* Csak a keresőnek és a felolvasónak szánt szöveg. A h1 önmagában
-     („404") sem a látogatónak, sem a gépnek nem mond semmit. */
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0;
-    margin: -1px; overflow: hidden; clip: rect(0 0 0 0);
-    white-space: nowrap; border: 0;
-  }
   html, body { height: 100%; }
   body {
     margin: 0; background: #0b0b0c; color: #f2efe9;
@@ -26,31 +21,44 @@
     padding: 24px;
   }
   h1 {
-    font-family: 'Anton', Impact, sans-serif;
+    font-family: 'Anton', Impact, sans-serif; font-weight: 400;
     font-size: clamp(72px, 22vw, 220px);
     line-height: .85; letter-spacing: -.02em; margin: 0 0 18px;
   }
+  h1 small {
+    display: block; margin-top: 14px;
+    font-size: clamp(18px, 3vw, 26px); letter-spacing: .02em;
+    text-transform: uppercase;
+  }
   p { color: #8d8a85; max-width: 42ch; margin: 0 auto 28px; line-height: 1.55; }
   .links { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-  a {
+  .links a {
     display: inline-block; padding: 14px 22px; border-radius: 999px;
     text-decoration: none; font-weight: 600; font-size: 15px;
   }
   .solid { background: #ff5c1a; color: #0b0b0c; }
   .line { border: 1px solid rgba(242,239,233,.24); color: #f2efe9; }
+  .more { margin-top: 28px; font-size: 14px; }
+  .more a { color: #f2efe9; margin: 0 8px; }
+  a:focus-visible { outline: 2px solid #ff5c1a; outline-offset: 3px; }
 </style>
 </head>
 <body>
   <main>
-    <h1>404<span class="sr-only"> — nincs ilyen oldal a Bringázol¿ kerékpárműhely weboldalán</span></h1>
+    <h1>404<small>Nincs ilyen oldal</small></h1>
     <p>Ez az oldal nincs meg. A bringád viszont még megjavítható — gyere vissza a főoldalra, vagy hívj minket.</p>
     <nav class="links" aria-label="Hova tovább">
-      <a class="solid" href="/">Vissza a Bringázol¿ főoldalára</a>
+      <a class="solid" href="/">Vissza a főoldalra</a>
       <!-- Az aria-label szó szerint tartalmazza a látható szöveget:
            enélkül a hangvezérlés („kattints a Hívás gombra") nem
            találná meg az elemet. -->
-      <a class="line" href="tel:+36303640141" aria-label="Hívás: (30) 364 0141 — Bringázol¿ kerékpárműhely">Hívás: (30) 364 0141</a>
+      <a class="line" href="tel:{{telefonHivas}}" aria-label="Hívás: {{telefonKiirt}} — kerékpárszerviz, Abda">Hívás: {{telefonKiirt}}</a>
     </nav>
+    <p class="more">
+      <a href="/szolgaltatasok/">Szolgáltatások</a>
+      <a href="/arak/">Árlista</a>
+      <a href="/kapcsolat/">Kapcsolat</a>
+    </p>
   </main>
 </body>
 </html>

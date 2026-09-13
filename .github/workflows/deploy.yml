@@ -26,7 +26,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Teljes előzmény: a sitemap <lastmod> dátumai a fájlok utolsó
+      # commitjából számolnak (build-functions.mjs). Sekély klónban
+      # minden oldal a legutolsó commit dátumát kapná.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       # Ez kapcsolja be a Pages-t a repón, ha még nem volt bekapcsolva —
       # a deploy-pages önmagában nem tudja létrehozni, csak használni.
@@ -41,6 +46,10 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+
+      # SEO-ellenőrzés: törött belső link, hiányzó/duplikált title,
+      # több H1, hibás canonical vagy JSON-LD esetén a közzététel leáll.
+      - run: npm run ellenorzes
 
       - uses: actions/upload-pages-artifact@v5
         with:

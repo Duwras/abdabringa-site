@@ -55,8 +55,11 @@
   window.addEventListener('orientationchange', remeasure);
   window.addEventListener('load', remeasure);
 
-  /* ---------- year ---------- */
-  $('#year').textContent = new Date().getFullYear();
+  /* ---------- year ----------
+     A build már beírja az évet; ez csak akkor számít, ha az oldal
+     szilveszter óta nem lett újraépítve. */
+  var yearEl = $('#year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* ---------- preloader ----------
      Counts real image loads so the curtain lifts when the hero is
@@ -64,6 +67,8 @@
   (function preloader() {
     var el    = $('#preloader');
     var out   = $('#preCount');
+    // az aloldalakon nincs előtöltő — ott azonnal "kész" az oldal
+    if (!el || !out) { document.body.classList.add('ready'); return; }
     /* A függöny addig takarja az oldalt, amíg ez a számláló be nem ér —
        tehát amire itt várunk, az a látogató által mért betöltési idő
        (LCP) is egyben.
@@ -74,7 +79,8 @@
        pillanatában még a képernyő szélén kívül gurul. Csak az LCP-t
        adó hero fotóra és a logóra várunk. */
     var imgs  = $$('img').filter(function (i) {
-      return i.loading !== 'lazy' && i.getAttribute('fetchpriority') !== 'low';
+      return i.loading !== 'lazy' && i.getAttribute('fetchpriority') !== 'low' &&
+        !i.closest('.ride');   // a bringa rétegeire (díszlet) nem várunk
     });
     var total = imgs.length || 1;
     var done  = 0;
@@ -119,7 +125,7 @@
   })();
 
   /* ---------- custom cursor ---------- */
-  if (fine && !reduced) {
+  if (fine && !reduced && $('#cursor')) {
     var cur   = $('#cursor');
     var label = $('.cursor-label', cur);
     var cx = 0, cy = 0, tx = 0, ty = 0;
@@ -159,6 +165,7 @@
   /* ---------- nav: solid + hide on scroll down ---------- */
   (function navBar() {
     var nav  = $('#nav');
+    if (!nav) return;
     var last = 0;
     // az előző állapot: azonos értékkel is stílus-érvénytelenítést
     // váltana ki a classList.toggle, ezért csak változáskor írunk
@@ -178,6 +185,7 @@
   (function menu() {
     var burger  = $('#burger');
     var overlay = $('#menuOverlay');
+    if (!burger || !overlay) return;
 
     function set(open) {
       menuOpen = open;
@@ -393,6 +401,7 @@
   if (fine && !reduced) {
     (function svcHover() {
       var box = $('#svcHover');
+      if (!box) return;
       var img = $('img', box);
       var hx = 0, hy = 0, dx = 0, dy = 0, active = false;
 
@@ -464,6 +473,8 @@
         .then(function (d) {
           if (!d.success) throw new Error(d.message || 'ismeretlen hiba');
           form.reset();
+          // konverziómérés (csak ha a látogató engedélyezte a mérést — consent.js)
+          if (window.bringaTrack) window.bringaTrack('contact_form_submit', { form_location: location.pathname });
           status.classList.add('ok');
           status.textContent = 'Megvan — hamarosan jelentkezünk.';
         })
@@ -479,14 +490,21 @@
   })();
 
   /* ---------- raktáron lévő bringák ----------
-     A lista a keszlet-seed.json statikus fájlból jön. Az oldal
-     GitHub Pages-en fut, ahol nincs szerveroldali kód: új bringa
-     úgy kerül fel, hogy a kép bemegy az img/keszlet/ mappába és
-     egy sor a keszlet-seed.json-ba. Lásd KESZLET.md. */
+     A lista a keszlet-seed.json statikus fájlból jön. A build ezt már
+     beleírja a HTML-be (a kereső is lássa) — ilyenkor itt nincs dolog.
+     A letöltés csak tartalék, ha az oldal build nélkül fut. Lásd
+     KESZLET.md. */
   (function stock() {
     var grid  = $('#stockGrid');
     var state = $('#stockState');
-    if (!grid) return;
+    if (!grid || grid.querySelector('.stock-item')) return;
+
+    // ugyanaz a névválasztás, mint a buildben (build-functions.mjs)
+    function bikeName(b) {
+      var generic = !b.alt || /^Raktáron lévő/i.test(b.alt);
+      var fromNote = (b.leiras || '').split('\n')[0].slice(0, 80).trim();
+      return (generic && fromNote) ? fromNote : (b.alt || fromNote || 'Kerékpár');
+    }
 
     function render(bikes) {
       grid.innerHTML = '';
@@ -503,7 +521,8 @@
         fig.setAttribute('role', 'listitem');
         var img = document.createElement('img');
         img.src = b.src;
-        img.alt = (b.alt ? b.alt + ' — ' : '') + 'eladó felújított kerékpár a Bringázol¿ műhelyben, Abdán';
+        var name = bikeName(b);
+        img.alt = name + ' — felújított, eladó kerékpár';
 
         /* A CSS aspect-ratio: 4/5 tartja a helyet, de a stíluslap
            betöltése előtt (és képhiba esetén) az explicit méret az,
@@ -529,8 +548,8 @@
            jelenik meg. Régebbi bringáknál nincs ilyen mező, ott a
            rövid megnevezés (alt) kerül a helyére. */
         if (b.leiras) img.dataset.leiras = b.leiras;
-        // a rövid megnevezés a SEO-toldalék nélkül, ez a tartalék szöveg
-        if (b.alt) img.dataset.nev = b.alt;
+        // a rövid megnevezés, ez a képnagyító tartalék szövege
+        img.dataset.nev = name;
 
         /* A készlet mélyen a hajtás alatt van — az első néhány kép
            mohó betöltése csak elvette a sávszélességet a hero elől
@@ -542,7 +561,7 @@
            billentyűzettel nem lehetne megnyitni a képnagyítót. */
         img.tabIndex = 0;
         img.setAttribute('role', 'button');
-        img.setAttribute('aria-label', (b.alt || 'Kerékpár') + ' — kép megnyitása nagyban');
+        img.setAttribute('aria-label', name + ' — kép megnyitása nagyban');
 
         fig.appendChild(img);
         grid.appendChild(fig);
@@ -550,7 +569,7 @@
       });
     }
 
-    fetch('keszlet-seed.json', { headers: { 'Accept': 'application/json' } })
+    fetch('/keszlet-seed.json', { headers: { 'Accept': 'application/json' } })
       .then(function (r) { if (!r.ok) throw new Error('keszlet'); return r.json(); })
       .then(render)
       .catch(function () {

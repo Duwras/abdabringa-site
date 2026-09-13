@@ -47,18 +47,13 @@
   var VERSION = 2;
   var MAX_AGE = 365 * 24 * 60 * 60 * 1000;   // 12 hónap
 
+  /* Gyökérből hivatkozunk: az aloldalak mappákban vannak
+     (/kapcsolat/, /arak/ …), a 404 pedig bármilyen útvonalon
+     megjelenhet — relatív címmel ezeken nem létező oldalra mutatna. */
   var DOCS = {
-    sutik: 'sutik.html',
-    adat: 'adatkezeles.html'
+    sutik: '/sutik.html',
+    adat: '/adatkezeles.html'
   };
-
-  /* A jogi aloldalak egy szinten vannak a főoldallal, tehát a relatív
-     hivatkozás mindenhol jó. A 404 viszont bármilyen útvonalon
-     megjelenhet, ott gyökérből kell hivatkozni. */
-  if (location.pathname.replace(/\/+$/, '').split('/').length > 2) {
-    DOCS.sutik = '/' + DOCS.sutik;
-    DOCS.adat = '/' + DOCS.adat;
-  }
 
   var MAP_LINK = 'https://www.google.com/maps/search/' +
     'BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda';
@@ -149,6 +144,50 @@
       }
     });
   }
+
+  /* ---------- konverziómérés ----------
+     A helyi vállalkozásnál a valódi eredmény nem az oldalmegtekintés,
+     hanem a hívás, az útvonaltervezés és az üzenet. Ezeket GA4
+     eseményként küldjük — de CSAK ha a látogató a mérést engedélyezte:
+     amíg a gtag nincs betöltve, a track() semmit nem csinál, és
+     semmit nem is gyűjt be későbbre.
+
+     Események (a GA4-ben „kulcsesemény"-nek jelölendők, lásd
+     ANALYTICS_EVENTS.md):
+       phone_click         — tel: link
+       contact_click       — mailto: link vagy a kapcsolat oldalra mutató CTA
+       directions_click    — Google Térkép / útvonaltervezés link
+       appointment_click   — „időpont egyeztetése" CTA (data-track)
+       contact_form_submit — sikeres űrlapküldés (script.js hívja) */
+  function track(name, params) {
+    if (!gaLoaded || !GA_ID || window['ga-disable-' + GA_ID] || !window.gtag) return;
+    window.gtag('event', name, params || {});
+  }
+  window.bringaTrack = track;
+
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var name = a.getAttribute('data-track');
+    if (!name) {
+      if (/^tel:/i.test(href)) name = 'phone_click';
+      else if (/^mailto:/i.test(href)) name = 'contact_click';
+      else if (/google\.[a-z.]+\/maps|maps\.app\.goo\.gl/i.test(href)) name = 'directions_click';
+    }
+    if (!name) return;
+    /* hol volt a link: a legközelebbi azonosítós szekció, vagy a
+       fejléc / lábléc / mobil gyorssáv */
+    var where = a.closest('.mcta') ? 'mobil_gyorssav'
+      : a.closest('header') ? 'fejlec'
+      : a.closest('footer') ? 'lablec'
+      : ((a.closest('section[id]') || {}).id || 'oldal');
+    track(name, {
+      link_url: href,
+      link_location: where,
+      page_path: location.pathname
+    });
+  }, true);
 
   /* ---------- a térkép be- és kikapcsolása ---------- */
 

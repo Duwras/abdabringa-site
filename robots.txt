@@ -1,9 +1,9 @@
+# Minden oldal feltérképezhető.
+#
+# Az admin.html szándékosan NINCS itt tiltva: noindex van rajta, és a
+# keresőnek be kell tudnia olvasni az oldalt, hogy ezt lássa. A tiltott,
+# de máshonnan linkelt cím URL-ként bekerülhetne a találatok közé.
 User-agent: *
 Allow: /
-Disallow: /admin.html
-
-# Képek indexelése kifejezetten engedélyezett (Google Képek)
-User-agent: Googlebot-Image
-Allow: /img/
 
 Sitemap: https://abdabringa.hu/sitemap.xml

@@ -1,0 +1,11 @@
+<!-- Képnagyító a készletképekhez. Az img src nélkül áll: üres src=
+     esetén a böngésző a dokumentum saját URL-jét töltené le képként.
+     A forrást a script.js adja meg. -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Kép nagyban" hidden>
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Képnagyító bezárása">&times;</button>
+  <img id="lightboxImg" alt="">
+  <p class="lightbox-note" id="lightboxNote" hidden></p>
+  <a href="tel:{{telefonHivas}}" class="btn-solid lightbox-call">
+    <span>Érdekel — hívom</span>
+  </a>
+</div>

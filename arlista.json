@@ -1,0 +1,36 @@
+{
+  "_megjegyzes": "A munkadíj árlista EGYETLEN forrása. Innen készül a build során a főoldal árlistája, az /arak/ oldal táblázata, a szolgáltatásoldal 'már ... Ft-tól' árai és a strukturált adat (JSON-LD) árkatalógusa is. Árat csak itt írj át, utána 'npm.cmd run build'. Az 'ar' forintban, egész számként; ha nincs fix ár, legyen null. A 'kep' csak a főoldal lebegő előnézetéhez kell (stockfotó, nem a műhely).",
+
+  "kategoriak": [
+    { "id": "kerek",        "nev": "Kerék és gumi",            "oldal": "/szolgaltatasok/#kerek" },
+    { "id": "fek",          "nev": "Fékek",                    "oldal": "/szolgaltatasok/#fek" },
+    { "id": "hajtas",       "nev": "Váltó és hajtás",          "oldal": "/szolgaltatasok/#hajtas" },
+    { "id": "karbantartas", "nev": "Karbantartás",             "oldal": "/szolgaltatasok/#karbantartas" },
+    { "id": "egyeb",        "nev": "Felszerelés és takarítás", "oldal": "/szolgaltatasok/#egyeb" }
+  ],
+
+  "tetelek": [
+    { "id": "kulso-belso",   "kategoria": "kerek",        "nev": "Külső, belső gumi csere",                        "egyseg": "Kerekenként", "ar": 1500,  "kep": "img/svc-web/01-kulso-belso.jpg" },
+    { "id": "agy-tengely",   "kategoria": "kerek",        "nev": "Agy zsírzás, tengelycsere",                      "egyseg": "Kerekenként", "ar": 2000,  "kep": "img/svc-web/02-agy-tengely.jpg" },
+    { "id": "centrirozas",   "kategoria": "kerek",        "nev": "Centrírozás",                                    "egyseg": "Kerekenként", "ar": 1800,  "kep": "img/svc-web/03-centrirozas.jpg" },
+    { "id": "kerekfuzes",    "kategoria": "kerek",        "nev": "Kerékfűzés",                                     "egyseg": "Kerekenként", "ar": 7000,  "kep": "img/svc-web/04-kerekfuzes.jpg" },
+    { "id": "v-fek",         "kategoria": "fek",          "nev": "V-fék beállítás",                                "egyseg": "Kerekenként", "ar": 850,   "kep": "img/svc-web/05-v-fek.jpg" },
+    { "id": "fekbetet",      "kategoria": "fek",          "nev": "Fékbetét, bowden csere",                         "egyseg": "Kerekenként", "ar": 1500,  "kep": "img/svc-web/06-fekbetet-bowden.jpg" },
+    { "id": "olajos-fek",    "kategoria": "fek",          "nev": "Olajos fék légtelenítés, olajcsere",             "egyseg": "Fékenként",   "ar": 2500,  "kep": "img/svc-web/07-olajos-fek.jpg" },
+    { "id": "kosar",         "kategoria": "egyeb",        "nev": "Kosár, pálcás sárvédő felszerelés",              "egyseg": "Darabonként", "ar": 1000,  "kep": "img/svc-web/08-kosar-sarvedo.jpg" },
+    { "id": "valto",         "kategoria": "hajtas",       "nev": "Váltó beállítás",                                "egyseg": "Darabonként", "ar": 500,   "kep": "img/svc-web/09-valto.jpg" },
+    { "id": "hajtomu",       "kategoria": "hajtas",       "nev": "Hajtómű javítás, csapágy- vagy monoblokk csere", "egyseg": null,          "ar": 2200,  "kep": "img/svc-web/10-hajtomu.jpg" },
+    { "id": "lanccsere",     "kategoria": "hajtas",       "nev": "Lánccsere",                                      "egyseg": null,          "ar": 900,   "kep": "img/svc-web/11-lanccsere.jpg" },
+    { "id": "altalanos",     "kategoria": "karbantartas", "nev": "Általános karbantartás",                         "egyseg": null,          "ar": 8000,  "kep": "img/svc-web/12-altalanos.jpg",
+      "leiras": "Kerékcsapágyak zsírzása, fék- és váltóbeállítás, lánckenés" },
+    { "id": "teljes",        "kategoria": "karbantartas", "nev": "Teljes karbantartás",                            "egyseg": null,          "ar": 15000, "kep": "img/svc-web/13-teljes.jpg",
+      "leiras": "Kerék- és kormánycsapágyak, hajtótengely zsírzása, fék- és váltóbeállítás, lánc olajozás, gumivizsgálat, légnyomás-ellenőrzés" },
+    { "id": "ebike-defekt",  "kategoria": "kerek",        "nev": "Elektromos kerékpár és roller defektjavítás",    "egyseg": "Minden kerékre", "ar": 2500, "kep": "img/svc-web/14-roller.jpg" },
+    { "id": "takaritas",     "kategoria": "egyeb",        "nev": "Koszos kerékpár takarítás",                      "egyseg": null,          "ar": 1000,  "kep": "img/svc-web/15-takaritas.jpg" }
+  ],
+
+  "szallitas": {
+    "nev": "Háztól házig kerékpárszállítás",
+    "leiras": "Ha nem tudod behozni a bringát, elhozzuk és visszavisszük. A díj a távolságtól függ — a cím alapján előre megmondjuk."
+  }
+}

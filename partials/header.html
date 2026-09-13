@@ -1,0 +1,38 @@
+<!-- Közös fejléc — minden tartalomoldal ezt húzza be (build-functions.mjs).
+     A data-nav jelölésű linkre a build az aktuális oldalon
+     aria-current="page"-et tesz. -->
+<a class="skip-link" href="#tartalom">Ugrás a tartalomra</a>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+<header class="nav" id="nav">
+  <a href="/" class="nav-mark" data-cursor="Főoldal" aria-label="Bringázol¿ — főoldal">
+    <img src="/img/logo-nav.jpg" alt="" width="34" height="34" decoding="async">
+    <span>Bringázol<i>¿</i></span>
+  </a>
+  <nav class="nav-links" aria-label="Főmenü">
+    <a data-nav href="/szolgaltatasok/"><em>01</em> Szolgáltatások</a>
+    <a data-nav href="/arak/"><em>02</em> Árak</a>
+    <a data-nav href="/kerekparbolt-gyor/"><em>03</em> Eladó bringák</a>
+    <a data-nav href="/szervizterulet/"><em>04</em> Szervizterület</a>
+    <a data-nav href="/kapcsolat/"><em>05</em> Kapcsolat</a>
+  </nav>
+  <a href="tel:{{telefonHivas}}" class="nav-cta" data-cursor="Hívás" aria-label="Hívás: {{telefonKiirt}}">
+    <span>{{telefonKiirt}}</span>
+  </a>
+  <button class="nav-burger" id="burger" type="button" aria-label="Menü megnyitása" aria-expanded="false" aria-controls="menuOverlay">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu-overlay" id="menuOverlay" aria-label="Mobil menü">
+  <a data-nav href="/szolgaltatasok/"><em>01</em> Szolgáltatások</a>
+  <a data-nav href="/arak/"><em>02</em> Árak</a>
+  <a data-nav href="/kerekparbolt-gyor/"><em>03</em> Eladó bringák</a>
+  <a data-nav href="/szervizterulet/"><em>04</em> Szervizterület</a>
+  <a data-nav href="/kapcsolat/"><em>05</em> Kapcsolat</a>
+  <div class="menu-foot">
+    <a href="tel:{{telefonHivas}}">Telefon: {{telefonKiirt}}</a>
+    <a href="mailto:{{email}}">{{email}}</a>
+  </div>
+</nav>

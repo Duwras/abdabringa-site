@@ -8,9 +8,35 @@
   "nyilvantartasiSzam": "58156344",
   "adoszam": "41918124-1-28",
 
+  "_uzletNev": "A Google Cégprofilban szereplő név BETŰRE PONTOSAN. Ez kerül a lábléc NAP-blokkjába, a strukturált adatba és a címsorok végére. Ha a Cégprofilban más a név, ITT írd át — máshol nem kell.",
+  "uzletNev": "BRINGÁZOLi Kerékpárszervíz",
+  "markaRovid": "BRINGÁZOLi",
+
   "email": "abdabringa@gmail.com",
   "telefon": "+36 30 364 0141",
   "telefonKiirt": "(30) 364 0141",
+
+  "_cim": "A műhely címe a NAP-blokkhoz és a strukturált adathoz, részekre bontva.",
+  "utca": "Bécsi utca 128.",
+  "iranyitoszam": "9151",
+  "telepules": "Abda",
+  "megye": "Győr-Moson-Sopron",
+
+  "_terkep": "A Google Térkép-hivatkozások a Cégprofil nevére keresnek, nem a puszta címre: a házszám-alapú keresés az utca közepére tette a tűt.",
+  "terkepLink": "https://www.google.com/maps/search/BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda",
+  "utvonalLink": "https://www.google.com/maps/dir/?api=1&destination=BRING%C3%81ZOL+Ker%C3%A9kp%C3%A1rzerv%C3%ADz+B%C3%A9csi+utca+128+9151+Abda",
+  "facebook": "https://www.facebook.com/profile.php?id=61572755200909",
+
+  "_nyitvatartas": "A nyitvatartás EGYETLEN forrása. Innen készül a főoldal és a kapcsolat oldal nyitvatartás-listája, a lábléc rövid összefoglalója és a strukturált adat. Zárt napnál hagyd el a 'nyit' és 'zar' mezőt. nap: 1 = hétfő ... 6 = szombat, 0 = vasárnap.",
+  "nyitvatartas": [
+    { "nap": 1, "nev": "Hétfő",     "nyit": "17:00", "zar": "20:00" },
+    { "nap": 2, "nev": "Kedd",      "nyit": "17:00", "zar": "20:00" },
+    { "nap": 3, "nev": "Szerda",    "nyit": "17:00", "zar": "20:00" },
+    { "nap": 4, "nev": "Csütörtök", "nyit": "17:00", "zar": "20:00" },
+    { "nap": 5, "nev": "Péntek",    "nyit": "17:00", "zar": "20:00" },
+    { "nap": 6, "nev": "Szombat" },
+    { "nap": 0, "nev": "Vasárnap" }
+  ],
 
   "_gaId": "Google Analytics 4 mérőazonosító (G-…). Google Analytics → Adminisztrálás → Adatfolyamok → a webes adatfolyam adatai → Mérőazonosító. Üresen hagyva a látogatottságmérés nem indul el, és a süti sávon sem jelenik meg a kapcsolója.",
   "gaId": "G-LBTEV8V0K8",

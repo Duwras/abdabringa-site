@@ -1,0 +1,38 @@
+{
+      "@type": "BikeStore",
+      "@id": "https://{{domain}}/#muhely",
+      "name": "{{uzletNev}}",
+      "alternateName": ["Bringázol¿ Kerékpárműhely", "Bringázol kerékpárszerviz Abda"],
+      "description": "Kerékpárszerviz és kerékpárműhely Abdán, Győr mellett: kerékpár javítás, defekt, fék- és váltóbeállítás, centrírozás, kerékfűzés, általános és teljes karbantartás, háztól házig szállítás. Felújított használt kerékpárok eladók.",
+      "url": "https://{{domain}}/",
+      "telephone": "{{telefonHivas}}",
+      "email": "{{email}}",
+      "image": [
+        "https://{{domain}}/img/hero-muhely.jpg",
+        "https://{{domain}}/img/svc/muhely-belso.jpg"
+      ],
+      "logo": "https://{{domain}}/img/logo.jpg",
+      "priceRange": "{{priceRange}}",
+      "currenciesAccepted": "HUF",
+      "paymentAccepted": "Készpénz",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{utca}}",
+        "addressLocality": "{{telepules}}",
+        "postalCode": "{{iranyitoszam}}",
+        "addressRegion": "{{megye}}",
+        "addressCountry": "HU"
+      },
+      "hasMap": "{{terkepLink}}",
+      "openingHoursSpecification": {{ldNyitvatartas}},
+      "areaServed": [
+        { "@type": "City", "name": "Abda" },
+        { "@type": "City", "name": "Győr" },
+        { "@type": "City", "name": "Öttevény" },
+        { "@type": "City", "name": "Ikrény" },
+        { "@type": "AdministrativeArea", "name": "Győr-Moson-Sopron vármegye" }
+      ],
+      "sameAs": ["{{facebook}}"],
+      "knowsLanguage": "hu",
+      "hasOfferCatalog": { "@id": "https://{{domain}}/arak/#arlista" }
+    }
